@@ -8,7 +8,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-plex-mono);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -46,6 +46,34 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* --- Nirog landing page tokens --- */
+  --color-bg: var(--nirog-bg);
+  --color-bg-deep: var(--nirog-bg-deep);
+  --color-panel: var(--nirog-panel);
+  --color-panel-border: var(--nirog-panel-border);
+  --color-ink: var(--nirog-ink);
+  --color-ink-muted: var(--nirog-ink-muted);
+  --color-ink-dim: var(--nirog-ink-dim);
+  --color-trace: var(--nirog-trace);
+  --color-trace-dim: var(--nirog-trace-dim);
+  --color-cyan: var(--nirog-cyan);
+  --color-amber: var(--nirog-amber);
+  --color-alert: var(--nirog-alert);
+  --color-alert-dim: var(--nirog-alert-dim);
+
+  --font-display: var(--font-instrument), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
+
+  --radius-card: 14px;
+
+  --animate-draw: draw 3.4s linear infinite;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: -1400;
+  }
 }
 
 :root {
@@ -81,6 +109,21 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* --- Nirog landing page raw values (fixed dark theme, not tied to .dark toggle) --- */
+  --nirog-bg: #0B1512;
+  --nirog-bg-deep: #070D0B;
+  --nirog-panel: #101D19;
+  --nirog-panel-border: rgba(234, 243, 238, 0.08);
+  --nirog-ink: #EAF3EE;
+  --nirog-ink-muted: #87A196;
+  --nirog-ink-dim: #5B7268;
+  --nirog-trace: #4ADE80;
+  --nirog-trace-dim: rgba(74, 222, 128, 0.35);
+  --nirog-cyan: #5EEAD4;
+  --nirog-amber: #F0B860;
+  --nirog-alert: #FB6A6A;
+  --nirog-alert-dim: rgba(251, 106, 106, 0.14);
 }
 
 .dark {
