@@ -12,10 +12,9 @@ export const { signIn, signOut, signUp, useSession } = authClient;
  * Sign in with Google — call from a "Continue with Google" button.
  * Usage: <button onClick={() => signInWithGoogle()}>Continue with Google</button>
  */
-export function signInWithGoogle() {
+export function signInWithGoogle(next: string = "/dashboard") {
   return authClient.signIn.social({
     provider: "google",
-    callbackURL: "/test-auth",
-    //callbackURL: "/dashboard",
+     callbackURL: `/post-login?next=${encodeURIComponent(next)}`,
   });
 }

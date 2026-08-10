@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Menu,
 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 /* ---------- scroll-reveal wrapper ---------- */
 function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
@@ -47,18 +48,6 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
   );
 }
 
-/* ---------- small building blocks ---------- */
-function Eyebrow({ label, color = "trace" }: { label: string; color?: "trace" | "alert" }) {
-  const dotColor = color === "alert" ? "bg-alert shadow-[0_0_8px_#FB6A6A]" : "bg-trace shadow-[0_0_8px_#4ADE80]";
-  const textColor = color === "alert" ? "text-alert" : "text-trace";
-  return (
-    <div className={`flex items-center gap-2 font-mono text-xs uppercase tracking-[0.12em] ${textColor}`}>
-      <span className={`h-1.5 w-1.5 rounded-full ${dotColor}`} />
-      {label}
-    </div>
-  );
-}
-
 function Chip({ children, variant = "before" }: { children: ReactNode; variant?: "before" | "after" }) {
   return (
     <span
@@ -74,6 +63,18 @@ function Chip({ children, variant = "before" }: { children: ReactNode; variant?:
   );
 }
 
+/* ---------- small building blocks ---------- */
+function Eyebrow({ label, color = "trace" }: { label: string; color?: "trace" | "alert" }) {
+  const dotColor = color === "alert" ? "bg-alert shadow-[0_0_8px_#FB6A6A]" : "bg-trace shadow-[0_0_8px_#4ADE80]";
+  const textColor = color === "alert" ? "text-alert" : "text-trace";
+  return (
+    <div className={`flex items-center gap-2 font-mono text-xs uppercase tracking-[0.12em] ${textColor}`}>
+      <span className={`h-1.5 w-1.5 rounded-full ${dotColor}`} />
+      {label}
+    </div>
+  );
+}
+
 function FeatureCard({
   icon,
   title,
@@ -85,7 +86,7 @@ function FeatureCard({
 }) {
   return (
     <div className="bg-bg-deep p-7 transition-colors duration-200 hover:bg-panel">
-      <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-[9px] border border-trace-dim bg-trace/8 text-trace">
+      <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-[9px] border border-trace-dim bg-trace/[0.08] text-trace">
         {icon}
       </div>
       <h3 className="mb-2 font-display text-[17px] font-semibold tracking-tight">{title}</h3>
@@ -102,7 +103,7 @@ export default function Home() {
     <>
       {/* scanline texture */}
       <div
-        className="pointer-events-none fixed inset-0 z-1"
+        className="pointer-events-none fixed inset-0 z-[1]"
         style={{
           backgroundImage:
             "repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px)",
@@ -111,9 +112,9 @@ export default function Home() {
 
       {/* NAV */}
       <header className="sticky top-0 z-50 border-b border-panel-border bg-bg/80 backdrop-blur-md">
-        <nav className="relative mx-auto flex max-w-295 items-center justify-between px-7 py-[18px]">
+        <nav className="relative mx-auto flex max-w-[1180px] items-center justify-between px-7 py-[18px]">
           <div className="flex items-center gap-2.5 font-display text-[19px] font-bold tracking-tight">
-            <Activity className="h-[26px] w-6.5 text-trace" strokeWidth={2} />
+            <Activity className="h-[26px] w-[26px] text-trace" strokeWidth={2} />
             MedAssistAI
           </div>
 
@@ -125,10 +126,10 @@ export default function Home() {
           </ul>
 
           <div className="hidden items-center gap-4 md:flex">
-            <a href="#" className="rounded-[9px] border border-panel-border px-5 py-2.5 text-[14.5px] font-semibold transition-all hover:border-trace-dim hover:bg-trace/6">
+            <a href="/login" className="rounded-[9px] border border-panel-border px-5 py-2.5 text-[14.5px] font-semibold transition-all hover:border-trace-dim hover:bg-trace/[0.06]">
               Log in
             </a>
-            <a href="#" className="rounded-[9px] bg-trace px-5 py-2.5 text-[14.5px] font-semibold text-[#052914] transition-all hover:-translate-y-px hover:bg-[#65e89a]">
+            <a href="/login" className="rounded-[9px] bg-trace px-5 py-2.5 text-[14.5px] font-semibold text-[#052914] transition-all hover:-translate-y-px hover:bg-[#65e89a]">
               Create your profile
             </a>
           </div>
@@ -147,7 +148,7 @@ export default function Home() {
               <li><a href="#how" className="text-ink-muted">How it works</a></li>
               <li><a href="#triage" className="text-ink-muted">Emergency care</a></li>
               <li><a href="#safety" className="text-ink-muted">Safety</a></li>
-              <li><a href="#" className="font-semibold text-trace">Create your profile</a></li>
+              <li><a href="/login" className="font-semibold text-trace">Create your profile</a></li>
             </ul>
           )}
         </nav>
@@ -155,7 +156,7 @@ export default function Home() {
 
       <main className="relative z-[2]">
         {/* HERO */}
-        <section className="overflow-hidden px-7 pb-15 pt-[88px]">
+        <section className="overflow-hidden px-7 pb-[60px] pt-[88px]">
           <div className="mx-auto grid max-w-[1180px] items-center gap-14 md:grid-cols-[1.05fr_0.95fr]">
             <div>
               <Eyebrow label="Live health record" />
@@ -170,7 +171,7 @@ export default function Home() {
                 before you have to ask.
               </p>
               <div className="mb-9 flex flex-wrap gap-3.5">
-                <a href="#" className="rounded-[10px] bg-trace px-[26px] py-3.5 text-[15px] font-semibold text-[#052914] transition-all hover:-translate-y-px hover:bg-[#65e89a]">
+                <a href="/login" className="rounded-[10px] bg-trace px-[26px] py-3.5 text-[15px] font-semibold text-[#052914] transition-all hover:-translate-y-px hover:bg-[#65e89a]">
                   Create your profile
                 </a>
                 <a href="#how" className="rounded-[10px] border border-panel-border px-[26px] py-3.5 text-[15px] font-semibold transition-all hover:border-trace-dim hover:bg-trace/[0.06]">
@@ -406,14 +407,14 @@ export default function Home() {
             <Reveal className="mb-14 max-w-[640px]">
               <Eyebrow label="Before you begin" />
               <h2 className="my-3.5 font-display text-[28px] font-bold tracking-[-0.015em] sm:text-[34px] lg:text-[38px]">
-                What MedAssistAIssistAI is, and isn&apos;t.
+                What MedAssistAI is, and isn&apos;t.
               </h2>
             </Reveal>
             <Reveal className="grid gap-10 md:grid-cols-2">
               <div className="border-l-2 border-trace-dim pl-5">
                 <h4 className="mb-2 font-display text-base">It&apos;s a guide, not a diagnosis</h4>
                 <p className="text-[14.5px] text-ink-muted">
-                  MedAssistAIssistAI explains what your symptoms and results might mean, and
+                  MedAssistAI explains what your symptoms and results might mean, and
                   helps you decide what to do next. It doesn&apos;t replace a
                   licensed physician. If something feels seriously wrong, get
                   care immediately.
@@ -446,7 +447,7 @@ export default function Home() {
               <p className="mb-8 text-ink-muted">
                 Free to start. No app to install — it runs right in your browser.
               </p>
-              <a href="#" className="inline-block rounded-[10px] bg-trace px-[26px] py-3.5 text-[15px] font-semibold text-[#052914] transition-all hover:-translate-y-px hover:bg-[#65e89a]">
+              <a href="/login" className="inline-block rounded-[10px] bg-trace px-[26px] py-3.5 text-[15px] font-semibold text-[#052914] transition-all hover:-translate-y-px hover:bg-[#65e89a]">
                 Create your profile
               </a>
             </Reveal>
@@ -456,7 +457,7 @@ export default function Home() {
 
       <footer className="border-t border-panel-border px-7 py-9">
         <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-4 text-[13px] text-ink-dim">
-          <div>© 2026 MedAssistAIssistAIistAI Health. Not a substitute for professional medical advice.</div>
+          <div>© 2026 MedAssistAI. Not a substitute for professional medical advice.</div>
           <div className="flex gap-5">
             <a href="#" className="transition-colors hover:text-ink-muted">Privacy</a>
             <a href="#" className="transition-colors hover:text-ink-muted">Terms</a>

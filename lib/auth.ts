@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== "production") {
 // Better-Auth manages its own collections here: user, session, account, verification.
 // Keep your app-specific EHR profile in a SEPARATE collection (e.g. "patientProfiles"),
 // linked by the user's _id — don't extend Better-Auth's user schema directly.
-const db = client.db(process.env.MONGODB_DB_NAME!);
+export const db = client.db(process.env.MONGODB_DB_NAME!);
 
 export const auth = betterAuth({
   database: mongodbAdapter(db),
