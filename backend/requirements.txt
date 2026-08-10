@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+motor
+pyjwt[crypto]
+pydantic-settings
+python-dotenv
+app
