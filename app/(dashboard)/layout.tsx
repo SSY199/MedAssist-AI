@@ -1,8 +1,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { Activity } from "lucide-react";
 import { auth } from "@/lib/auth";
-import { SignOutButton } from "@/components/SignOutButton";
+import { Navbar } from "@/components/Navbar";
 
 export default async function DashboardLayout({
   children,
@@ -17,18 +16,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-bg text-ink">
-      <header className="flex items-center justify-between border-b border-panel-border px-7 py-4">
-        <div className="flex items-center gap-2.5 font-display text-lg font-bold">
-          <Activity size={22} className="text-trace" />
-          MedAssistAI
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="font-mono text-xs text-ink-muted">
-            {session.user.email}
-          </span>
-          <SignOutButton />
-        </div>
-      </header>
+      <Navbar userEmail={session.user.email} />
       <main>{children}</main>
     </div>
   );

@@ -1,3 +1,4 @@
+
 export default function DashboardPage() {
   return (
     <div className="p-10">
@@ -5,6 +6,7 @@ export default function DashboardPage() {
       <p className="text-ink-muted">
         Your EHR profile, chat, and map will live here.
       </p>
+      
     </div>
   );
 }

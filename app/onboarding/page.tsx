@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { OnboardingForm } from "./OnboardingForm";
+import { EhrForm } from "@/components/EhrForm";
 
 export default async function OnboardingPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -19,7 +19,7 @@ export default async function OnboardingPage() {
           you know now, edit it anytime later.
         </p>
       </div>
-      <OnboardingForm />
+      <EhrForm redirectTo="/dashboard" submitLabel="Save and continue" />
     </div>
   );
 }

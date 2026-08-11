@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { X } from "lucide-react";
-import { saveProfile } from "./actions";
+import { saveProfile, type PatientProfileInput } from "@/lib/profile-actions";
 
 const COMMON_CONDITIONS = [
   "Type 1 Diabetes",
@@ -30,7 +30,6 @@ function TextInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   );
 }
 
-/** A labeled input with an "Add" button that appends to a pill list — used for both medications and allergies. */
 function TagListInput({
   label,
   placeholder,
@@ -98,19 +97,41 @@ function TagListInput({
   );
 }
 
-export function OnboardingForm() {
+export function EhrForm({
+  initialData,
+  redirectTo = "/dashboard",
+  submitLabel = "Save and continue",
+}: {
+  initialData?: PatientProfileInput | null;
+  redirectTo?: string;
+  submitLabel?: string;
+}) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
-  const [chronicIllnesses, setChronicIllnesses] = useState<string[]>([]);
-  const [otherCondition, setOtherCondition] = useState("");
-  const [pastMedicalIncidents, setPastMedicalIncidents] = useState("");
-  const [currentMedications, setCurrentMedications] = useState<string[]>([]);
-  const [allergies, setAllergies] = useState<string[]>([]);
-  const [emergencyContactName, setEmergencyContactName] = useState("");
-  const [emergencyContactPhone, setEmergencyContactPhone] = useState("");
+  const [age, setAge] = useState(initialData?.age?.toString() ?? "");
+  const [gender, setGender] = useState(initialData?.gender ?? "");
+  const [chronicIllnesses, setChronicIllnesses] = useState<string[]>(
+    initialData?.chronicIllnesses.filter((c) => COMMON_CONDITIONS.includes(c)) ?? []
+  );
+  const [otherCondition, setOtherCondition] = useState(
+    initialData?.chronicIllnesses
+      .filter((c) => !COMMON_CONDITIONS.includes(c))
+      .join(", ") ?? ""
+  );
+  const [pastMedicalIncidents, setPastMedicalIncidents] = useState(
+    initialData?.pastMedicalIncidents ?? ""
+  );
+  const [currentMedications, setCurrentMedications] = useState<string[]>(
+    initialData?.currentMedications ?? []
+  );
+  const [allergies, setAllergies] = useState<string[]>(initialData?.allergies ?? []);
+  const [emergencyContactName, setEmergencyContactName] = useState(
+    initialData?.emergencyContactName ?? ""
+  );
+  const [emergencyContactPhone, setEmergencyContactPhone] = useState(
+    initialData?.emergencyContactPhone ?? ""
+  );
 
   function toggleCondition(condition: string) {
     setChronicIllnesses((prev) =>
@@ -139,16 +160,19 @@ export function OnboardingForm() {
       : chronicIllnesses;
 
     startTransition(async () => {
-      await saveProfile({
-        age: parsedAge,
-        gender,
-        chronicIllnesses: allConditions,
-        pastMedicalIncidents,
-        currentMedications,
-        allergies,
-        emergencyContactName,
-        emergencyContactPhone,
-      });
+      await saveProfile(
+        {
+          age: parsedAge,
+          gender,
+          chronicIllnesses: allConditions,
+          pastMedicalIncidents,
+          currentMedications,
+          allergies,
+          emergencyContactName,
+          emergencyContactPhone,
+        },
+        redirectTo
+      );
     });
   }
 
@@ -157,7 +181,6 @@ export function OnboardingForm() {
       onSubmit={handleSubmit}
       className="mx-auto w-full max-w-2xl rounded-card border border-panel-border bg-panel p-8"
     >
-      {/* About you */}
       <section className="mb-8">
         <h2 className="mb-4 font-display text-base font-bold text-ink">About you</h2>
         <div className="grid grid-cols-2 gap-4">
@@ -189,7 +212,6 @@ export function OnboardingForm() {
         </div>
       </section>
 
-      {/* Chronic conditions */}
       <section className="mb-8">
         <h2 className="mb-1 font-display text-base font-bold text-ink">
           Chronic conditions
@@ -224,7 +246,6 @@ export function OnboardingForm() {
         </div>
       </section>
 
-      {/* Medications & allergies */}
       <section className="mb-8 space-y-5">
         <TagListInput
           label="Current medications"
@@ -250,7 +271,6 @@ export function OnboardingForm() {
         </div>
       </section>
 
-      {/* Emergency contact */}
       <section className="mb-8">
         <h2 className="mb-1 font-display text-base font-bold text-ink">
           Emergency contact
@@ -290,7 +310,7 @@ export function OnboardingForm() {
         disabled={isPending}
         className="w-full rounded-lg bg-trace py-3 text-sm font-semibold text-[#052914] transition hover:bg-[#65e89a] disabled:opacity-60"
       >
-        {isPending ? "Saving..." : "Save and continue"}
+        {isPending ? "Saving..." : submitLabel}
       </button>
     </form>
   );
