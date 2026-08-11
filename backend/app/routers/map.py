@@ -29,13 +29,13 @@ async def get_nearby_facilities(
     if not mapbox_token:
         raise HTTPException(status_code=500, detail="Mapbox credentials misconfigured in environment variables.")
 
-    query_text = CATEGORY_QUERIES[category]
+    canonical_category  = CATEGORY_QUERIES[category]
     
     # Mapbox V6 Forward Search/POI Geocoding API endpoint setup
-    url = f"https://mapbox.com"
+    url = f"https://mapbox.com{canonical_category}"
     
     params = {
-        "q": query_text,
+        "query": canonical_category,
         "proximity": f"{lng},{lat}", # Mapbox formats spatial queries via [Lng, Lat] sequencing order
         "access_token": mapbox_token,
         "limit": 15
@@ -62,7 +62,7 @@ async def get_nearby_facilities(
                     "address": props.get("full_address", props.get("address", "Address Not Disclosed")),
                     "lat": coordinates[1], # Extraction index corresponding to Latitude coordinate vector map configurations
                     "lng": coordinates[0], # Longitude coordinate vector map extraction mapping element index 0
-                    "rating": round(props.get("poi_rating", 4.2), 1) if "hospital" in query_text else None, # Mock fallback validation
+                    "rating": round(props.get("poi_rating", 4.2), 1) if "hospital" in canonical_category else None, # Mock fallback validation
                     "openNow": True if props.get("operational_status") != "closed" else False
                 })
                 

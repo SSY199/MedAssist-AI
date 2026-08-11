@@ -68,17 +68,26 @@ export function HealthMap() {
 
   useEffect(() => {
     if (!userLocation) return;
+    let stale = false;
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     setSelected(null);
     apiFetch(
       `/map/nearby?lat=${userLocation.lat}&lng=${userLocation.lng}&category=${category}`,
     )
-      .then((data: Facility[]) => setFacilities(data))
-      .catch(() => setFacilities([]))
-      .finally(() => setLoading(false));
+      .then((data: Facility[]) => {
+        if (!stale) setFacilities(data);
+      })
+      .catch(() => {
+        if (!stale) setFacilities([]);
+      })
+      .finally(() => {
+        if (!stale) setLoading(false);
+      });
+    return () => {
+      stale = true;
+    };
   }, [userLocation, category]);
-
   // Smooth flyTo transitions when a sidebar facility card is clicked
   useEffect(() => {
     if (selected && mapRef.current) {
