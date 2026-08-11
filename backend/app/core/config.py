@@ -7,6 +7,7 @@ class Settings(BaseSettings):
 
     MONGODB_URI: str
     MONGODB_DB_NAME: str = "medassistai"
+    MAPBOX_ACCESS_TOKEN: str
 
     class Config:
         env_file = ".env"
