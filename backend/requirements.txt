@@ -5,3 +5,5 @@ pyjwt[crypto]
 pydantic-settings
 python-dotenv
 httpx
+google-genai
+chromadb

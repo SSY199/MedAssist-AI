@@ -7,11 +7,15 @@ class Settings(BaseSettings):
 
     MONGODB_URI: str
     MONGODB_DB_NAME: str = "medassistai"
+
     MAPBOX_ACCESS_TOKEN: str
+
+    GEMINI_API_KEY: str
+    CHROMA_DB_PATH: str = "./chroma_data"
 
     class Config:
         env_file = ".env"
-        extra = "ignore"  # <--- ADD THIS EXACT LINE HERE
+        extra = "ignore"
 
 
 settings = Settings()
