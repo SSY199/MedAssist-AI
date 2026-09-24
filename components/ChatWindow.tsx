@@ -1,61 +1,121 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Send, TriangleAlert, Bot } from "lucide-react";
-import { apiFetch } from "@/lib/api-client";
+import { apiFetch, apiFetchStream } from "@/lib/api-client";
 
 interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
+  urgencyScore?: number | null;
 }
 
-export function ChatWindow() {
+export function ChatWindow({ conversationId }: { conversationId: string }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
   const [alertTriggered, setAlertTriggered] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loadingHistory, setLoadingHistory] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Loading history on conversation change IS "resume chat".
+  useEffect(() => {
+    setMessages([]);
+    setAlertTriggered(false);
+    setError(null);
+    setLoadingHistory(true);
+
+    apiFetch(`/chat/conversations/${conversationId}/messages`)
+      .then((data: Message[]) => {
+        setMessages(data);
+        const last = data[data.length - 1];
+        if (last && (last.urgencyScore ?? 0) >= 4) setAlertTriggered(true);
+      })
+      .catch(() => setError("Couldn't load this conversation."))
+      .finally(() => setLoadingHistory(false));
+  }, [conversationId]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isTyping]);
+  }, [messages, isStreaming]);
 
   async function handleSend() {
     const text = input.trim();
-    if (!text || alertTriggered || isTyping) return;
+    if (!text || alertTriggered || isStreaming) return;
 
-    const userMessage: Message = { id: crypto.randomUUID(), role: "user", content: text };
-    setMessages((prev) => [...prev, userMessage]);
+    setMessages((prev) => [...prev, { id: crypto.randomUUID(), role: "user", content: text }]);
     setInput("");
     setError(null);
-    setIsTyping(true);
+    setIsStreaming(true);
+
+    const assistantId = crypto.randomUUID();
 
     try {
-      const data: { reply: string; urgencyScore: number } = await apiFetch("/chat/message", {
+      const stream = await apiFetchStream(`/chat/conversations/${conversationId}/message`, {
         method: "POST",
         body: JSON.stringify({ message: text }),
       });
 
-      if (data.urgencyScore >= 4) {
-        setAlertTriggered(true);
-      } else {
-        setMessages((prev) => [
-          ...prev,
-          { id: crypto.randomUUID(), role: "assistant", content: data.reply },
-        ]);
+      const reader = stream.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let assistantStarted = false;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+
+        const events = buffer.split("\n\n");
+        buffer = events.pop() ?? ""; // last chunk may be incomplete
+
+        for (const rawEvent of events) {
+          const line = rawEvent.replace(/^data: /, "").trim();
+          if (!line) continue;
+
+          const event = JSON.parse(line);
+
+          if (event.type === "chunk") {
+            if (!assistantStarted) {
+              assistantStarted = true;
+              setMessages((prev) => [
+                ...prev,
+                { id: assistantId, role: "assistant", content: "" },
+              ]);
+            }
+            setMessages((prev) =>
+              prev.map((m) =>
+                m.id === assistantId ? { ...m, content: m.content + event.text } : m
+              )
+            );
+          } else if (event.type === "urgent") {
+            setAlertTriggered(true);
+          } else if (event.type === "error") {
+            setError(event.message || "Something went wrong.");
+          }
+        }
       }
     } catch {
       setError("Couldn't reach the assistant. Try again in a moment.");
     } finally {
-      setIsTyping(false);
+      setIsStreaming(false);
     }
   }
 
+  if (loadingHistory) {
+    return (
+      <div className="flex h-[calc(100vh-57px)] items-center justify-center text-ink-muted">
+        Loading conversation...
+      </div>
+    );
+  }
+
   return (
-    <div className="flex h-[calc(100vh-57px)] flex-col">
+    <div className="flex h-[calc(100vh-57px)] flex-1 flex-col">
       <div className="border-b border-panel-border bg-bg-deep px-6 py-2.5 text-center font-mono text-[11px] text-ink-dim">
         Informational only — not a diagnosis. In an emergency, seek immediate care.
       </div>
@@ -74,7 +134,7 @@ export function ChatWindow() {
           {messages.map((m) => (
             <div
               key={m.id}
-              className={`max-w-[80%] rounded-xl px-4 py-3 text-sm ${
+              className={`max-w-[80%] whitespace-pre-wrap rounded-xl px-4 py-3 text-sm ${
                 m.role === "user"
                   ? "ml-auto border border-trace-dim bg-trace/10 text-ink"
                   : "border border-panel-border bg-panel text-ink"
@@ -83,12 +143,6 @@ export function ChatWindow() {
               {m.content}
             </div>
           ))}
-
-          {isTyping && (
-            <div className="max-w-[80%] rounded-xl border border-panel-border bg-panel px-4 py-3 text-sm text-ink-dim">
-              Thinking...
-            </div>
-          )}
 
           {error && (
             <div className="max-w-[80%] rounded-xl border border-alert/40 bg-alert-dim px-4 py-3 text-sm text-alert">
@@ -128,13 +182,13 @@ export function ChatWindow() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            disabled={alertTriggered || isTyping}
+            disabled={alertTriggered || isStreaming}
             placeholder={alertTriggered ? "Chat paused" : "Describe what you're experiencing..."}
             className="flex-1 rounded-lg border border-panel-border bg-bg-deep px-4 py-2.5 text-sm text-ink placeholder:text-ink-dim focus:border-trace-dim focus:outline-none disabled:opacity-50"
           />
           <button
             onClick={handleSend}
-            disabled={alertTriggered || isTyping || !input.trim()}
+            disabled={alertTriggered || isStreaming || !input.trim()}
             className="flex items-center justify-center rounded-lg bg-trace px-4 text-[#052914] transition hover:bg-[#65e89a] disabled:opacity-40"
           >
             <Send size={16} />
