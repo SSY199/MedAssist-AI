@@ -175,7 +175,7 @@ authorize enabling the setting on their behalf or sending another live test.
 - One-time setup at `/sos#quick-setup` saves selected health fields, location sharing
   and an explicit acknowledgement that tapping SOS sends automatically after five
   seconds unless cancelled. Existing profiles default to countdown disabled.
-- Navbar and urgent-chat buttons open the same compact bottom sheet. No automatic
+- Navbar and urgent-chat buttons open the same compact centered dialog. No automatic
   activation occurs merely because a chat urgency score changes.
 - First check existing incidents and configuration. An active incident opens its
   status without sending again. Missing setup opens guidance without a countdown.
@@ -234,3 +234,7 @@ new provider, dependency, clinical classifier or wearable integration is added.
 Demo: open `/sos#quick-setup`, review recipient and sharing choices, explicitly
 enable countdown SOS and save. Tap Navbar SOS, then Cancel to demonstrate
 cancellation first. A later uncancelled activation will send a real email.
+
+Presentation refinement: at the owner's request, the SOS dialog is centered
+horizontally and vertically, with viewport margins and scrolling on small screens.
+Countdown and cancellation behavior are unchanged.

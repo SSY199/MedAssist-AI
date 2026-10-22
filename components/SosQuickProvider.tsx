@@ -283,10 +283,10 @@ export function SosQuickProvider({ children }: { children: React.ReactNode }) {
         }}
       >
         <SheetContent
-          side="bottom"
+          side="center"
           showCloseButton={false}
           initialFocus={cancelButton}
-          className="mx-auto max-h-[90dvh] max-w-xl overflow-y-auto rounded-t-2xl border-panel-border bg-panel p-6 text-ink"
+          className="max-h-[90dvh] max-w-xl overflow-y-auto rounded-2xl border-panel-border bg-panel p-6 text-ink"
         >
           <SheetHeader className="p-0">
             <SheetTitle className="flex items-center gap-2 text-xl text-ink">
