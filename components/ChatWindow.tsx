@@ -163,10 +163,10 @@ export function ChatWindow({ conversationId }: { conversationId: string }) {
                   to type here.
                 </p>
                 <Link
-                  href="/map"
+                  href="/sos"
                   className="inline-flex items-center gap-1.5 rounded-lg bg-alert px-4 py-2 text-xs font-bold text-[#3a0a0a]"
                 >
-                  Find the nearest ER
+                  Open SOS assistance
                 </Link>
               </div>
             </div>

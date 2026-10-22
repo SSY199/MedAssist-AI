@@ -10,6 +10,9 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 - Read [project context](docs/PROJECT_CONTEXT.md) for the implementation inventory,
   proposal gaps, known risks, and decisions still open with the owner.
+- Read [the delivery tracker](docs/ROADMAP.md) for current status and agreed scope.
+  Use one feature/task per branch and update its record with decisions, checks,
+  and PR links. Proposed work is not approved implementation scope.
 - Read [CONTRIBUTING.md](CONTRIBUTING.md) for setup, validation, and Git workflow.
 - Use README.md for the original setup narrative, but verify claims against code.
   The context document records known discrepancies rather than rewriting history.
@@ -33,6 +36,9 @@ is a prototype, with a single hand-written AI pipeline and demo knowledge base.
 - Clarify choices that affect product scope, backend replacement, data migration,
   clinical behavior, external cost, or sensitive-data sharing. Routine reversible
   implementation choices within the agreed task do not require repeated approval.
+- For every new feature, read the current context, prepare a scoped plan, ask the
+  owner the necessary questions, and obtain explicit agreement before coding.
+  Follow the surrounding coding/visual style and record decisions and validation.
 
 ## Architecture and contracts
 

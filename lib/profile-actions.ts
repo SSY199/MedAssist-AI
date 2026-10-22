@@ -13,6 +13,7 @@ export interface PatientProfileInput {
   allergies: string[];
   emergencyContactName: string;
   emergencyContactPhone: string;
+  emergencyContactEmail?: string;
 }
 
 /**
@@ -27,11 +28,21 @@ export async function saveProfile(
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/login");
 
+  const emergencyContactEmail = (input.emergencyContactEmail ?? "").trim();
+  if (
+    emergencyContactEmail &&
+    (emergencyContactEmail.length > 254 ||
+      !/^[^\s@<>\r\n]+@[^\s@<>\r\n]+\.[^\s@<>\r\n]+$/.test(emergencyContactEmail))
+  ) {
+    throw new Error("Enter a valid emergency contact email.");
+  }
+
   await db.collection("patientProfiles").updateOne(
     { userId: session.user.id },
     {
       $set: {
         ...input,
+        emergencyContactEmail,
         userId: session.user.id,
         updatedAt: new Date(),
       },
@@ -63,5 +74,6 @@ export async function getMyProfile(): Promise<PatientProfileInput | null> {
     allergies: profile.allergies ?? [],
     emergencyContactName: profile.emergencyContactName ?? "",
     emergencyContactPhone: profile.emergencyContactPhone ?? "",
+    emergencyContactEmail: profile.emergencyContactEmail ?? "",
   };
 }

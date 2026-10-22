@@ -52,9 +52,13 @@ and writes the persistent Chroma collection. Agree on the target store first.
 | Auth/profile/chat contract | Check sign-in, onboarding/save/edit, token bridge, ownership isolation, history/resume, SSE, and urgent UI behavior as affected |
 | Health prompts/retrieval/urgency | Review evidence provenance, missing evidence, uncertainty, escalation and provider failures; agree expected cases before implementation |
 
-There is currently no `npm test`, pytest configuration, or CI workflow. Do not
-claim automated coverage exists. Add focused tests when changing substantive
-behavior, with a minimal runner choice agreed as part of that work.
+There is no `npm test`, pytest configuration, or CI workflow. SOS has focused
+standard-library tests: from `backend/`, run
+`PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s tests -v`;
+from the root on Node 22, run
+`node --experimental-strip-types --test tests/sos.test.mjs`. These mock external
+services and do not cover the whole app. Add focused tests for substantive logic
+changes without bundling a testing-infrastructure project.
 
 For a backend syntax check without imports, writes, or network calls, run from
 the repo root:

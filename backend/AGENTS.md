@@ -23,7 +23,7 @@ Inherits the root AGENTS.md. Read this before modifying backend code.
 
 ## Interfaces
 
-- Routers registered in app/main.py: ehr.py, map.py, chat.py. mapbox_map.py is
+- Routers registered in app/main.py: ehr.py, map.py, chat.py, sos.py. mapbox_map.py is
   not registered. Preserve the active import path when fixing maps.
 - Protected routes use `Depends(get_current_user)`. User identity comes from the
   verified JWT `sub`; conversation access uses `_get_owned_conversation`.
@@ -47,3 +47,14 @@ isolation, split SSE frames, urgent termination, malformed/out-of-range classifi
 output, provider failures, and message persistence with synthetic data. Tests
 should mock external providers by default; live checks need configured services.
 Report any changed health prompts, knowledge sources, or escalation behavior.
+
+## SOS boundary
+
+- `sos.py` uses verified JWT identity, a per-user Mongo `_id` claim, and only the
+  latest incident metadata; the full health message is not stored or logged.
+- `services/sos_email.py` owns verified-TLS Gmail SMTP. Optional server-only
+  settings are `SOS_GMAIL_ADDRESS` and `SOS_GMAIL_APP_PASSWORD`.
+- Accepted SMTP submission does not confirm delivery/read status. Keep ambiguous
+  outcomes non-retryable and retain cooldown/attempt limits for explicit retries.
+- Run `PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s tests -v`
+  from backend for the synthetic SOS suite; SMTP and Mongo are mocked.

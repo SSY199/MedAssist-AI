@@ -1,5 +1,9 @@
 # MedAssist AI: initial repository assessment
 
+For the current delivery status, decisions, and proposed feature queue, see
+[ROADMAP.md](ROADMAP.md). This document retains the historical initial assessment;
+its original findings should not be read as a current runtime checklist.
+
 Reviewed on 2026-10-21 against baseline commit `6b2edfb` (local main and local
 origin/main agreed). This is a source inspection, not an end-to-end certification.
 Remote deployment status and the current remote head were not independently checked.
@@ -200,3 +204,15 @@ conversation button with a Creating label while its request is pending. Verified
 in the signed-in browser: a failed request displays an error; after the backend
 restart, creation returns HTTP 200 and opens the new conversation. This does not
 establish that Gemini generation or the medical response pipeline works end to end.
+
+## Follow-up: SOS implementation (2026-10-22, local feature branch)
+
+The owner approved automatic contact email using Gmail, an active SOS screen,
+location/selected health preview, nearby care, and call/WhatsApp fallbacks.
+`codex/sos-assistance` adds protected `/sos`, an optional profile contact email,
+authenticated FastAPI SOS routes, atomic latest-incident claims, bounded explicit
+retries, and verified-TLS SMTP. Navbar and the existing urgent-chat link enter
+SOS; urgency classification and chat generation contracts remain unchanged.
+See [the feature record](features/SOS.md) for setup, data retention, validation
+and limitations. Historical absent-SOS observations above apply to the original
+baseline. This feature is not merged or clinically validated.

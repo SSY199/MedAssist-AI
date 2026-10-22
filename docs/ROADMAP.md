@@ -1,0 +1,160 @@
+# MedAssist AI: delivery tracker and next-phase discussion
+
+Updated: 2026-10-22. Baseline: main `d1ca817`, after PRs #1 and #2.
+This is the current delivery tracker. [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)
+preserves the initial source assessment and architecture details.
+
+## Confirmed working baseline
+
+| Capability | Evidence and remaining limits |
+| --- | --- |
+| Google sign-in, onboarding/profile, dashboard | Present in source; owner confirmed sign-in works. This is an app profile, not a hospital EHR integration. |
+| Conversation creation, listing, history/resume | Fixed and browser-verified; synthetic API tests also verified persistence and ownership isolation. |
+| Gemini chat and streaming | Owner confirmed chat works. Integration checks used mocked Gemini responses; no clinical correctness claim. |
+| Urgency alert | Existing model-based score >=4 pauses chat. Synthetic API tests verified urgent termination; no deterministic emergency gate yet. |
+| Basic RAG | Chroma retrieval with six self-written demo documents; no verified medical corpus or user-facing citations. |
+| Nearby-care map | Owner confirmed maps work; live API test returned hospital results. No guaranteed live hours, nearest-ER routing, or computed travel times. |
+| Workflow documentation | PR #1 merged. Shared agent rules, contributor guide, and initial assessment exist. |
+| Conversation reliability fix | PR #2 merged. TLS certificate roots and creation loading/error feedback added. |
+| Local setup and deployment | Dependencies installed; frontend production deployment succeeded. FastAPI was verified locally; hosted backend deployment is not established. |
+| Runtime data isolation | Hash-verified snapshot and recovery stash retained locally; ignored backend environment selects a separate active local Chroma store. Original binary data is still tracked historically. |
+
+Ad hoc validation scripts passed for TLS configuration, auth endpoints, ownership,
+SSE/persistence, urgent termination, provider errors, and Mapbox. These are not yet
+a committed regression suite or CI test pipeline. Lint has one existing unused
+Badge import warning. Neither these checks nor a successful demo validate clinical use.
+
+## Agreed collaboration rules
+
+- One independently reviewable feature or maintenance outcome per branch/PR.
+  Its UI, API, schema, tests, and documentation may belong together when they
+  deliver that same outcome. Separate unrelated fixes and infrastructure work.
+- Start from freshly fetched, updated main with a clean working tree. Avoid
+  stacked feature branches unless dependencies and their merge order are explicit.
+- Record a feature ID, expected behavior, exclusions, dependencies, acceptance
+  checks, and branch before implementation. Confirm scope in discussion first.
+- For every feature: read current context -> prepare the plan -> ask scope
+  questions -> obtain explicit agreement -> implement -> verify -> review.
+  Follow existing coding and visual conventions consistently throughout.
+- Work on one active feature at a time by default. Check shared-file overlap with
+  collaborators before implementation and again before integration.
+- Review the full diff, run relevant checks, and inspect deployment results before
+  merging. Do not silently bypass failed checks or force-push shared history.
+- Pushing and merging follow the owner's authorization for that task. The previous
+  authorization to merge PRs #1/#2 is not blanket approval for future features.
+- Update this tracker with status, decision changes, verification limits, and PR
+  links in the feature's own branch. Do not mark work Done until merged and verified.
+- Keep credentials, private records, local stores, and backups out of commits.
+
+## Next review priorities: agreed on 2026-10-22
+
+The owner has a project review on 2026-10-23 and wants visible companion features:
+SOS, marketplace, and medication reminders. SOS is first. No additional language
+requirement was specified; English copy and the existing design should stay
+consistent. Marketplace versus reminders ordering is not decided yet.
+
+| ID | Feature | Current status | Scope record |
+| --- | --- | --- | --- |
+| SOS-01 | Automatic contact email and SOS assistance | Implemented and checked locally; awaiting owner demo, not merged | [Detailed SOS plan](features/SOS.md) |
+| MKT-01 | Marketplace | Queued; scope not discussed | Define after SOS |
+| REM-01 | Medication reminders | Queued; scope not discussed | Define after SOS |
+
+No claim is made that all three features can be completed by the review. Complete
+and verify one compact outcome before starting the next branch. Focused tests
+belong with SOS; a separate testing-infrastructure project is not a prerequisite
+for this review milestone.
+
+## Longer-term chatbot direction: earlier proposal
+
+An informational health chatbot that can ask useful follow-up questions, identify
+high-risk input early, retrieve attributable evidence, and present concise answers
+with sources, uncertainty, and appropriate escalation. A repeatable demo should
+show which steps ran and where supporting information came from.
+
+Explainability means evidence and a short understandable rationale, rather than
+disclosing private internal model reasoning. Multi-agent orchestration should
+coordinate defined responsibilities; it is not by itself proof of reliability.
+
+The sequence below is a proposal, not approval to begin implementation. No
+framework migration, medical rule set, source licensing, deadline, or budget is
+selected by this document.
+
+## Longer-term proposed feature queue
+
+| ID | One outcome per branch | Acceptance criteria to refine before starting | Depends on | Status |
+| --- | --- | --- | --- | --- |
+| M01 | Committed regression baseline | A documented command runs isolated tests for existing conversation ownership, SSE success/error/urgent branches, and TLS options; external services mocked by default; no clinical accuracy claims. | Agreement on minimal runner | Proposed |
+| F01 | Emergency routing before model calls | Agreed high-risk cases reach the existing alert before Gemini/retrieval calls; ambiguous, negated, historical, and provider-failure cases have explicit expected behavior; every turn passes the gate. No claim of complete emergency detection. | M01; reviewed policy and language scope | Proposed |
+| F02 | Curated knowledge-source ingestion | A small agreed topic set has source URLs/titles, publisher, version/date, reuse terms, stable document/chunk IDs, and reproducible ingestion into a separate target store. Existing data is preserved. | Source/topic approval | Proposed |
+| F03 | Answers with attributable citations | Answers link only to the source IDs supplied by retrieval; evidence is associated with the answer rather than simply listing everything retrieved; missing evidence produces an agreed limitation/abstention response; metadata survives history/resume. | M01, F02 | Proposed |
+| F04 | Structured clarification flow | Incomplete supported queries produce focused follow-ups; answers update conversation state across reloads without crossing users; follow-up count is bounded; the emergency gate still runs first. | M01, F01; agreed supported topics | Proposed |
+| F05 | Response verification stage | An explicit evidence/safety check evaluates a draft, handles unsupported claims, and has bounded revision/failure behavior. Tests cover insufficient and conflicting evidence. | F01, F03 | Proposed |
+| F06 | Explicit multi-agent orchestration | Agreed stages become separately testable roles with typed shared state, bounded transitions, privacy-conscious traces, and preserved UI/auth contracts. Backend/framework selection is documented first. | Approved architecture; F01/F03/F04/F05, or resequence if the next review requires orchestration earlier | Proposed |
+| F07 | Repeatable evaluation report | A versioned synthetic case set reports relevance, citation support, uncertainty, escalation behavior, consistency, and latency. Results and limitations are recorded without invented accuracy numbers. | Agreed evaluation rubric; grows alongside the preceding features | Proposed |
+
+Earlier proposed order: M01 -> F01 -> F02 -> F03 -> F04 -> F05 -> F06 -> F07.
+This does not override the owner's SOS-first review priorities above.
+F02 can be researched while F01 is discussed, but implementation remains one
+active feature at a time. Evaluation cases should be written with each feature;
+F07 packages the results rather than delaying evaluation until the end.
+
+Suggested branch names: `codex/regression-baseline`, `codex/emergency-routing`,
+`codex/curated-knowledge`, `codex/chat-citations`, `codex/clarification-flow`,
+`codex/response-verification`, `codex/agent-orchestration`, and
+`codex/evaluation-report`. These branches have not been created.
+
+## Other scope: not scheduled
+
+Wearables, lab report upload/summarization, doctor-profile export, multilingual
+support, and hosted-backend deployment remain candidate work. Their priority is undecided.
+Do not imply their pages/integrations already exist.
+
+Separate maintenance candidates: dependency locking, untracking generated data
+after preserving it, environment-template accuracy, privacy/consent design,
+request validation, and font-build reproducibility. Prioritize each deliberately;
+do not bundle this list into a feature branch.
+
+## Decision log
+
+| Date | Decision | State |
+| --- | --- | --- |
+| 2026-10-22 | One feature/task per branch, compact scope, ongoing written tracking | Agreed by owner |
+| 2026-10-22 | Keep backend choice open; PDF's Node/Express proposal does not authorize migration | Agreed by owner |
+| 2026-10-22 | Discuss and agree next-phase scope before implementation | Agreed by owner |
+| 2026-10-22 | Focus next phase on evidence-backed chatbot capabilities | Earlier proposal; postponed behind owner's review priorities |
+| 2026-10-22 | Start with a committed regression baseline, then emergency routing | Earlier proposal; SOS first for the review |
+| 2026-10-22 | Prioritize SOS, marketplace, and reminders; start with SOS | Agreed by owner |
+| 2026-10-22 | Next review is tomorrow, 2026-10-23; keep language/style consistent | Confirmed by owner |
+| 2026-10-22 | Write detailed SOS plan, ask questions, and agree before implementation; repeat this process for future features | Required by owner |
+| 2026-10-22 | SOS contact channel: call + user-sent WhatsApp | Selected by owner |
+| 2026-10-22 | SOS demo on laptop localhost; public/mobile support later | Selected by owner |
+| 2026-10-22 | Preselect location and health summary in the sharing preview | Selected by owner; user still reviews before sharing |
+| 2026-10-22 | Automatic email after confirmed SOS activation, with active incident status and fallback actions | Approved by owner |
+| 2026-10-22 | Use existing Gmail account as SOS sender via server-only SMTP app password | Selected by owner; local TLS/login verification passed without sending |
+
+Open questions: marketplace/reminder scope and order; longer-term target users and
+languages; supported topics and source approval; provider budget; privacy
+expectations; backend/orchestration choice; who reviews medical rules/evidence;
+and which tasks the collaborator owns. SOS automatic-email scope is approved.
+
+## Feature record to complete when scope is agreed
+
+```text
+ID / feature:
+Owner / reviewer:
+Status: Proposed | Ready | In progress | In review | Blocked | Done | Deferred
+Outcome and user-visible behavior:
+Included / excluded:
+Dependencies and open decisions:
+Acceptance cases and validation plan:
+Branch / base commit:
+PR / merge commit:
+Checks run and results:
+Remaining limitations / next action:
+```
+
+Ready means scope and acceptance cases are agreed. In review means a PR exists;
+it does not imply approval. Done means merged with relevant verification recorded.
+Planning records remain on `codex/next-phase-plan`. SOS implementation is on
+`codex/sos-assistance`, created from main `d1ca817` with its associated planning
+records carried into the feature. No planning/feature PR has been merged.
