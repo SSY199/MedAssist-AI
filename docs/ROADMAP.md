@@ -1,6 +1,6 @@
 # MedAssist AI: delivery tracker and next-phase discussion
 
-Updated: 2026-10-22. Current baseline: main `0accec1`, after SOS PR #3.
+Updated: 2026-10-23. Current baseline: main `a5e2b07`, after marketplace PR #4.
 This is the current delivery tracker. [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)
 preserves the initial source assessment and architecture details.
 
@@ -57,7 +57,7 @@ consistent. The owner selected marketplace after SOS; reminders remain queued.
 | --- | --- | --- | --- |
 | SOS-01 | Automatic contact email and SOS assistance | Implemented and checked; integration tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) | [Detailed SOS plan](features/SOS.md) |
 | MKT-01 | Medicine/health marketplace | Implemented and validated; integration tracked in PR #4 | [Marketplace delivery record](features/MARKETPLACE.md) |
-| REM-01 | Medication reminders | Queued; scope not discussed | Define after SOS |
+| REM-01 | Medication reminders | Research/planning; ten owner decisions pending | [Reminder planning draft](features/REMINDERS.md) |
 
 No claim is made that all three features can be completed by the review. Complete
 and verify one compact outcome before starting the next branch. Focused tests
@@ -235,3 +235,17 @@ Owner authorized merging. [PR #4](https://github.com/SSY199/MedAssist-AI/pull/4)
 no conflicts with updated main. Vercel preview and required checks gate merge;
 the PR records final merge and deployment state. CodeRabbit skipped its review.
 Earlier “not pushed/merged” notes are historical pre-integration snapshots.
+
+### Reminders research and planning (2026-10-23)
+
+Marketplace PR #4 merged at `a5e2b07`; Vercel preview and production passed. Local
+main was clean and synchronized. Started `codex/medication-reminders` from freshly
+fetched origin/main for the next feature's research/planning.
+
+Owner requested deep research, integration options, proposed reminder contents and
+a question set, with plan agreement before coding. [Research](research/REMINDERS.md)
+compares in-app, browser notifications, email, Web Push, SMS/WhatsApp and calendar
+export, including worker/hosting limits. [Draft plan](features/REMINDERS.md) proposes
+account-owned medication schedules, per-occurrence actions/history and a durable
+worker, conditional on the owner's choices. Ten questions were presented. No app
+code, DB records, environment, service subscriptions or messages changed.
