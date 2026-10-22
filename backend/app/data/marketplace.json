@@ -1,0 +1,254 @@
+[
+  {
+    "id": "dolo-650-15",
+    "name": "Dolo 650 Tablet",
+    "kind": "medicine",
+    "category": "Analgesics",
+    "composition": "Paracetamol 650 mg",
+    "form": "Tablet",
+    "pack": "15 tablets",
+    "prescription": "unknown",
+    "aliases": [
+      "acetaminophen"
+    ],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/Dolo-Tablet-74467",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 3228,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/Dolo-Tablet-74467"
+      }
+    ]
+  },
+  {
+    "id": "augmentin-625-10",
+    "name": "Augmentin 625 Duo Tablet",
+    "kind": "medicine",
+    "category": "Antibiotics",
+    "composition": "Amoxycillin 500 mg + Clavulanic acid 125 mg",
+    "form": "Tablet",
+    "pack": "10 tablets",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/augmentin-duo-625mg-138629",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 19665,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/augmentin-duo-625mg-138629"
+      }
+    ]
+  },
+  {
+    "id": "amlokind-5-15",
+    "name": "AMLOkind 5 Tablet",
+    "kind": "medicine",
+    "category": "Cardiovascular",
+    "composition": "Amlodipine 5 mg",
+    "form": "Tablet",
+    "pack": "15 tablets",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/amlokind-5-tablet-665338",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 2382,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/amlokind-5-tablet-665338"
+      }
+    ]
+  },
+  {
+    "id": "glycomet-500-10",
+    "name": "Glycomet Tablet",
+    "kind": "medicine",
+    "category": "Diabetes medicines",
+    "composition": "Metformin 500 mg",
+    "form": "Tablet",
+    "pack": "10 tablets",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/glycomet-500-mg-tablet-18033",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 1959,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/glycomet-500-mg-tablet-18033"
+      }
+    ]
+  },
+  {
+    "id": "pan-40-15",
+    "name": "PAN 40 Tablet",
+    "kind": "medicine",
+    "category": "Gastrointestinal",
+    "composition": "Pantoprazole 40 mg",
+    "form": "Tablet",
+    "pack": "15 tablets",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/pan40-tablet-325250",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 19280,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/pan40-tablet-325250"
+      }
+    ]
+  },
+  {
+    "id": "asthalin-100-200",
+    "name": "ASTHAlin 100mcg Inhaler",
+    "kind": "medicine",
+    "category": "Respiratory",
+    "composition": "Salbutamol 100 mcg",
+    "form": "Inhaler",
+    "pack": "200 metered doses",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/Asthalin-Inhaler-141944",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/Asthalin-Inhaler-141944"
+      }
+    ]
+  },
+  {
+    "id": "apollo-digital-1",
+    "name": "Apollo Pharmacy Digital Thermometer",
+    "kind": "health_supply",
+    "category": "Monitoring devices",
+    "composition": null,
+    "form": "Digital thermometer",
+    "pack": "1 count",
+    "prescription": "not_applicable",
+    "aliases": [],
+    "source": {
+      "name": "Apollo Pharmacy",
+      "url": "https://www.apollopharmacy.in/otc/apollo-pharmacy-digital-thermometer",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Apollo Pharmacy",
+        "url": "https://www.apollopharmacy.in/otc/apollo-pharmacy-digital-thermometer"
+      }
+    ]
+  },
+  {
+    "id": "apollo-flexible-1",
+    "name": "Apollo Pharmacy Digital Flexible Thermometer",
+    "kind": "health_supply",
+    "category": "Monitoring devices",
+    "composition": null,
+    "form": "Digital flexible thermometer",
+    "pack": "1 count",
+    "prescription": "not_applicable",
+    "aliases": [],
+    "source": {
+      "name": "Apollo Pharmacy",
+      "url": "https://www.apollopharmacy.in/otc/apollo-pharmacy-thermometer-digital-flexi",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Apollo Pharmacy",
+        "url": "https://www.apollopharmacy.in/otc/apollo-pharmacy-thermometer-digital-flexi"
+      }
+    ]
+  },
+  {
+    "id": "beurer-ft09-1",
+    "name": "Beurer FT 09 Clinical Thermometer",
+    "kind": "health_supply",
+    "category": "Monitoring devices",
+    "composition": null,
+    "form": "Clinical thermometer",
+    "pack": "1 count",
+    "prescription": "not_applicable",
+    "aliases": [],
+    "source": {
+      "name": "Apollo Pharmacy",
+      "url": "https://www.apollopharmacy.in/otc/beurer-ft-09-1-clinical-thermometer",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Apollo Pharmacy",
+        "url": "https://www.apollopharmacy.in/otc/beurer-ft-09-1-clinical-thermometer"
+      }
+    ]
+  },
+  {
+    "id": "apollo-firstaid-1",
+    "name": "Apollo Pharmacy First Aid Kit",
+    "kind": "health_supply",
+    "category": "First aid",
+    "composition": null,
+    "form": "First aid kit",
+    "pack": "1 kit",
+    "prescription": "unknown",
+    "aliases": [],
+    "source": {
+      "name": "Apollo Pharmacy",
+      "url": "https://www.apollopharmacy.in/otc/apollo-pharmacy-first-aid-kit",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Apollo Pharmacy",
+        "url": "https://www.apollopharmacy.in/otc/apollo-pharmacy-first-aid-kit"
+      }
+    ]
+  }
+]

@@ -223,3 +223,16 @@ one-time opt-in sharing preferences, shared Navbar/urgent-chat activation,
 cancellation guards and backend-enforced preferences. This does not add automatic
 incident detection or alter the urgency classifier. See the feature record for
 validation and remaining live-demo checks.
+
+## Marketplace implementation follow-up (2026-10-23)
+
+The original absent-marketplace inventory above is historical. Approved discovery
+scope is now implemented locally on `codex/medicine-marketplace`: protected
+`/marketplace`, manually searched curated medicine/supply metadata, reference MRP
+provenance, seller product links, account-saved favourites. FastAPI registers
+`marketplace.py`; `marketplaceFavorites` is a separate JWT-owned Mongo collection.
+Ten reviewed source records live in `backend/app/data/marketplace.json`; missing
+prices/status remain explicit. No live feed, clinical advice, checkout, prescription
+verification or profile-based recommendations. See [feature record](features/MARKETPLACE.md)
+for contracts, checks and limits. Existing auth/profile/chat/map/SOS contracts remain
+unchanged.

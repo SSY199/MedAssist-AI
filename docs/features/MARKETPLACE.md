@@ -1,7 +1,7 @@
 # MKT-01: medicine discovery, favourites and seller handoff
 
-Updated: 2026-10-23. Status: Owner answers recorded; revised scope/data choices
-await final confirmation. No application implementation has started.
+Updated: 2026-10-23. Status: Approved scope implemented locally; verification recorded below.
+Not pushed or merged.
 Branch: `codex/medicine-marketplace`. Base: main `0accec1`, after SOS PR #3.
 Evidence: [marketplace integration research](../research/MARKETPLACE.md).
 
@@ -17,7 +17,7 @@ The owner answered the initial ten questions on 2026-10-23:
 | Main value | Prices and saved important/favourite medicines for repeat visits. |
 | Prescription products | Include different medicine types for discovery; purchase is handled externally. |
 | Payment | None in MedAssist. |
-| Country/pincode | Answer was “no.” Treat as no location/pincode collection; exact catalog geography is not confirmed. |
+| Country/pincode | Answer was “no.” Treat as no location/pincode collection; final confirmation accepted an India-first source catalog without collecting location. |
 | Profile integration | Manual search only. No automatic use of saved medications or health information. |
 | Checkout/address | No checkout, so no delivery address workflow. |
 | New provider budget | “No need.” No paid integration or subscription is selected/authorized. |
@@ -26,21 +26,14 @@ These choices supersede the original shopping-demo recommendation. There will be
 no cart, order schema/history, payment gateway, shipping simulation, prescription
 upload or pharmacist dashboard in this milestone.
 
-## Remaining confirmation
+## Final owner agreement (2026-10-23)
 
-Three concise follow-ups are pending:
+The owner explicitly approved reference MRP plus seller-side price checking,
+a curated expandable catalog, and implementation of the revised journey. INR
+follows the India-first source catalog; no location collection is introduced.
+No live comparison feed or comprehensive medicine database is promised.
 
-1. Accept verified reference MRP with source/date where available, plus seller-side
-   price checking elsewhere, or require live seller-price comparison?
-2. Accept a curated, expandable catalog across medicine categories, or require a
-   comprehensive medicine database before launch?
-3. Confirm the revised implementation scope below, including those data choices.
-
-Do not interpret “all types” as permission to promise every medicine in existence.
-Discovery across categories and comprehensive database coverage are different
-requirements. Do not interpret a seller link as a partner agreement or live feed.
-
-## Proposed first user journey
+## Agreed first user journey
 
 1. Dashboard Marketplace tile and Navbar open protected `/marketplace`, using the
    existing dark theme, auth and responsive layout.
@@ -50,7 +43,7 @@ requirements. Do not interpret a seller link as a partner agreement or live feed
 3. Product cards/details show exact name, brand/manufacturer where verified,
    strength, dosage form, pack size, source and prescription metadata. Different
    strengths, forms and packs remain distinct products. No automatic substitution.
-4. Price presentation is pending confirmation. Recommended: sourced reference MRP
+4. Price presentation uses sourced reference MRP
    and verification date, clearly separated from a seller's current selling price.
    Missing prices say “Check current price on seller.” No invented discounts,
    delivery times, stock claims or unsupported cheapest-seller rankings.
@@ -70,12 +63,11 @@ conversion or location inference is proposed.
 
 ## Data and linking strategy
 
-No self-service authorized pharmacy feed has been verified. Before implementing,
-settle the two data questions above. If curated coverage is chosen, keep a small,
-reviewable source file and expand it deliberately rather than presenting an
-unverified bulk scrape as a complete catalog.
+No self-service authorized pharmacy feed has been verified. The approved curated
+coverage uses a small, reviewable source file and expands deliberately. It is not
+a bulk scrape or comprehensive catalog.
 
-Proposed catalog fields:
+Catalog fields:
 
 - Stable product ID; medicine/health-supply type; name; category; reviewed aliases.
 - Verified brand/manufacturer, ingredient facts, strength, form and pack unit/size
@@ -107,7 +99,7 @@ JWT-to-FastAPI bridge with MongoDB. Preserve the current backend rather than
 choosing a new framework for this feature. Read relevant installed Next docs
 before application code.
 
-Frontend proposal:
+Frontend implementation:
 
 - New `app/(dashboard)/marketplace/page.tsx` and focused catalog/detail/favourites
   components, plus a typed marketplace contract module.
@@ -119,10 +111,10 @@ Frontend proposal:
   empty states, pending/error feedback and a scrollable product detail dialog.
 - Preserve SOS provider/countdown, chat/SSE/urgency, map and profile behavior.
 
-Backend proposal:
+Backend implementation:
 
 - New dedicated marketplace router with bounded, validated search/filter inputs.
-  Catalog facts remain in a reviewable curated source initially, if approved.
+  Catalog facts remain in a reviewable curated source initially, as approved.
 - Separate `marketplaceFavorites` collection for minimal user/product records.
   Identity comes from verified JWT `sub`. Store product ID and save timestamp;
   do not duplicate health profiles, prescriptions, addresses or order data.
@@ -133,7 +125,7 @@ Backend proposal:
   labelled unavailable/archived or removed with clear feedback, not silently mapped
   to a different strength/form.
 
-Candidate API contracts to finalize after agreement:
+Implemented API contracts:
 
 | Operation | Candidate endpoint | Contract |
 | --- | --- | --- |
@@ -143,12 +135,12 @@ Candidate API contracts to finalize after agreement:
 | Save favourite | `PUT /marketplace/favorites/{product_id}` | Validate ID and save once for authenticated user |
 | Unsave favourite | `DELETE /marketplace/favorites/{product_id}` | Only the caller's entry; repeat-safe |
 
-A Mongo-backed favourites view is proposed instead of browser-only storage so
+A Mongo-backed favourites view is used so
 records persist across visits without leaking between signed-in users. No new
 paid service is needed. New collection/index setup will be explicit; no reseeding
 or migration/deletion of existing app data during verification.
 
-## Implementation sequence after final confirmation
+## Delivery sequence
 
 1. Freeze catalog coverage, pricing labels/source permissions and seller-link
    behavior. Review the source records before presenting them as factual.
@@ -161,7 +153,7 @@ or migration/deletion of existing app data during verification.
 5. Run relevant lint, TypeScript, production build and focused backend/helper
    tests, then check affected UI and existing auth/profile/chat/map/SOS flows.
 6. Record evidence and remaining data limits; review the diff and present it to
-   the owner. Push/merge/provider signup are not authorized by the research request.
+   the owner. Push/merge/provider signup require their own authorization.
 
 Keep all code for this agreed feature on `codex/medicine-marketplace`, created
 from clean updated main. Real price-feed integrations or commerce would be separate
@@ -183,6 +175,41 @@ future scopes and branches after this outcome is merged.
   profile/clinical suggestions enters the diff.
 - Keyboard/narrow-screen accessibility and existing app flows stay usable.
 
-No application code, database writes or live seller requests have been made as
-part of this scope revision. Agreement on pricing, coverage and the final plan is
-still pending.
+## Local implementation and validation (2026-10-23)
+
+- Protected `/marketplace`, responsive cards and centered details, manual name /
+  ingredient / pack search, category/type/prescription filters, pagination and
+  All/Favourites views. Dashboard Marketplace entry is enabled.
+- Ten curated entries: six medicines across six categories and four health-supply
+  entries. Five explicit source MRPs; five unknown prices. Exact source URLs and
+  review dates live with each row in `backend/app/data/marketplace.json`.
+- Product metadata comes from linked Tata 1mg/Apollo pages reviewed on 2026-10-23,
+  including cached page content; this is not a live retailer inventory check.
+  No retailer descriptions/images, dosing or clinical recommendations are copied.
+  Dolo's prescription status remains unknown because the reviewed page did not
+  explicitly establish it. First-aid kit status remains unknown; kit contents can
+  include medicines. Ambiguous/crossed-out prices remain null.
+- Reference MRP is per listed pack in INR minor units. Source and checked date are
+  visible. Current seller offers, discounts, stock and delivery are not represented.
+- `marketplaceFavorites` stores deterministic unique user/product `_id`, `userId`,
+  `productId`, `savedAt`. First user-initiated save creates the collection naturally;
+  no migration, reseeding or existing collection changes. Save/unsave are idempotent,
+  JWT-owned and separate from health profiles/auth collections. Retired IDs receive
+  unavailable feedback and remain removable through the API.
+- Seller/source URLs require allowlisted HTTPS hosts without credentials, query
+  strings or fragments; UI tabs use `noopener noreferrer`. No affiliate claims.
+- No new dependencies, environment variables, provider accounts or paid services.
+- Validation: 32 Python tests (10 marketplace, 22 SOS), eight Node tests (two
+  marketplace, six SOS), strict TypeScript and production build passed. Lint passed
+  with the existing unused Badge import warning in `app/page.tsx`.
+- Runtime `/health` returned 200; unauthenticated catalog returned 401; protected
+  frontend redirected anonymous HTTP requests. Browser checks: authenticated catalog/favourites read, ingredient search, no-match
+  state, product details, exact seller href and Escape dismissal passed. Save/unsave,
+  persistence and ownership use synthetic mocked-Mongo tests; no real account writes
+  or retailer transactions were performed. Narrow viewport and a second live account
+  were not exercised.
+
+Coverage expansion requires reviewing a new row, exact strength/form/pack, explicit
+prescription evidence, source/date and link. Only add a reference MRP if explicitly
+labelled for that exact product/pack. Do not infer an OTC status from absence of an
+Rx label. Price/feed integration and broader catalog licensing are future scopes.

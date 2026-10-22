@@ -56,7 +56,7 @@ consistent. The owner selected marketplace after SOS; reminders remain queued.
 | ID | Feature | Current status | Scope record |
 | --- | --- | --- | --- |
 | SOS-01 | Automatic contact email and SOS assistance | Implemented and checked; integration tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) | [Detailed SOS plan](features/SOS.md) |
-| MKT-01 | Medicine/health marketplace | Discovery + favourites + seller handoff selected; price/coverage confirmation pending | [Proposed marketplace plan](features/MARKETPLACE.md) |
+| MKT-01 | Medicine/health marketplace | Approved scope implemented locally; checks passed; review pending | [Marketplace delivery record](features/MARKETPLACE.md) |
 | REM-01 | Medication reminders | Queued; scope not discussed | Define after SOS |
 
 No claim is made that all three features can be completed by the review. Complete
@@ -132,7 +132,7 @@ do not bundle this list into a feature branch.
 | 2026-10-22 | Automatic email after confirmed SOS activation, with active incident status and fallback actions | Approved by owner |
 | 2026-10-22 | Use existing Gmail account as SOS sender via server-only SMTP app password | Selected by owner; local TLS/login verification passed without sending |
 
-Open questions: marketplace scope and subsequent reminder scope; longer-term target users and
+Open questions: subsequent reminder scope and catalog expansion; longer-term target users and
 languages; supported topics and source approval; provider budget; privacy
 expectations; backend/orchestration choice; who reviews medical rules/evidence;
 and which tasks the collaborator owns. SOS automatic-email scope is approved.
@@ -199,3 +199,20 @@ The initial demo-order proposal is superseded. Updated
 manual search, medicine details and verified seller links. Reference pricing versus
 live comparison, curated versus comprehensive coverage and final plan approval
 are pending. Application implementation has not started.
+
+### Marketplace implementation (2026-10-23)
+
+Owner approved reference MRP with source/date, seller price checks, curated coverage
+and implementation. Added protected catalog search/details/filtering, seller links
+and authenticated account favourites on `codex/medicine-marketplace`. Ten sourced
+products; no live price/stock feed or exhaustive database. No cart, checkout, payment,
+address, lab or automatic profile use. See [delivery details](features/MARKETPLACE.md).
+
+Checks: 32 Python tests, eight Node tests, TypeScript and production build passed.
+Lint has only the existing unused Badge warning. Local backend restarted; health
+200 and unauthenticated marketplace 401. Browser verified authenticated catalog and favourites reads, ingredient/no-match search,
+product details and Escape dismissal. Save/unsave/ownership/persistence were tested
+with synthetic accounts and mocked Mongo only. No live account write, retailer
+transaction, narrow viewport or second live-account test was performed.
+Marketplace has not been pushed or merged. Reminders remain queued for a separate
+planning discussion/branch.
