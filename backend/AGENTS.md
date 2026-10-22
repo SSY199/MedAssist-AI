@@ -23,7 +23,7 @@ Inherits the root AGENTS.md. Read this before modifying backend code.
 
 ## Interfaces
 
-- Routers registered in app/main.py: ehr.py, map.py, chat.py, sos.py. mapbox_map.py is
+- Routers registered in app/main.py: ehr.py, map.py, chat.py, sos.py, marketplace.py. mapbox_map.py is
   not registered. Preserve the active import path when fixing maps.
 - Protected routes use `Depends(get_current_user)`. User identity comes from the
   verified JWT `sub`; conversation access uses `_get_owned_conversation`.
@@ -62,3 +62,13 @@ Report any changed health prompts, knowledge sources, or escalation behavior.
 - Countdown SOS is opt-in through `/sos/preferences`. Quick routes enforce saved
   field/location choices and revalidate consent against the countdown start.
   Changed recipients require setup again. Preserve these checks when editing SOS.
+
+## Marketplace boundary
+
+- `services/marketplace_catalog.py` validates reviewed `data/marketplace.json`.
+  Preserve exact strength/form/pack, explicit prescription evidence, source/date
+  and null prices. No live stock/price or clinical claims from catalog metadata.
+- `marketplace.py` owns JWT-scoped `marketplaceFavorites`; deterministic `_id`
+  gives unique user/product pairs without altering existing collections.
+- Tests use synthetic users and mocked Mongo. Never scrape/reseed catalog data or
+  write real account favourites as a verification shortcut.

@@ -1,0 +1,454 @@
+[
+  {
+    "id": "dolo-650-15",
+    "name": "Dolo 650 Tablet",
+    "kind": "medicine",
+    "category": "Analgesics",
+    "composition": "Paracetamol 650 mg",
+    "form": "Tablet",
+    "pack": "15 tablets",
+    "prescription": "unknown",
+    "aliases": [
+      "acetaminophen"
+    ],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/Dolo-Tablet-74467",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 3228,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/Dolo-Tablet-74467"
+      }
+    ]
+  },
+  {
+    "id": "augmentin-625-10",
+    "name": "Augmentin 625 Duo Tablet",
+    "kind": "medicine",
+    "category": "Antibiotics",
+    "composition": "Amoxycillin 500 mg + Clavulanic acid 125 mg",
+    "form": "Tablet",
+    "pack": "10 tablets",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/augmentin-duo-625mg-138629",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 19665,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/augmentin-duo-625mg-138629"
+      }
+    ]
+  },
+  {
+    "id": "amlokind-5-15",
+    "name": "AMLOkind 5 Tablet",
+    "kind": "medicine",
+    "category": "Cardiovascular",
+    "composition": "Amlodipine 5 mg",
+    "form": "Tablet",
+    "pack": "15 tablets",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/amlokind-5-tablet-665338",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 2382,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/amlokind-5-tablet-665338"
+      }
+    ]
+  },
+  {
+    "id": "glycomet-500-10",
+    "name": "Glycomet Tablet",
+    "kind": "medicine",
+    "category": "Diabetes medicines",
+    "composition": "Metformin 500 mg",
+    "form": "Tablet",
+    "pack": "10 tablets",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/glycomet-500-mg-tablet-18033",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 1959,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/glycomet-500-mg-tablet-18033"
+      }
+    ]
+  },
+  {
+    "id": "pan-40-15",
+    "name": "PAN 40 Tablet",
+    "kind": "medicine",
+    "category": "Gastrointestinal",
+    "composition": "Pantoprazole 40 mg",
+    "form": "Tablet",
+    "pack": "15 tablets",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/pan40-tablet-325250",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 19280,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/pan40-tablet-325250"
+      }
+    ]
+  },
+  {
+    "id": "asthalin-100-200",
+    "name": "ASTHAlin 100mcg Inhaler",
+    "kind": "medicine",
+    "category": "Respiratory",
+    "composition": "Salbutamol 100 mcg",
+    "form": "Inhaler",
+    "pack": "200 metered doses",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/Asthalin-Inhaler-141944",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/Asthalin-Inhaler-141944"
+      }
+    ]
+  },
+  {
+    "id": "apollo-digital-1",
+    "name": "Apollo Pharmacy Digital Thermometer",
+    "kind": "health_supply",
+    "category": "Monitoring devices",
+    "composition": null,
+    "form": "Digital thermometer",
+    "pack": "1 count",
+    "prescription": "not_applicable",
+    "aliases": [],
+    "source": {
+      "name": "Apollo Pharmacy",
+      "url": "https://www.apollopharmacy.in/otc/apollo-pharmacy-digital-thermometer",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Apollo Pharmacy",
+        "url": "https://www.apollopharmacy.in/otc/apollo-pharmacy-digital-thermometer"
+      }
+    ]
+  },
+  {
+    "id": "apollo-flexible-1",
+    "name": "Apollo Pharmacy Digital Flexible Thermometer",
+    "kind": "health_supply",
+    "category": "Monitoring devices",
+    "composition": null,
+    "form": "Digital flexible thermometer",
+    "pack": "1 count",
+    "prescription": "not_applicable",
+    "aliases": [],
+    "source": {
+      "name": "Apollo Pharmacy",
+      "url": "https://www.apollopharmacy.in/otc/apollo-pharmacy-thermometer-digital-flexi",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Apollo Pharmacy",
+        "url": "https://www.apollopharmacy.in/otc/apollo-pharmacy-thermometer-digital-flexi"
+      }
+    ]
+  },
+  {
+    "id": "beurer-ft09-1",
+    "name": "Beurer FT 09 Clinical Thermometer",
+    "kind": "health_supply",
+    "category": "Monitoring devices",
+    "composition": null,
+    "form": "Clinical thermometer",
+    "pack": "1 count",
+    "prescription": "not_applicable",
+    "aliases": [],
+    "source": {
+      "name": "Apollo Pharmacy",
+      "url": "https://www.apollopharmacy.in/otc/beurer-ft-09-1-clinical-thermometer",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Apollo Pharmacy",
+        "url": "https://www.apollopharmacy.in/otc/beurer-ft-09-1-clinical-thermometer"
+      }
+    ]
+  },
+  {
+    "id": "apollo-firstaid-1",
+    "name": "Apollo Pharmacy First Aid Kit",
+    "kind": "health_supply",
+    "category": "First aid",
+    "composition": null,
+    "form": "First aid kit",
+    "pack": "1 kit",
+    "prescription": "unknown",
+    "aliases": [],
+    "source": {
+      "name": "Apollo Pharmacy",
+      "url": "https://www.apollopharmacy.in/otc/apollo-pharmacy-first-aid-kit",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Apollo Pharmacy",
+        "url": "https://www.apollopharmacy.in/otc/apollo-pharmacy-first-aid-kit"
+      }
+    ]
+  },
+  {
+    "id": "cetirizine-10-10",
+    "name": "Cetirizine 10mg Tablet",
+    "kind": "medicine",
+    "category": "Allergy medicines",
+    "composition": "Cetirizine 10 mg",
+    "form": "Tablet",
+    "pack": "10 tablets",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/cetirizine-10mg-tablet-543132",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 1500,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/cetirizine-10mg-tablet-543132"
+      }
+    ]
+  },
+  {
+    "id": "candid-1-30",
+    "name": "Candid Multi-Benefit Skin Cream",
+    "kind": "medicine",
+    "category": "Dermatology",
+    "composition": "Clotrimazole 1% w/w",
+    "form": "Cream",
+    "pack": "30 g tube",
+    "prescription": "not_required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/otc/candid-multi-benefit-skin-cream-for-fungal-infections-ringworm-itching-irritation-derma-care-otc402771",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/otc/candid-multi-benefit-skin-cream-for-fungal-infections-ringworm-itching-irritation-derma-care-otc402771"
+      }
+    ]
+  },
+  {
+    "id": "refresh-tears-05-10",
+    "name": "Refresh Tears Eye Drop",
+    "kind": "medicine",
+    "category": "Eye care",
+    "composition": "Carboxymethylcellulose 0.5% w/v",
+    "form": "Eye drops",
+    "pack": "10 ml bottle",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/refresh-tears-0.5-eye-drop-140934",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/refresh-tears-0.5-eye-drop-140934"
+      }
+    ]
+  },
+  {
+    "id": "thyronorm-50-120",
+    "name": "THYronorm 50mcg Tablet",
+    "kind": "medicine",
+    "category": "Thyroid medicines",
+    "composition": "Thyroxine 50 mcg",
+    "form": "Tablet",
+    "pack": "120 tablets",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/Thyronorm-Tablet-357013",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 13287,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/Thyronorm-Tablet-357013"
+      }
+    ]
+  },
+  {
+    "id": "keppra-500-14",
+    "name": "Keppra 500mg Tablet",
+    "kind": "medicine",
+    "category": "Neurology",
+    "composition": "Levetiracetam 500 mg",
+    "form": "Tablet",
+    "pack": "14 tablets",
+    "prescription": "required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/keppra-500mg-tablet-1156753",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 19527,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/keppra-500mg-tablet-1156753"
+      }
+    ]
+  },
+  {
+    "id": "betadine-gargle-2-100",
+    "name": "Betadine Germicide Gargle 2% Mint",
+    "kind": "medicine",
+    "category": "Oral care",
+    "composition": "Povidone iodine 2% w/v",
+    "form": "Gargle",
+    "pack": "100 ml bottle",
+    "prescription": "unknown",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/drugs/betadine-2-gargle-mint-328656",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/drugs/betadine-2-gargle-mint-328656"
+      }
+    ]
+  },
+  {
+    "id": "shelcal-500-15",
+    "name": "Shelcal 500 Calcium + Vitamin D3 Tablet",
+    "kind": "health_supply",
+    "category": "Calcium and vitamin D supplements",
+    "composition": "Elemental calcium 500 mg + Vitamin D3 250 IU",
+    "form": "Tablet",
+    "pack": "15 tablets",
+    "prescription": "not_required",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/otc/shelcal-500-calcium-vitamin-d3-tablet-for-bones-joints-muscles-care-supports-immunity-daily-mineral-blend-otc137210",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": null,
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/otc/shelcal-500-calcium-vitamin-d3-tablet-for-bones-joints-muscles-care-supports-immunity-daily-mineral-blend-otc137210"
+      }
+    ]
+  },
+  {
+    "id": "orofer-xt-30",
+    "name": "Orofer XT Tablet",
+    "kind": "health_supply",
+    "category": "Iron and folate supplements",
+    "composition": "Elemental iron (as ferrous ascorbate) 100 mg + Folic acid 1.5 mg",
+    "form": "Tablet",
+    "pack": "30 tablets (bottle)",
+    "prescription": "unknown",
+    "aliases": [],
+    "source": {
+      "name": "Tata 1mg",
+      "url": "https://www.1mg.com/otc/orofer-xt-tablet-with-ferrous-ascorbate-folic-acid-for-mineral-support-otc328249",
+      "checked_on": "2026-10-23"
+    },
+    "reference_price": {
+      "amount_minor": 63565,
+      "currency": "INR",
+      "kind": "MRP"
+    },
+    "sellers": [
+      {
+        "name": "Tata 1mg",
+        "url": "https://www.1mg.com/otc/orofer-xt-tablet-with-ferrous-ascorbate-folic-acid-for-mineral-support-otc328249"
+      }
+    ]
+  }
+]

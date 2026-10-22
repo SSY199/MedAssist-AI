@@ -1,6 +1,6 @@
 # MedAssist AI: delivery tracker and next-phase discussion
 
-Updated: 2026-10-22. Baseline: main `d1ca817`, after PRs #1 and #2.
+Updated: 2026-10-22. Current baseline: main `0accec1`, after SOS PR #3.
 This is the current delivery tracker. [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)
 preserves the initial source assessment and architecture details.
 
@@ -51,12 +51,12 @@ Badge import warning. Neither these checks nor a successful demo validate clinic
 The owner has a project review on 2026-10-23 and wants visible companion features:
 SOS, marketplace, and medication reminders. SOS is first. No additional language
 requirement was specified; English copy and the existing design should stay
-consistent. Marketplace versus reminders ordering is not decided yet.
+consistent. The owner selected marketplace after SOS; reminders remain queued.
 
 | ID | Feature | Current status | Scope record |
 | --- | --- | --- | --- |
 | SOS-01 | Automatic contact email and SOS assistance | Implemented and checked; integration tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) | [Detailed SOS plan](features/SOS.md) |
-| MKT-01 | Marketplace | Queued; scope not discussed | Define after SOS |
+| MKT-01 | Medicine/health marketplace | Implemented and validated; integration tracked in PR #4 | [Marketplace delivery record](features/MARKETPLACE.md) |
 | REM-01 | Medication reminders | Queued; scope not discussed | Define after SOS |
 
 No claim is made that all three features can be completed by the review. Complete
@@ -132,7 +132,7 @@ do not bundle this list into a feature branch.
 | 2026-10-22 | Automatic email after confirmed SOS activation, with active incident status and fallback actions | Approved by owner |
 | 2026-10-22 | Use existing Gmail account as SOS sender via server-only SMTP app password | Selected by owner; local TLS/login verification passed without sending |
 
-Open questions: marketplace/reminder scope and order; longer-term target users and
+Open questions: subsequent reminder scope and catalog expansion; longer-term target users and
 languages; supported topics and source approval; provider budget; privacy
 expectations; backend/orchestration choice; who reviews medical rules/evidence;
 and which tasks the collaborator owns. SOS automatic-email scope is approved.
@@ -176,4 +176,62 @@ contains the feature and its associated planning records. Final local validation
 production build, TypeScript, lint with the pre-existing Badge warning, 22 Python
 tests and six Node tests passed. Its live merge/deployment state is authoritative
 on GitHub. Backend hosting and production Gmail setup are separate from the
-frontend deployment check. Marketplace/reminders remain unstarted.
+frontend deployment check. SOS merged at `0accec1`; Vercel frontend production deployment passed. Marketplace application code and reminders remain unstarted.
+
+### Marketplace research (2026-10-22)
+
+The owner selected marketplace next, explicitly requested a research subagent,
+a detailed plan and 5–10 questions before implementation. Created
+`codex/medicine-marketplace` from freshly fetched main `0accec1`.
+[Research](research/MARKETPLACE.md) compares demo commerce, provider handoff,
+commercial pharmacy APIs, ONDC and owning fulfillment. The
+[proposed plan](features/MARKETPLACE.md) recommends an explicit demo now and a
+contracted partner later, pending ten owner decisions. No application code,
+provider account, purchase, catalog ingestion or deployment has been changed.
+
+### Marketplace scope answers (2026-10-23)
+
+Owner selected a medicine/health-supply finder with price information, saved
+favourites and redirection to sellers. No selling/cart/checkout/payment/address
+collection, lab tests or automatic profile use. No partner/API access is available.
+The initial demo-order proposal is superseded. Updated
+[feature plan](features/MARKETPLACE.md) proposes authenticated Mongo favourites,
+manual search, medicine details and verified seller links. Reference pricing versus
+live comparison, curated versus comprehensive coverage and final plan approval
+are pending. Application implementation has not started.
+
+### Marketplace implementation (2026-10-23)
+
+Owner approved reference MRP with source/date, seller price checks, curated coverage
+and implementation. Added protected catalog search/details/filtering, seller links
+and authenticated account favourites on `codex/medicine-marketplace`. Ten sourced
+products; no live price/stock feed or exhaustive database. No cart, checkout, payment,
+address, lab or automatic profile use. See [delivery details](features/MARKETPLACE.md).
+
+Checks: 32 Python tests, eight Node tests, TypeScript and production build passed.
+Lint has only the existing unused Badge warning. Local backend restarted; health
+200 and unauthenticated marketplace 401. Browser verified authenticated catalog and favourites reads, ingredient/no-match search,
+product details and Escape dismissal. Save/unsave/ownership/persistence were tested
+with synthetic accounts and mocked Mongo only. No live account write, retailer
+transaction, narrow viewport or second live-account test was performed.
+Marketplace has not been pushed or merged. Reminders remain queued for a separate
+planning discussion/branch.
+
+### Marketplace category expansion (2026-10-23)
+
+Owner requested broader categories. Added eight source-reviewed entries, bringing
+the current catalog to 18 products across 16 categories. Existing 12-item pagination
+now spans two pages; all categories remain searchable/filterable. Kept original IDs,
+favourites and implementation contracts. Source/date and pricing decisions are
+recorded in the [feature tracker](features/MARKETPLACE.md). Not pushed or merged.
+
+Browser expansion check: 18-product count, all 16 category options, second-page
+products and a Thyroid medicines filter passed. No saved account data was changed.
+
+### Marketplace integration (2026-10-23)
+
+Owner authorized merging. [PR #4](https://github.com/SSY199/MedAssist-AI/pull/4) contains the completed
+18-product marketplace and its research/scope/validation record. GitHub reported
+no conflicts with updated main. Vercel preview and required checks gate merge;
+the PR records final merge and deployment state. CodeRabbit skipped its review.
+Earlier “not pushed/merged” notes are historical pre-integration snapshots.
