@@ -14,21 +14,34 @@ interface Conversation {
 
 export function ChatSidebar() {
   const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [isCreating, setIsCreating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const params = useParams();
   const activeId = params?.conversationId as string | undefined;
 
   useEffect(() => {
-    apiFetch("/chat/conversations").then(setConversations).catch(() => {});
+    apiFetch("/chat/conversations")
+      .then(setConversations)
+      .catch(() => setError("Couldn't load conversations. Check the backend connection and refresh."));
   }, []);
 
   async function handleNew() {
-    const convo = await apiFetch("/chat/conversations", {
-      method: "POST",
-      body: JSON.stringify({}),
-    });
-    setConversations((prev) => [convo, ...prev]);
-    router.push(`/chat/${convo.id}`);
+    if (isCreating) return;
+    setIsCreating(true);
+    setError(null);
+    try {
+      const convo = await apiFetch("/chat/conversations", {
+        method: "POST",
+        body: JSON.stringify({}),
+      });
+      setConversations((prev) => [convo, ...prev]);
+      router.push(`/chat/${convo.id}`);
+    } catch {
+      setError("Couldn't create a conversation. Please try again.");
+    } finally {
+      setIsCreating(false);
+    }
   }
 
   async function handleDelete(id: string, e: React.MouseEvent) {
@@ -44,10 +57,17 @@ export function ChatSidebar() {
       <div className="p-3">
         <button
           onClick={handleNew}
-          className="flex w-full items-center gap-2 rounded-lg border border-panel-border px-3 py-2 text-sm font-medium text-ink hover:bg-white/5"
+          disabled={isCreating}
+          aria-busy={isCreating}
+          className="flex w-full items-center gap-2 rounded-lg border border-panel-border px-3 py-2 text-sm font-medium text-ink hover:bg-white/5 disabled:cursor-wait disabled:opacity-50"
         >
-          <Plus size={15} /> New conversation
+          <Plus size={15} /> {isCreating ? "Creating..." : "New conversation"}
         </button>
+        {error && (
+          <p role="alert" className="mt-3 text-xs text-alert">
+            {error}
+          </p>
+        )}
       </div>
       <div className="flex-1 overflow-y-auto px-2">
         {conversations.map((c) => (
