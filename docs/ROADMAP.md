@@ -55,7 +55,7 @@ consistent. Marketplace versus reminders ordering is not decided yet.
 
 | ID | Feature | Current status | Scope record |
 | --- | --- | --- | --- |
-| SOS-01 | Automatic contact email and SOS assistance | Email received by owner; cancellable countdown implemented locally, not merged | [Detailed SOS plan](features/SOS.md) |
+| SOS-01 | Automatic contact email and SOS assistance | Implemented and checked; integration tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) | [Detailed SOS plan](features/SOS.md) |
 | MKT-01 | Marketplace | Queued; scope not discussed | Define after SOS |
 | REM-01 | Medication reminders | Queued; scope not discussed | Define after SOS |
 
@@ -157,7 +157,8 @@ Ready means scope and acceptance cases are agreed. In review means a PR exists;
 it does not imply approval. Done means merged with relevant verification recorded.
 Planning records remain on `codex/next-phase-plan`. SOS implementation is on
 `codex/sos-assistance`, created from main `d1ca817` with its associated planning
-records carried into the feature. No planning/feature PR has been merged.
+records carried into the feature. SOS integration and deployment status are tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3);
+the separate planning branch remains preserved.
 
 ### SOS follow-up (2026-10-22)
 
@@ -167,3 +168,12 @@ implemented on the existing SOS branch with explicit one-time opt-in, saved shar
 choices, direct Navbar/urgent-chat access, bounded GPS, cancellation, consent
 revalidation and active-incident status. Automatic detection remains out of scope.
 No additional live alert was sent during agent verification.
+
+### SOS integration
+
+The owner authorized merging SOS into main. [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3)
+contains the feature and its associated planning records. Final local validation:
+production build, TypeScript, lint with the pre-existing Badge warning, 22 Python
+tests and six Node tests passed. Its live merge/deployment state is authoritative
+on GitHub. Backend hosting and production Gmail setup are separate from the
+frontend deployment check. Marketplace/reminders remain unstarted.

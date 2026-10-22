@@ -1,7 +1,8 @@
 # SOS-01: automatic contact email and emergency assistance
 
 Updated: 2026-10-22. Review: 2026-10-23.
-Status: Initial SOS implemented locally; owner confirmed email arrival. Cancellable countdown refinement is implemented and checked locally; awaiting owner demo. Not merged.
+Status: Implemented and locally checked; owner confirmed email arrival.
+Integration and deployment status: [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3).
 Branch: `codex/sos-assistance`, based on updated `origin/main` at `d1ca817`.
 The earlier planning branch remains `codex/next-phase-plan`. This branch starts
 from main and carries the planning documents as feature context; it does not
@@ -140,7 +141,7 @@ Frontend helpers check international phone links and facility directions.
 5. Show fallback controls and care directions. Do not place an emergency call
    during the demonstration or send an alarming test message to an unaware person.
 
-PR: not opened. Merge: not performed. Live Gmail authentication was verified
+Integration: [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) is the source of truth for merge and deployment status. Live Gmail authentication was verified
 without sending email; the owner subsequently confirmed the SOS email arrived.
 
 ## Verification results (2026-10-22)
@@ -241,3 +242,13 @@ Countdown and cancellation behavior are unchanged.
 
 Timing update requested by the owner: increased the countdown from 5 to 10
 seconds. Cancel and overdue-timer protections remain unchanged.
+
+## Integration verification (2026-10-22)
+
+User authorized merging SOS into main through PR #3. The feature included latest
+`origin/main` (`d1ca817`) without conflicts when submitted. Production build,
+TypeScript, lint (existing Badge warning), 22 Python tests, six Node tests and
+diff/whitespace review passed. No credentials or runtime database changes are
+included. Deployment checks must pass on the final PR head before integration.
+Follow PR #3 for merge/deployment results rather than treating this pre-merge
+verification record as a promise of production SOS backend availability.

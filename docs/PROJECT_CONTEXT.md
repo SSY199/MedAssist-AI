@@ -215,7 +215,7 @@ retries, and verified-TLS SMTP. Navbar and the existing urgent-chat link enter
 SOS; urgency classification and chat generation contracts remain unchanged.
 See [the feature record](features/SOS.md) for setup, data retention, validation
 and limitations. Historical absent-SOS observations above apply to the original
-baseline. This feature is not merged or clinically validated.
+baseline. Integration is tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3); no clinical validation is claimed.
 
 SOS follow-up: the owner confirmed email arrival and selected a cancellable
 ten-second quick activation countdown. The same feature branch now adds
