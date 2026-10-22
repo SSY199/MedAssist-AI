@@ -57,7 +57,7 @@ consistent. The owner selected marketplace after SOS; reminders remain queued.
 | --- | --- | --- | --- |
 | SOS-01 | Automatic contact email and SOS assistance | Implemented and checked; integration tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) | [Detailed SOS plan](features/SOS.md) |
 | MKT-01 | Medicine/health marketplace | Implemented and validated; integration tracked in PR #4 | [Marketplace delivery record](features/MARKETPLACE.md) |
-| REM-01 | Medication reminders | Research/planning; ten owner decisions pending | [Reminder planning draft](features/REMINDERS.md) |
+| REM-01 | Medication reminders | Nine scope choices recorded; final approval pending | [Reminder planning draft](features/REMINDERS.md) |
 
 No claim is made that all three features can be completed by the review. Complete
 and verify one compact outcome before starting the next branch. Focused tests
@@ -249,3 +249,17 @@ export, including worker/hosting limits. [Draft plan](features/REMINDERS.md) pro
 account-owned medication schedules, per-occurrence actions/history and a durable
 worker, conditional on the owner's choices. Ten questions were presented. No app
 code, DB records, environment, service subscriptions or messages changed.
+
+### Reminder scope answers (2026-10-23)
+
+Owner chose medication-only reminders with in-app + email delivery, localhost first,
+one-time/daily/weekday schedules, Taken/Skipped/Snooze/history, recent catch-up,
+optional explicit profile/marketplace name prefill, generic external content and no
+new paid services. Deadline/demo question was clarified. The revised
+[plan](features/REMINDERS.md) proposes concrete lateness/snooze/timezone defaults and
+existing Gmail sender reuse; final agreement is pending before implementation.
+No application, DB, environment or provider changes.
+
+Owner subsequently confirmed the proposed close-tab/email/reopen/mark-Taken demo.
+No specific deadline was stated. Final timing/sender/implementation agreement remains
+pending; no need to repeat the initial question set.

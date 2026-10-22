@@ -1,6 +1,6 @@
 # REM-01: medication reminders — planning draft
 
-Updated: 2026-10-23. Status: Research complete; owner decisions pending.
+Updated: 2026-10-23. Status: Nine owner choices recorded; final scope approval pending.
 Branch: `codex/medication-reminders`. Base: main `a5e2b07`, marketplace PR #4 merged.
 [Research, alternatives and primary sources](../research/REMINDERS.md).
 No application implementation is approved or started.
@@ -17,7 +17,7 @@ someone after the page closes. Email/Web Push still require a running backend
 scheduler and functioning provider/device. Localhost can demonstrate background
 email while the browser tab is closed, provided the laptop and worker stay awake.
 
-## Candidate first scope — not yet agreed
+## Initial proposal (refined by owner answers below)
 
 - Medication schedules first, using the existing visual style and protected
   `/reminders` route. Appointments/habits remain separate unless selected.
@@ -173,3 +173,65 @@ send is authorized by this planning draft.
 Ten questions cover feature types, channels, platforms, schedule patterns, dose
 logging, late reminders, input/prefill, message privacy, hosting budget and target
 outcome/deadline. Answers and final agreement will be recorded before coding.
+
+## Owner answers and revised first version (2026-10-23)
+
+The owner selected:
+
+| Decision | Selected scope |
+| --- | --- |
+| Reminder types | Medication reminders only |
+| Channels | In-app plus automatic email |
+| Initial environment | Laptop localhost; public/mobile later |
+| Recurrence | One-time, daily times, selected weekdays |
+| Actions | Taken, Skipped, Snooze and history |
+| Downtime | One recent catch-up; older entries in history |
+| Creation | Manual entry, optional explicit profile/marketplace name prefill |
+| External content | Generic notification; medication details only after sign-in |
+| Budget | Local first; no new paid services |
+| Deadline/demo outcome | Owner confirmed create → close tab → email → reopen → Taken demo; no specific completion date stated |
+
+These selections supersede alternatives above. Web Push/browser OS notifications,
+SMS/WhatsApp, appointments/habits, caregiver escalation, public hosting, complex
+intervals and AI-generated treatment/doses are excluded from this first version.
+
+Concrete defaults proposed for final owner approval:
+
+- Show a confirmed timezone on each schedule (suggest the device's IANA timezone
+  initially); preserve that timezone when travelling unless explicitly edited.
+- A 30-minute late-delivery window. After downtime, send at most the latest eligible
+  catch-up per medication schedule; older occurrences remain overdue/unconfirmed
+  in history. Do not replay every old alert or imply missed doses should be taken.
+- Snooze once for 10 minutes on an unresolved occurrence, without changing future
+  scheduled times. Block a snooze overlapping that schedule's next occurrence and
+  explain it. A snooze may produce one further generic notification.
+- For DST: skip nonexistent wall-clock times with visible unconfirmed/skipped-time
+  explanation; use the first instant for an ambiguous repeated time, once only.
+  One-time nonexistent times are rejected with an explicit validation message.
+- Taken/Skipped are self-reports, stored with timestamps. Corrections are explicit
+  user actions; notification acceptance never changes a dose to Taken.
+- History UI initially shows the last 30 days. Do not silently purge records. Pause
+  or stop preserves past history; permanent history deletion, if included, requires
+  an explicit user action/confirmation. Retention automation is not part of this plan.
+- Separate worker checks due work in bounded batches on a short polling interval,
+  with durable Mongo state, atomic claims and bounded recovery. This targets prompt
+  prototype delivery while awake/connected, not an exact-time medical alarm.
+- Propose the existing configured Gmail account as sender, with reminder sending
+  separately enabled/disabled. Recipient is only the signed-in user's server-verified
+  account email. Require explicit email opt-in and show a recipient/content preview.
+  Do not reuse SOS consent, recipients or activation functions. Keep sending bounded
+  so reminder load does not overwhelm the shared Gmail account.
+- Generic subject/body such as “MedAssist reminder” and “You have a scheduled
+  reminder. Sign in to MedAssist to view it.” No medicine, dose, condition or user
+  identifier in the external message/link. Never claim SMTP accepted means delivered.
+
+Proposed demonstration: enter a synthetic medication and near-future time, enable
+email, close the website tab while laptop/worker stay awake, receive a generic
+email, reopen/sign in, mark Taken, then show persisted history and pause controls.
+Test messages require the owner's selected test account/recipient; the planning
+choices alone do not authorize sending health information to anyone.
+
+The owner confirmed the proposed demonstration after question ten was clarified.
+No completion date was specified; it does not block scope agreement. A final
+confirmation covers the revised timing defaults, Gmail reuse and implementation
+before application code is written.
