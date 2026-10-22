@@ -13,7 +13,8 @@ Inherits the root AGENTS.md. Read this before modifying backend code.
   Defaults: `BETTER_AUTH_URL=http://localhost:3000`,
   `MONGODB_DB_NAME=medassistai`, `CHROMA_DB_PATH=./chroma_data`.
   Match the frontend database explicitly; its example uses a different name.
-- `backend/.env.example` is currently empty. Do not mistake it for a complete setup.
+- Check `backend/.env.example` against settings: it includes frontend-only fields
+  that FastAPI does not consume. Never copy real credentials into the template.
 - Importing main.py loads settings, DB/SDK clients, and the Chroma collection.
   Even `/health` therefore requires application initialization. Use AST parsing
   for a service-free syntax check; it does not prove imports or runtime behavior.

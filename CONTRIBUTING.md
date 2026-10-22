@@ -33,9 +33,9 @@ Backend: from `backend/`, use `uv venv --python 3.13`, then
 Python dependencies are currently unpinned; no reproducible lock is provided.
 
 Create local environment files without overwriting existing ones. The root
-`.env.example` omits `NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN`; the backend example is
-empty. Refer to backend settings and README variable descriptions when configuring
-them. The root example uses `medassist_db`, while the Python default is
+`.env.example` omits `NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN`; the backend example also
+contains frontend-only fields. Refer to backend settings and README variable
+descriptions when configuring them. The root example uses `medassist_db`, while the Python default is
 `medassistai`: set `MONGODB_DB_NAME` identically in both services. Use your own
 credentials; never copy real keys into documentation or chat.
 
