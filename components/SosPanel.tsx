@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useSosIncidentVersion } from "@/components/SosQuickProvider";
+import { SosQuickSettings } from "@/components/SosQuickSettings";
 import { useEffect, useRef, useState } from "react";
 import {
   Copy,
@@ -39,6 +41,7 @@ const linkClass =
   "inline-flex items-center justify-center gap-2 rounded-lg border border-panel-border px-4 py-3 text-sm font-semibold hover:bg-white/5";
 
 export function SosPanel({ profile }: { profile: PatientProfileInput | null }) {
+  const incidentVersion = useSosIncidentVersion();
   const [incident, setIncident] = useState<SosIncident | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -72,6 +75,11 @@ export function SosPanel({ profile }: { profile: PatientProfileInput | null }) {
       .then((data) => {
         if (!cancelled) {
           setIncident(data.incident);
+          const savedLocation = data.incident?.location;
+          if (savedLocation && !data.incident.endedAt &&
+              Date.now() - Date.parse(savedLocation.capturedAt) < 600_000) {
+            setLocation(savedLocation);
+          }
           setLoaded(true);
         }
       })
@@ -84,7 +92,7 @@ export function SosPanel({ profile }: { profile: PatientProfileInput | null }) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [incidentVersion]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -376,7 +384,7 @@ export function SosPanel({ profile }: { profile: PatientProfileInput | null }) {
               )}
               <p className="text-xs text-ink-muted">
                 Selected health fields:{" "}
-                {incident.sharedFields.join(", ") || "none"}. The original
+                {incident.sharedFields.map((key) => HEALTH_FIELDS.find(([field]) => field === key)?.[1]).join(", ") || "none"}. The original
                 health message is not stored with the incident.
               </p>
               <div className="flex flex-wrap gap-3">
@@ -405,6 +413,8 @@ export function SosPanel({ profile }: { profile: PatientProfileInput | null }) {
             </CardContent>
           </Card>
         )}
+
+        <SosQuickSettings />
 
         <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
           <div className="space-y-6">

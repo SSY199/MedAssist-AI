@@ -47,12 +47,100 @@ class Activation(PreviewInput):
     confirmed: Literal[True]
 
 
+class QuickPreferences(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    enabled: bool = False
+    shareLocation: bool = True
+    fields: list[Literal["age", "chronicIllnesses", "allergies", "currentMedications"]] = Field(
+        default_factory=lambda: list(FIELDS), max_length=4
+    )
+
+
+class QuickLocation(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    location: Location | None = None
+
+
+class QuickActivation(QuickLocation):
+    consentHash: str = Field(pattern=r"^[a-f0-9]{64}$")
+    requestId: UUID
+    previewHash: str = Field(pattern=r"^[a-f0-9]{64}$")
+    confirmed: Literal[True]
+
+
+async def preference_data(user):
+    profile = await db["patientProfiles"].find_one({"userId": user["sub"]}) or {}
+    recipient = str(profile.get("emergencyContactEmail", "")).strip()
+    stored = profile.get("sosPreferences") or {}
+    preferences = QuickPreferences.model_validate({key: stored[key] for key in ("enabled", "shareLocation", "fields") if key in stored})
+    # A changed recipient requires a fresh explicit setup acknowledgement.
+    preferences.enabled = bool(preferences.enabled and recipient == stored.get("recipientAtSetup") and EMAIL.fullmatch(recipient))
+    return {**preferences.model_dump(), "recipient": recipient,
+            "contactName": str(profile.get("emergencyContactName", ""))[:100],
+            "senderReady": email_ready()}
+
+
+@router.get("/preferences")
+async def preferences(user: dict = Depends(get_current_user)):
+    return await preference_data(user)
+
+
+@router.post("/preferences")
+async def save_preferences(data: QuickPreferences, user: dict = Depends(get_current_user)):
+    profile = await db["patientProfiles"].find_one({"userId": user["sub"]})
+    recipient = str((profile or {}).get("emergencyContactEmail", "")).strip()
+    if not profile or (data.enabled and (len(recipient) > 254 or not EMAIL.fullmatch(recipient))):
+        raise HTTPException(400, "Save a valid emergency contact email in your profile first.")
+    await db["patientProfiles"].update_one(
+        {"userId": user["sub"]},
+        {"$set": {"sosPreferences": {**data.model_dump(), "recipientAtSetup": recipient}}},
+    )
+    return await preference_data(user)
+
+
+async def quick_sharing(data: QuickLocation, user):
+    prefs = await preference_data(user)
+    if not prefs["enabled"]:
+        raise HTTPException(409, "Complete or review countdown SOS setup before activation.")
+    if not prefs["senderReady"]:
+        raise HTTPException(503, "The SOS email sender is not configured.")
+    return PreviewInput(location=data.location if prefs["shareLocation"] else None, fields=prefs["fields"])
+
+
+@router.post("/quick/preview")
+async def quick_preview(data: QuickLocation, user: dict = Depends(get_current_user)):
+    sharing = await quick_sharing(data, user)
+    details = await preview_data(sharing, user)
+    baseline = await preview_data(PreviewInput(fields=sharing.fields), user)
+    prefs = await preference_data(user)
+    # Independent of the captured coordinates, but binds contact, health values,
+    # selected fields and location permission to the setup seen at countdown start.
+    details["consentHash"] = hashlib.sha256(
+        (baseline["previewHash"] + str(prefs["shareLocation"])).encode()
+    ).hexdigest()
+    return details
+
+
+@router.post("/quick/activate")
+async def quick_activate(data: QuickActivation, user: dict = Depends(get_current_user)):
+    details = await quick_preview(data, user)
+    if details["consentHash"] != data.consentHash:
+        raise HTTPException(409, "Contact, health or sharing choices changed. Start again.")
+    sharing = await quick_sharing(data, user)
+    return await activate(Activation(**sharing.model_dump(), requestId=data.requestId,
+                                     previewHash=data.previewHash, confirmed=data.confirmed), user)
+
+
 def now():
     return datetime.now(timezone.utc)
 
 
 def stamp(value):
-    return value.isoformat() if isinstance(value, datetime) else value
+    if isinstance(value, datetime):
+        # Motor returns UTC datetimes without tzinfo by default. Mark them UTC
+        # so the browser does not interpret them as local wall-clock time.
+        return (value if value.tzinfo else value.replace(tzinfo=timezone.utc)).isoformat()
+    return value
 
 
 def public(doc):

@@ -30,6 +30,7 @@ export interface SosPreview {
   contactName: string;
   message: string;
   previewHash: string;
+  consentHash?: string;
   emailReady: boolean;
 }
 export const EMAIL_STATUS = {
@@ -44,4 +45,13 @@ export function contactPhone(value: string) {
 }
 export function directionsUrl(lat: number, lng: number) {
   return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${lat},${lng}`)}`;
+}
+
+export interface SosQuickPreferences {
+  enabled: boolean;
+  shareLocation: boolean;
+  fields: HealthField[];
+  recipient: string;
+  contactName: string;
+  senderReady: boolean;
 }

@@ -55,7 +55,7 @@ consistent. Marketplace versus reminders ordering is not decided yet.
 
 | ID | Feature | Current status | Scope record |
 | --- | --- | --- | --- |
-| SOS-01 | Automatic contact email and SOS assistance | Implemented and checked locally; awaiting owner demo, not merged | [Detailed SOS plan](features/SOS.md) |
+| SOS-01 | Automatic contact email and SOS assistance | Email received by owner; cancellable countdown implemented locally, not merged | [Detailed SOS plan](features/SOS.md) |
 | MKT-01 | Marketplace | Queued; scope not discussed | Define after SOS |
 | REM-01 | Medication reminders | Queued; scope not discussed | Define after SOS |
 
@@ -158,3 +158,12 @@ it does not imply approval. Done means merged with relevant verification recorde
 Planning records remain on `codex/next-phase-plan`. SOS implementation is on
 `codex/sos-assistance`, created from main `d1ca817` with its associated planning
 records carried into the feature. No planning/feature PR has been merged.
+
+### SOS follow-up (2026-10-22)
+
+Owner confirmed email arrival and requested a shorter activation flow, selecting
+a cancellable countdown over another confirmation button. Five-second countdown
+implemented on the existing SOS branch with explicit one-time opt-in, saved sharing
+choices, direct Navbar/urgent-chat access, bounded GPS, cancellation, consent
+revalidation and active-incident status. Automatic detection remains out of scope.
+No additional live alert was sent during agent verification.

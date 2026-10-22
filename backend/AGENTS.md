@@ -58,3 +58,7 @@ Report any changed health prompts, knowledge sources, or escalation behavior.
   outcomes non-retryable and retain cooldown/attempt limits for explicit retries.
 - Run `PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s tests -v`
   from backend for the synthetic SOS suite; SMTP and Mongo are mocked.
+
+- Countdown SOS is opt-in through `/sos/preferences`. Quick routes enforce saved
+  field/location choices and revalidate consent against the countdown start.
+  Changed recipients require setup again. Preserve these checks when editing SOS.

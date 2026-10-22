@@ -147,6 +147,82 @@ class SosRoutes(unittest.TestCase):
                 self.assertEqual(self.sender.call_count, 2)
         asyncio.run(exercise())
 
+    def test_mongo_naive_timestamps_are_serialized_as_utc(self):
+        self.assertTrue(sos.stamp(sos.now().replace(tzinfo=None)).endswith("+00:00"))
+
+    def enable_quick(self, **overrides):
+        response = self.client.post("/sos/preferences", json={"enabled": True, "shareLocation": True, "fields": ["age"], **overrides})
+        self.assertEqual(response.status_code, 200)
+        return response.json()
+
+    def quick_body(self, location=None):
+        preview = self.client.post("/sos/quick/preview", json={"location": location})
+        self.assertEqual(preview.status_code, 200)
+        data = preview.json()
+        return {"location": location, "requestId": str(uuid4()), "previewHash": data["previewHash"], "consentHash": data["consentHash"], "confirmed": True}
+
+    def test_quick_requires_explicit_setup_and_saves_only_own_choices(self):
+        self.assertFalse(self.client.get("/sos/preferences").json()["enabled"])
+        self.assertEqual(self.client.post("/sos/quick/preview", json={}).status_code, 409)
+        self.enable_quick(fields=["allergies"], shareLocation=False)
+        settings = self.client.get("/sos/preferences").json()
+        self.assertTrue(settings["enabled"])
+        self.assertEqual(settings["fields"], ["allergies"])
+        self.assertFalse(settings["shareLocation"])
+        self.user = {"sub": "synthetic-b"}
+        self.assertFalse(self.client.get("/sos/preferences").json()["enabled"])
+        self.sender.assert_not_called()
+
+    def test_quick_recipient_change_disables_countdown(self):
+        self.enable_quick()
+        self.profiles.docs[0]["emergencyContactEmail"] = "changed@example.com"
+        self.assertFalse(self.client.get("/sos/preferences").json()["enabled"])
+        self.assertEqual(self.client.post("/sos/quick/preview", json={}).status_code, 409)
+        self.sender.assert_not_called()
+
+    def test_quick_saved_fields_and_location_permission_are_enforced(self):
+        self.enable_quick(shareLocation=False)
+        location = {"lat": 19.0, "lng": 72.0, "accuracy": 10, "capturedAt": sos.now().isoformat()}
+        result = self.client.post("/sos/quick/activate", json=self.quick_body(location))
+        self.assertEqual(result.status_code, 200)
+        body = self.sender.call_args.args[1]
+        self.assertIn("Age: 30", body)
+        self.assertNotIn("Demo allergy", body)
+        self.assertNotIn("19.0", body)
+        self.assertIsNone(result.json()["incident"]["location"])
+
+    def test_quick_profile_or_preferences_change_cannot_silently_send(self):
+        for changed in ("health", "fields", "location", "disabled"):
+            self.enable_quick()
+            data = self.quick_body()
+            if changed == "health": self.profiles.docs[0]["age"] += 1
+            if changed == "fields": self.enable_quick(fields=["allergies"])
+            if changed == "location": self.enable_quick(shareLocation=False)
+            if changed == "disabled": self.enable_quick(enabled=False)
+            self.assertEqual(self.client.post("/sos/quick/activate", json=data).status_code, 409)
+        self.sender.assert_not_called()
+
+    def test_quick_consent_hash_stable_when_gps_arrives_and_duplicates_safe(self):
+        self.enable_quick()
+        before = self.quick_body()
+        location = {"lat": 19.0, "lng": 72.0, "accuracy": 10, "capturedAt": sos.now().isoformat()}
+        after = self.quick_body(location)
+        self.assertEqual(before["consentHash"], after["consentHash"])
+        self.assertNotEqual(before["previewHash"], after["previewHash"])
+        self.assertEqual(self.client.post("/sos/quick/activate", json=after).status_code, 200)
+        self.assertEqual(self.client.post("/sos/quick/activate", json=after).status_code, 200)
+        self.sender.assert_called_once()
+
+    def test_quick_missing_sender_invalid_contact_and_fields(self):
+        self.assertEqual(self.client.post("/sos/preferences", json={"fields": ["pastMedicalIncidents"]}).status_code, 422)
+        self.profiles.docs[0]["emergencyContactEmail"] = ""
+        self.assertEqual(self.client.post("/sos/preferences", json={"enabled": True}).status_code, 400)
+        self.profiles.docs[0]["emergencyContactEmail"] = "relative@example.com"
+        self.enable_quick()
+        with patch.object(sos, "email_ready", return_value=False):
+            self.assertEqual(self.client.post("/sos/quick/preview", json={}).status_code, 503)
+        self.sender.assert_not_called()
+
     def test_auth_and_confirmation_required(self):
         data = self.body(); data["confirmed"] = False
         self.assertEqual(self.client.post("/sos/activate", json=data).status_code, 422)

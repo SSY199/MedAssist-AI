@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
+import { useSosQuick } from "@/components/SosQuickProvider";
 import { Send, TriangleAlert, Bot } from "lucide-react";
 import { apiFetch, apiFetchStream } from "@/lib/api-client";
 
@@ -14,6 +14,7 @@ interface Message {
 }
 
 export function ChatWindow({ conversationId }: { conversationId: string }) {
+  const triggerSos = useSosQuick();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
@@ -162,12 +163,13 @@ export function ChatWindow({ conversationId }: { conversationId: string }) {
                   Chat is paused — please get care now rather than continuing
                   to type here.
                 </p>
-                <Link
-                  href="/sos"
+                <button
+                  type="button"
+                  onClick={triggerSos}
                   className="inline-flex items-center gap-1.5 rounded-lg bg-alert px-4 py-2 text-xs font-bold text-[#3a0a0a]"
                 >
-                  Open SOS assistance
-                </Link>
+                  Start SOS · 5-second countdown
+                </button>
               </div>
             </div>
           )}
