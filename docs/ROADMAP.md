@@ -216,3 +216,14 @@ with synthetic accounts and mocked Mongo only. No live account write, retailer
 transaction, narrow viewport or second live-account test was performed.
 Marketplace has not been pushed or merged. Reminders remain queued for a separate
 planning discussion/branch.
+
+### Marketplace category expansion (2026-10-23)
+
+Owner requested broader categories. Added eight source-reviewed entries, bringing
+the current catalog to 18 products across 16 categories. Existing 12-item pagination
+now spans two pages; all categories remain searchable/filterable. Kept original IDs,
+favourites and implementation contracts. Source/date and pricing decisions are
+recorded in the [feature tracker](features/MARKETPLACE.md). Not pushed or merged.
+
+Browser expansion check: 18-product count, all 16 category options, second-page
+products and a Thyroid medicines filter passed. No saved account data was changed.

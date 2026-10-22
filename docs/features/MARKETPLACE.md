@@ -213,3 +213,35 @@ Coverage expansion requires reviewing a new row, exact strength/form/pack, expli
 prescription evidence, source/date and link. Only add a reference MRP if explicitly
 labelled for that exact product/pack. Do not infer an OTC status from absence of an
 Rx label. Price/feed integration and broader catalog licensing are future scopes.
+
+## Category expansion requested by owner (2026-10-23)
+
+Owner requested more medicine categories rather than more brands in the existing
+categories. Added eight sourced entries: allergy, dermatology, eye care, thyroid,
+neurology, oral care, calcium/vitamin D and iron/folate supplements. Current catalog:
+18 products across 16 categories (12 medicines, six supplies/supplements). The
+existing 12-item pagination displays two pages; filters search the complete catalog.
+Original product IDs/favourites remain unchanged. All additions stay on the same
+unmerged marketplace feature branch.
+
+Source review: exact Tata 1mg product URLs and 2026-10-23 check date are stored per
+row. Thyronorm uses the 120-tablet page, Keppra the 14-tablet page, Candid the 30 g
+variant (not the discontinued 50 g pack), and Orofer a bottle of 30 tablets. Only
+factual product identity/composition/pack/explicit Rx status and reference MRP were
+transcribed. Candid and Shelcal are explicitly described as OTC by their source;
+Betadine/Orofer status stays unknown. Cetirizine's source showed sold out during
+review; catalog membership never implies retailer availability.
+
+Four new MRPs are explicit on reviewed pages: Cetirizine, Thyronorm, Keppra and
+Orofer. Remaining new prices stay null because the reviewed primary page did not
+unambiguously identify an MRP, even where older search snippets did. No live
+price/stock claims, clinical recommendations or changes to app logic.
+
+Expansion validation: all 32 synthetic backend tests passed with the expanded
+catalog, including product response/provenance, filters, pagination and favourites
+isolation. Only catalog JSON and delivery/context documentation changed; frontend
+code and dependencies did not change, so the previous frontend checks were not
+repeated. Local backend restarted and health returned 200.
+
+Browser expansion check: 18-product count, all 16 category options, second-page
+products and a Thyroid medicines filter passed. No saved account data was changed.

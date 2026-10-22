@@ -231,7 +231,7 @@ scope is now implemented locally on `codex/medicine-marketplace`: protected
 `/marketplace`, manually searched curated medicine/supply metadata, reference MRP
 provenance, seller product links, account-saved favourites. FastAPI registers
 `marketplace.py`; `marketplaceFavorites` is a separate JWT-owned Mongo collection.
-Ten reviewed source records live in `backend/app/data/marketplace.json`; missing
+Eighteen reviewed source records now live in `backend/app/data/marketplace.json`; missing
 prices/status remain explicit. No live feed, clinical advice, checkout, prescription
 verification or profile-based recommendations. See [feature record](features/MARKETPLACE.md)
 for contracts, checks and limits. Existing auth/profile/chat/map/SOS contracts remain
