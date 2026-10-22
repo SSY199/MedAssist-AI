@@ -1,6 +1,6 @@
 # MedAssist AI: delivery tracker and next-phase discussion
 
-Updated: 2026-10-22. Baseline: main `d1ca817`, after PRs #1 and #2.
+Updated: 2026-10-22. Current baseline: main `0accec1`, after SOS PR #3.
 This is the current delivery tracker. [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)
 preserves the initial source assessment and architecture details.
 
@@ -51,12 +51,12 @@ Badge import warning. Neither these checks nor a successful demo validate clinic
 The owner has a project review on 2026-10-23 and wants visible companion features:
 SOS, marketplace, and medication reminders. SOS is first. No additional language
 requirement was specified; English copy and the existing design should stay
-consistent. Marketplace versus reminders ordering is not decided yet.
+consistent. The owner selected marketplace after SOS; reminders remain queued.
 
 | ID | Feature | Current status | Scope record |
 | --- | --- | --- | --- |
 | SOS-01 | Automatic contact email and SOS assistance | Implemented and checked; integration tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) | [Detailed SOS plan](features/SOS.md) |
-| MKT-01 | Marketplace | Queued; scope not discussed | Define after SOS |
+| MKT-01 | Medicine/health marketplace | Research complete; plan and owner decisions pending | [Proposed marketplace plan](features/MARKETPLACE.md) |
 | REM-01 | Medication reminders | Queued; scope not discussed | Define after SOS |
 
 No claim is made that all three features can be completed by the review. Complete
@@ -132,7 +132,7 @@ do not bundle this list into a feature branch.
 | 2026-10-22 | Automatic email after confirmed SOS activation, with active incident status and fallback actions | Approved by owner |
 | 2026-10-22 | Use existing Gmail account as SOS sender via server-only SMTP app password | Selected by owner; local TLS/login verification passed without sending |
 
-Open questions: marketplace/reminder scope and order; longer-term target users and
+Open questions: marketplace scope and subsequent reminder scope; longer-term target users and
 languages; supported topics and source approval; provider budget; privacy
 expectations; backend/orchestration choice; who reviews medical rules/evidence;
 and which tasks the collaborator owns. SOS automatic-email scope is approved.
@@ -176,4 +176,15 @@ contains the feature and its associated planning records. Final local validation
 production build, TypeScript, lint with the pre-existing Badge warning, 22 Python
 tests and six Node tests passed. Its live merge/deployment state is authoritative
 on GitHub. Backend hosting and production Gmail setup are separate from the
-frontend deployment check. Marketplace/reminders remain unstarted.
+frontend deployment check. SOS merged at `0accec1`; Vercel frontend production deployment passed. Marketplace application code and reminders remain unstarted.
+
+### Marketplace research (2026-10-22)
+
+The owner selected marketplace next, explicitly requested a research subagent,
+a detailed plan and 5–10 questions before implementation. Created
+`codex/medicine-marketplace` from freshly fetched main `0accec1`.
+[Research](research/MARKETPLACE.md) compares demo commerce, provider handoff,
+commercial pharmacy APIs, ONDC and owning fulfillment. The
+[proposed plan](features/MARKETPLACE.md) recommends an explicit demo now and a
+contracted partner later, pending ten owner decisions. No application code,
+provider account, purchase, catalog ingestion or deployment has been changed.
