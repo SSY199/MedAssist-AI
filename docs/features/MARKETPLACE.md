@@ -1,7 +1,7 @@
 # MKT-01: medicine discovery, favourites and seller handoff
 
-Updated: 2026-10-23. Status: Approved scope implemented locally; verification recorded below.
-Not pushed or merged.
+Updated: 2026-10-23. Status: Approved scope implemented and validated.
+Integration is tracked in [PR #4](https://github.com/SSY199/MedAssist-AI/pull/4); GitHub is authoritative for merge/check status.
 Branch: `codex/medicine-marketplace`. Base: main `0accec1`, after SOS PR #3.
 Evidence: [marketplace integration research](../research/MARKETPLACE.md).
 
@@ -245,3 +245,13 @@ repeated. Local backend restarted and health returned 200.
 
 Browser expansion check: 18-product count, all 16 category options, second-page
 products and a Thyroid medicines filter passed. No saved account data was changed.
+
+## Integration (2026-10-23)
+
+Owner authorized committing and merging the finished feature. Branch was clean,
+pushed and submitted as [PR #4](https://github.com/SSY199/MedAssist-AI/pull/4) against main `0accec1`.
+GitHub initially reported no merge conflicts. The local build, TypeScript, lint
+(one existing warning), 32 Python tests and eight Node tests are recorded above.
+CodeRabbit skipped automated review, so its successful status is not review evidence.
+Merge waits for the current Vercel preview result and any other required checks.
+Use the linked PR for final merge/deployment status.

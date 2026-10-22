@@ -56,7 +56,7 @@ consistent. The owner selected marketplace after SOS; reminders remain queued.
 | ID | Feature | Current status | Scope record |
 | --- | --- | --- | --- |
 | SOS-01 | Automatic contact email and SOS assistance | Implemented and checked; integration tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) | [Detailed SOS plan](features/SOS.md) |
-| MKT-01 | Medicine/health marketplace | Approved scope implemented locally; checks passed; review pending | [Marketplace delivery record](features/MARKETPLACE.md) |
+| MKT-01 | Medicine/health marketplace | Implemented and validated; integration tracked in PR #4 | [Marketplace delivery record](features/MARKETPLACE.md) |
 | REM-01 | Medication reminders | Queued; scope not discussed | Define after SOS |
 
 No claim is made that all three features can be completed by the review. Complete
@@ -227,3 +227,11 @@ recorded in the [feature tracker](features/MARKETPLACE.md). Not pushed or merged
 
 Browser expansion check: 18-product count, all 16 category options, second-page
 products and a Thyroid medicines filter passed. No saved account data was changed.
+
+### Marketplace integration (2026-10-23)
+
+Owner authorized merging. [PR #4](https://github.com/SSY199/MedAssist-AI/pull/4) contains the completed
+18-product marketplace and its research/scope/validation record. GitHub reported
+no conflicts with updated main. Vercel preview and required checks gate merge;
+the PR records final merge and deployment state. CodeRabbit skipped its review.
+Earlier “not pushed/merged” notes are historical pre-integration snapshots.
