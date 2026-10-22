@@ -43,7 +43,7 @@ export function SosQuickSettings() {
       setSettings(data);
       setNotice(
         data.enabled
-          ? "Countdown SOS enabled. Tapping SOS starts a 5-second countdown; cancel before it ends to stop the email."
+          ? "Countdown SOS enabled. Tapping SOS starts a 10-second countdown; cancel before it ends to stop the email."
           : "Countdown SOS disabled. Manual activation below remains available.",
       );
     } catch {
@@ -65,7 +65,7 @@ export function SosQuickSettings() {
       <CardContent className="space-y-4">
         <p className="text-sm text-ink-muted">
           Save your sharing choices now. Afterwards, tapping SOS from the navbar
-          or urgent chat starts a cancellable five-second countdown and emails
+          or urgent chat starts a cancellable ten-second countdown and emails
           your contact automatically when it ends.
         </p>
         {settings && (
@@ -137,7 +137,7 @@ export function SosQuickSettings() {
               <span>
                 Enable countdown SOS. I agree that tapping SOS will
                 automatically email the contact shown above with these selected
-                health fields and available location after five seconds, unless
+                health fields and available location after ten seconds, unless
                 I cancel.
               </span>
             </label>

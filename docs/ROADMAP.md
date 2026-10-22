@@ -162,7 +162,7 @@ records carried into the feature. No planning/feature PR has been merged.
 ### SOS follow-up (2026-10-22)
 
 Owner confirmed email arrival and requested a shorter activation flow, selecting
-a cancellable countdown over another confirmation button. Five-second countdown
+a cancellable countdown over another confirmation button. Ten-second countdown
 implemented on the existing SOS branch with explicit one-time opt-in, saved sharing
 choices, direct Navbar/urgent-chat access, bounded GPS, cancellation, consent
 revalidation and active-incident status. Automatic detection remains out of scope.

@@ -173,13 +173,13 @@ authorize enabling the setting on their behalf or sending another live test.
 ### Final behavior
 
 - One-time setup at `/sos#quick-setup` saves selected health fields, location sharing
-  and an explicit acknowledgement that tapping SOS sends automatically after five
+  and an explicit acknowledgement that tapping SOS sends automatically after ten
   seconds unless cancelled. Existing profiles default to countdown disabled.
 - Navbar and urgent-chat buttons open the same compact centered dialog. No automatic
   activation occurs merely because a chat urgency score changes.
 - First check existing incidents and configuration. An active incident opens its
   status without sending again. Missing setup opens guidance without a countdown.
-- Once ready, show five seconds, recipient, readable field labels, message preview,
+- Once ready, show ten seconds, recipient, readable field labels, message preview,
   location state and a prominent Cancel button focused for keyboard use. Request
   GPS only if the saved preference allows it. Deadline capture uses a snapshot;
   denied/unsupported/slow GPS proceeds without it. Continue without location can
@@ -228,7 +228,7 @@ new provider, dependency, clinical classifier or wearable integration is added.
   refinement remain owner-run checks with an agreed test inbox. The previous
   manual SOS email was confirmed received by the owner.
 - Authentication, an open browser and network access remain necessary. This does
-  not detect unconsciousness or dispatch an ambulance. Five seconds is the
+  not detect unconsciousness or dispatch an ambulance. Ten seconds is the
   initial implementation choice, not a clinically validated timing threshold.
 
 Demo: open `/sos#quick-setup`, review recipient and sharing choices, explicitly
@@ -238,3 +238,6 @@ cancellation first. A later uncancelled activation will send a real email.
 Presentation refinement: at the owner's request, the SOS dialog is centered
 horizontally and vertically, with viewport margins and scrolling on small screens.
 Countdown and cancellation behavior are unchanged.
+
+Timing update requested by the owner: increased the countdown from 5 to 10
+seconds. Cancel and overdue-timer protections remain unchanged.

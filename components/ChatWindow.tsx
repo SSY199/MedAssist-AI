@@ -168,7 +168,7 @@ export function ChatWindow({ conversationId }: { conversationId: string }) {
                   onClick={triggerSos}
                   className="inline-flex items-center gap-1.5 rounded-lg bg-alert px-4 py-2 text-xs font-bold text-[#3a0a0a]"
                 >
-                  Start SOS · 5-second countdown
+                  Start SOS · 10-second countdown
                 </button>
               </div>
             </div>

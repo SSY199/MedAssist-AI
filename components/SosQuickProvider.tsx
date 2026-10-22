@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { apiFetch } from "@/lib/api-client";
-import { startSosCountdown } from "@/lib/sos-countdown";
+import { SOS_COUNTDOWN_SECONDS, startSosCountdown } from "@/lib/sos-countdown";
 import {
   HEALTH_FIELDS,
   type SosLocation,
@@ -43,7 +43,7 @@ export function SosQuickProvider({ children }: { children: React.ReactNode }) {
   const [phase, setPhase] = useState<
     "loading" | "countdown" | "sending" | "error"
   >("loading");
-  const [seconds, setSeconds] = useState(5);
+  const [seconds, setSeconds] = useState(SOS_COUNTDOWN_SECONDS);
   const [error, setError] = useState("");
   const [prefs, setPrefs] = useState<SosQuickPreferences | null>(null);
   const [preview, setPreview] = useState<SosPreview | null>(null);

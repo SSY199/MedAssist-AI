@@ -52,22 +52,24 @@ function countdownHarness() {
     },
   };
 }
-test("countdown expires exactly once after five seconds", () => {
+test("countdown expires exactly once after ten seconds", () => {
   const h = countdownHarness();
   h.at(1000);
-  h.at(4999);
-  assert.equal(h.result.sent, 0);
   h.at(5000);
-  h.at(6000);
+  assert.equal(h.result.sent, 0);
+  h.at(9999);
+  assert.equal(h.result.sent, 0);
+  h.at(10000);
+  h.at(11000);
   assert.equal(h.result.sent, 1);
   assert.equal(h.result.missed, 0);
-  assert.deepEqual(h.result.ticks, [5, 4, 1, 0]);
+  assert.deepEqual(h.result.ticks, [10, 9, 5, 1, 0]);
 });
 test("cancelling just before expiry disarms later callbacks", () => {
   const h = countdownHarness();
-  h.at(4999);
+  h.at(9999);
   h.cancel();
-  h.at(5000);
+  h.at(10000);
   h.at(10000);
   assert.equal(h.result.sent, 0);
   assert.equal(h.result.missed, 0);
@@ -82,8 +84,8 @@ test("cancelled runs cannot interfere with a fresh countdown", () => {
   const old = countdownHarness();
   old.cancel();
   const next = countdownHarness();
-  old.at(5000);
-  next.at(5000);
+  old.at(10000);
+  next.at(10000);
   assert.equal(old.result.sent, 0);
   assert.equal(next.result.sent, 1);
 });

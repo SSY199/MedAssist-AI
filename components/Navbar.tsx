@@ -72,7 +72,7 @@ export function Navbar({ userEmail }: { userEmail: string }) {
           <button
             type="button"
             onClick={triggerSos}
-            title="SOS: start a cancellable 5-second email countdown"
+            title="SOS: start a cancellable 10-second email countdown"
             className="flex items-center gap-1.5 rounded-lg border border-alert/40 bg-alert-dim px-3 py-2 text-xs font-bold text-alert transition-colors hover:bg-alert/20"
           >
             <TriangleAlert size={14} />

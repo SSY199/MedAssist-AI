@@ -1,3 +1,5 @@
+export const SOS_COUNTDOWN_SECONDS = 10;
+
 /** A cancellable timer; overdue/background callbacks never trigger a late alert. */
 export function startSosCountdown({
   onTick,
@@ -14,9 +16,9 @@ export function startSosCountdown({
   schedule?: (fn: () => void) => ReturnType<typeof setInterval>;
   unschedule?: (id: ReturnType<typeof setInterval>) => void;
 }) {
-  const deadline = now() + 5000;
+  const deadline = now() + SOS_COUNTDOWN_SECONDS * 1000;
   let armed = true;
-  onTick(5);
+  onTick(SOS_COUNTDOWN_SECONDS);
   const timer = schedule(() => {
     if (!armed) return;
     const remaining = deadline - now();

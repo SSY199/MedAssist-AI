@@ -218,7 +218,7 @@ and limitations. Historical absent-SOS observations above apply to the original
 baseline. This feature is not merged or clinically validated.
 
 SOS follow-up: the owner confirmed email arrival and selected a cancellable
-five-second quick activation countdown. The same feature branch now adds
+ten-second quick activation countdown. The same feature branch now adds
 one-time opt-in sharing preferences, shared Navbar/urgent-chat activation,
 cancellation guards and backend-enforced preferences. This does not add automatic
 incident detection or alter the urgency classifier. See the feature record for
