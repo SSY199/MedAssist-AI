@@ -7,7 +7,16 @@ contact, purchase, API subscription or data import is authorized by this documen
 The owner explicitly requested a research subagent; its findings were synthesized
 with a separate repository audit and checks of primary sources.
 
-## Recommendation
+## Owner decision supersedes the initial recommendation
+
+On 2026-10-23 the owner chose medicine discovery, price information, account-saved
+favourites and redirection to actual sellers. No cart, checkout, orders, payments,
+address workflow, lab tests or automatic profile-based search is wanted. There is
+no existing partner/API access. See the [revised plan](../features/MARKETPLACE.md).
+The shopping-demo recommendation below is retained as research history, not
+approved scope. Pricing source and catalog coverage still require confirmation.
+
+## Initial research recommendation (not selected)
 
 For the review milestone, build a complete, explicitly labelled demo shopping
 journey with a small curated catalog, accurate product identity, comparable demo

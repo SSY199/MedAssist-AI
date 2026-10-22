@@ -1,168 +1,188 @@
-# MKT-01: proposed marketplace milestone
+# MKT-01: medicine discovery, favourites and seller handoff
 
-Date: 2026-10-22. Status: Research complete; proposed scope awaiting owner answers.
+Updated: 2026-10-23. Status: Owner answers recorded; revised scope/data choices
+await final confirmation. No application implementation has started.
 Branch: `codex/medicine-marketplace`. Base: main `0accec1`, after SOS PR #3.
 Evidence: [marketplace integration research](../research/MARKETPLACE.md).
-No application implementation has started. The owner requested research, a deep
-plan and 5–10 questions, followed by agreement before implementation.
 
-## Goal to agree
+## Owner decisions
 
-Let a signed-in user find a specific medicine or health product, inspect exactly
-what it is, compare trustworthy offers where available, and continue through an
-honest shopping workflow. The first milestone must distinguish its demo behavior
-from actual pharmacy transactions. India/INR is an assumption until confirmed.
+The owner answered the initial ten questions on 2026-10-23:
 
-Recommended review version: curated search and comparison + cart + saved demo
-orders, with no payment or actual fulfillment. One licensed provider can replace
-the demo adapter later after access is verified. If real integration is essential
-or partner access already exists, revise this plan before any application work.
-
-## Proposed user journey
-
-1. Dashboard Marketplace tile and Navbar open protected `/marketplace`. Existing
-   auth and visual style are reused. Show the data mode near the page heading.
-2. Search catalog by product name and reviewed ingredient aliases; filter category
-   and prescription status. Empty results offer a clear reset; no invented matches.
-   Search relevance is literal/catalog-based rather than symptom-driven advice.
-3. Inspect a product with strength/form/pack, source label and any restriction.
-   Omit unverified therapeutic descriptions, ratings and product imagery.
-4. Compare a small set of offers only for the same product/pack. Prices, stock,
-   delivery estimates and timestamps are explicitly live, reference, or demo.
-   A demo comparison never claims to search real pharmacy inventory.
-5. Add an eligible offer to a bounded-quantity cart. For the first milestone,
-   recommend one seller per demo order rather than split fulfillment. Changing
-   seller is explicit. Prescription-required/unknown items do not silently checkout.
-6. Checkout shows the complete server-computed total and mode. Recommended action:
-   **Place demo order — no payment or delivery**. Use minimal synthetic details for
-   the review, not a real home address or uploaded medical record.
-7. Store the order under the authenticated user and show history/detail. Display
-   `demo_created` and `demo_cancelled` events actually performed by the user; no
-   fabricated payment success, pharmacy approval, shipped or delivered state.
-8. Optional clearly separate nearby-pharmacy navigation reuses the existing map.
-   It is place discovery, not verified product stock or a partner relationship.
-
-Items 4–8 are proposed scope; owner answers can reduce or replace them.
-
-## Architecture within the existing stack
-
-Reuse Next.js/React/TypeScript, current Tailwind theme, Base UI primitives, Better
-Auth, existing FastAPI authentication and MongoDB. No new commerce framework,
-state-management library, database or backend migration is proposed.
-
-Proposed frontend responsibilities:
-
-- Protected marketplace route under `app/(dashboard)/marketplace/`.
-- Search, product detail, comparison, cart and history components sized to the
-  chosen scope; existing Button/Card/Input/Sheet patterns, responsive layout.
-- `lib/api-client.ts` for authenticated API requests; typed catalog/offer/order
-  contracts in a marketplace-specific module. No API keys or server DB imports
-  in browser components.
-- Enable only the marketplace dashboard tile; preserve reminders/wearables status,
-  chat/SSE, urgency policy, SOS provider/countdown and profile behavior.
-
-Proposed FastAPI responsibilities:
-
-- A dedicated `marketplace` router, Pydantic input/output schemas and small service
-  module. Identity always comes from verified JWT `sub`, never browser `userId`.
-- A curated fixture/source file with stable IDs and provenance. Keep the first
-  provider boundary small; do not build a generalized marketplace platform.
-- Separate product data from offers, and keep demo/live/reference modes explicit.
-- If saved orders are approved, use a separate `marketplaceOrders` collection and
-  optional cart collection. Never extend auth collections or overwrite profiles.
-- Server validates products/offer eligibility and quantities, recomputes totals
-  from authoritative offers, and rejects invalid or stale choices. Client totals
-  are display only. Use integer minor currency units rather than binary floats.
-- Use a request idempotency key with a unique user/request index if orders are
-  included. Retry returns the same order rather than creating duplicates.
-  Keep indexes/data additions explicit; no ingestion or reseeding on app import.
-- Save order snapshots of product/pack/price/mode and the minimal agreed contact
-  fields. Preserve historical totals if the catalog changes. Isolate reads and
-  cancellation to the owning account.
-
-Candidate contracts (names/paths will be finalized after scope agreement):
-
-| Operation | Candidate endpoint | Important behavior |
-| --- | --- | --- |
-| Catalog search | `GET /marketplace/products` | Bounded query, category filters and pagination; never arbitrary regex evaluation |
-| Product and offers | `GET /marketplace/products/{id}` | Exact product identity, source/mode and nullable unknown values |
-| Demo checkout | `POST /marketplace/demo-orders` | Validated items, computed totals, request idempotency and immutable snapshots |
-| Own history/detail | `GET /marketplace/orders[/{id}]` | Ownership enforced on every request |
-| Own cancellation | `POST /marketplace/orders/{id}/cancel` | Legal local state transition; cannot cancel another user's order |
-
-A browser-only cart is sufficient for a first demo if cross-device persistence is
-not required. If persisted, key it to the account and clear it on sign-out; do not
-leave another account's medical shopping history visible on a shared browser.
-No final storage decision is approved yet.
-
-## Implementation sequence after agreement
-
-1. Finalize mode, product range, prescription behavior, payment and personal-data
-   scope from the owner answers. Freeze acceptance criteria and fixture sources.
-2. Define the small catalog/offer/order contracts and synthetic sample records.
-   Verify data/asset permissions and classification metadata before use.
-3. Implement backend validation/ownership/idempotency and narrow provider service,
-   with focused synthetic tests. No live commerce calls by default.
-4. Implement catalog/detail/comparison and cart in the existing visual style.
-5. Implement the agreed checkout/history/cancellation or external handoff. Display
-   only statuses backed by actual events and the selected data mode.
-6. Exercise agreed failure cases and existing sign-in/profile/chat/map/SOS routes;
-   run lint, TypeScript, production build and affected Python/Node tests.
-7. Review diff/secrets/data boundaries, update records, and present the demo. Push,
-   provider account setup and merge need authorization for this feature; SOS's
-   previous merge authorization does not cover it automatically.
-
-All code for this one outcome stays on `codex/medicine-marketplace`. Follow-up live
-provider integration would use its own branch from updated main after this phase
-merges; no stacked branches or unrelated reminders work are proposed.
-
-## Acceptance matrix to agree
-
-| Case | Expected result |
+| Topic | Answer / resulting scope |
 | --- | --- |
-| Search exact name, alias, no matches, malformed/long query | Useful bounded results or clear validation/empty feedback |
-| Similar name but different strength/form/pack | Kept distinct; not silently substituted or ranked as identical |
-| Unknown prescription status or restricted item | Clearly shown and blocked from unrestricted checkout |
-| Demo/reference data | Label survives search, details, comparison, checkout and history |
-| Missing stock, shipping cost or delivery ETA | Shown unknown, never fabricated; no false cheapest/fastest claim |
-| Negative/excessive quantity, stale/deleted offer, modified browser price | Server rejects/requotes; no trusted client total |
-| Double-click/retried checkout | One owned order with stable reference |
-| Another account lists/reads/cancels an order | No access to the first account's data |
-| Catalog changes after order creation | Historical snapshot/total remains correct |
-| Cancellation/repeated cancellation | Valid state handling; no invented fulfillment reversal |
-| Backend/provider unavailable | Visible error and retained cart where appropriate; no false order success |
-| Narrow viewport/keyboard | Usable search/cart and accessible focus/controls |
-| Existing flows | Auth, profile, conversation creation/streaming, maps and SOS remain intact |
+| Purpose | Not a selling website. Find medicines and redirect to actual sellers. |
+| Products | Medicines and health supplies; lab tests are excluded from this phase. |
+| Existing partners | No licensed partner or approved API access available yet. |
+| Main value | Prices and saved important/favourite medicines for repeat visits. |
+| Prescription products | Include different medicine types for discovery; purchase is handled externally. |
+| Payment | None in MedAssist. |
+| Country/pincode | Answer was “no.” Treat as no location/pincode collection; exact catalog geography is not confirmed. |
+| Profile integration | Manual search only. No automatic use of saved medications or health information. |
+| Checkout/address | No checkout, so no delivery address workflow. |
+| New provider budget | “No need.” No paid integration or subscription is selected/authorized. |
 
-No checkout, prescription or payment scenario is considered tested against a real
-provider merely because mocks pass. A frontend Vercel deployment is not evidence
-that a hosted FastAPI/partner/payment integration is ready.
+These choices supersede the original shopping-demo recommendation. There will be
+no cart, order schema/history, payment gateway, shipping simulation, prescription
+upload or pharmacist dashboard in this milestone.
 
-## Explicitly proposed exclusions
+## Remaining confirmation
 
-Real money, automatic pharmacy orders, prescription uploads, pharmacist/seller
-admin portals, automated medicine substitution, diagnosis-based recommendations,
-auto-population from private profiles, real dispatch tracking, lab booking,
-wearables, reminder scheduling and bulk catalog scraping. These can enter scope
-only through an explicit decision; do not infer them from landing-page copy.
+Three concise follow-ups are pending:
 
-## Ten owner decisions pending
+1. Accept verified reference MRP with source/date where available, plus seller-side
+   price checking elsewhere, or require live seller-price comparison?
+2. Accept a curated, expandable catalog across medicine categories, or require a
+   comprehensive medicine database before launch?
+3. Confirm the revised implementation scope below, including those data choices.
 
-1. First version: complete simulated shopping journey, external pharmacy handoff,
-   or actual embedded partner ordering?
-2. Product range: medicines plus health supplies, also lab tests, or supplies only?
-3. Existing access: licensed local pharmacy/pharmacist, approved partner API/catalog,
-   or none? No credentials or private contact details are needed in chat.
-4. Main panel demonstration: comparison, cart/order history, or both?
-5. Prescription items: browse with checkout blocked, exclude initially, or include
-   a clearly simulated professional-review demonstration?
-6. Payments: no-money demo, payment-gateway test mode, or checkout on a real partner?
-7. Country/currency and target city/pincode for any geographic example?
-8. Should search remain manual or include an explicit search action for a recorded
-   medication? No automatic diagnosis-based suggestions are proposed.
-9. Checkout data: minimal synthetic details, or must a real address workflow exist?
-10. Must this milestone use only existing/free services, or are approved paid
-    integrations an option after provider terms are known?
+Do not interpret “all types” as permission to promise every medicine in existence.
+Discovery across categories and comprehensive database coverage are different
+requirements. Do not interpret a seller link as a partner agreement or live feed.
 
-These decisions are unanswered. No approval to implement is inferred from the
-research request. Refine this plan after the replies and confirm the final scope.
+## Proposed first user journey
+
+1. Dashboard Marketplace tile and Navbar open protected `/marketplace`, using the
+   existing dark theme, auth and responsive layout.
+2. Search manually by product name and reviewed ingredient aliases. Filter medicine
+   versus health supply, category and prescription status. No symptom-based drug
+   recommendations or automatic profile-based search.
+3. Product cards/details show exact name, brand/manufacturer where verified,
+   strength, dosage form, pack size, source and prescription metadata. Different
+   strengths, forms and packs remain distinct products. No automatic substitution.
+4. Price presentation is pending confirmation. Recommended: sourced reference MRP
+   and verification date, clearly separated from a seller's current selling price.
+   Missing prices say “Check current price on seller.” No invented discounts,
+   delivery times, stock claims or unsupported cheapest-seller rankings.
+5. Save a product with a heart/bookmark action. A dedicated Favourites view lists
+   the signed-in user's saved products, including after reload or another login.
+   Unsave is explicit and only affects that user's record.
+6. Choose a verified seller destination and open it in a new tab. Label the action
+   accurately: “View product,” “Search on seller” or “Open seller website,” depending
+   on what the verified link actually supports. The user completes any purchase,
+   prescription verification and payment with that seller.
+7. Return to Favourites for a later purchase. Saving a product does not reserve
+   stock or guarantee price, suitability, prescription acceptance or availability.
+
+An India-first catalog would display verified INR prices without collecting a
+pincode. Currency is part of each source's price facts; no invented exchange-rate
+conversion or location inference is proposed.
+
+## Data and linking strategy
+
+No self-service authorized pharmacy feed has been verified. Before implementing,
+settle the two data questions above. If curated coverage is chosen, keep a small,
+reviewable source file and expand it deliberately rather than presenting an
+unverified bulk scrape as a complete catalog.
+
+Proposed catalog fields:
+
+- Stable product ID; medicine/health-supply type; name; category; reviewed aliases.
+- Verified brand/manufacturer, ingredient facts, strength, form and pack unit/size
+  where relevant. Missing facts remain absent, not generated by Gemini.
+- Prescription metadata: required/not-required/unknown with provenance. Unknown
+  never implies unrestricted sale. Labels are informational, not dispensing approval.
+- Nullable reference price in minor currency units, currency, source URL, price
+  type and checked date. Avoid treating MRP as a discounted or guaranteed offer.
+- Product-data provenance and original/permitted image or simple existing icon.
+  No copied retailer descriptions, logos, branded packaging or images without rights.
+- A small allowlist of HTTPS seller destinations, mapping each product to a verified
+  product/search URL where permitted. Do not invent URL patterns or affiliate status.
+
+If no suitable product/search link can be verified, use a clearly labelled generic
+seller website link or omit that destination. Do not mislabel homepage navigation
+as a link to the exact medicine. Do not claim a site sells a specific product
+merely because it is a general pharmacy website.
+
+Seller links require no backend redirect proxy. Validate destinations from trusted
+catalog data; never accept an arbitrary user-provided target URL. External tabs use
+`noopener noreferrer`. No chat, allergies, full profile, auth token or private
+favourites list is sent to a seller. A product/search link may convey the selected
+product or query through the user's explicit click, as its label makes clear.
+
+## Architecture in the existing stack
+
+Reuse Next.js 16/React/TypeScript/Tailwind/Base UI, Better Auth and the existing
+JWT-to-FastAPI bridge with MongoDB. Preserve the current backend rather than
+choosing a new framework for this feature. Read relevant installed Next docs
+before application code.
+
+Frontend proposal:
+
+- New `app/(dashboard)/marketplace/page.tsx` and focused catalog/detail/favourites
+  components, plus a typed marketplace contract module.
+- Reuse existing UI primitives and theme tokens. Enable only the Marketplace
+  dashboard entry; reminders and wearables remain unchanged.
+- All authenticated backend requests use `lib/api-client.ts`. No secrets or server
+  database imports in browser components.
+- Search/category and All/Favourites controls, accessible save/unsave labels,
+  empty states, pending/error feedback and a scrollable product detail dialog.
+- Preserve SOS provider/countdown, chat/SSE/urgency, map and profile behavior.
+
+Backend proposal:
+
+- New dedicated marketplace router with bounded, validated search/filter inputs.
+  Catalog facts remain in a reviewable curated source initially, if approved.
+- Separate `marketplaceFavorites` collection for minimal user/product records.
+  Identity comes from verified JWT `sub`. Store product ID and save timestamp;
+  do not duplicate health profiles, prescriptions, addresses or order data.
+- Make the user/product pair unique and save/unsave idempotent, so duplicate
+  clicks cannot create duplicates. Reject unknown product IDs. Writes never modify
+  another user's favourites, authentication collections or existing patient profile.
+- Catalogue membership is separate from favourites. A retired product should be
+  labelled unavailable/archived or removed with clear feedback, not silently mapped
+  to a different strength/form.
+
+Candidate API contracts to finalize after agreement:
+
+| Operation | Candidate endpoint | Contract |
+| --- | --- | --- |
+| Search/filter catalog | `GET /marketplace/products` | Bounded query/filter/page; exact product and price provenance |
+| Product details | `GET /marketplace/products/{id}` | Known product or 404; verified seller links |
+| Own favourites | `GET /marketplace/favorites` | Only the caller's saved products |
+| Save favourite | `PUT /marketplace/favorites/{product_id}` | Validate ID and save once for authenticated user |
+| Unsave favourite | `DELETE /marketplace/favorites/{product_id}` | Only the caller's entry; repeat-safe |
+
+A Mongo-backed favourites view is proposed instead of browser-only storage so
+records persist across visits without leaking between signed-in users. No new
+paid service is needed. New collection/index setup will be explicit; no reseeding
+or migration/deletion of existing app data during verification.
+
+## Implementation sequence after final confirmation
+
+1. Freeze catalog coverage, pricing labels/source permissions and seller-link
+   behavior. Review the source records before presenting them as factual.
+2. Define typed product/favourite contracts and curated data, then implement the
+   authenticated catalog/favourites API and focused tests with synthetic users.
+3. Build search, categories, cards/details, saved-state actions and Favourites view
+   in the current coding/visual style. Handle slow and failed save operations.
+4. Add validated external seller actions and honest price/source labels. Enable
+   the dashboard link and verify protected route behavior.
+5. Run relevant lint, TypeScript, production build and focused backend/helper
+   tests, then check affected UI and existing auth/profile/chat/map/SOS flows.
+6. Record evidence and remaining data limits; review the diff and present it to
+   the owner. Push/merge/provider signup are not authorized by the research request.
+
+Keep all code for this agreed feature on `codex/medicine-marketplace`, created
+from clean updated main. Real price-feed integrations or commerce would be separate
+future scopes and branches after this outcome is merged.
+
+## Acceptance cases
+
+- Name/alias/category search, no matches, excessive query and invalid filters.
+- Similar names with different strength/form/pack remain distinct.
+- Prescription-required/unknown labels display without making medical advice.
+- Each displayed price has type, currency, source/date; missing prices remain
+  unknown. No unsupported live stock/discount/comparison claims.
+- Verified seller action opens the right type of destination in a separate tab;
+  invalid schemes/domains cannot become clickable seller targets.
+- Save/unsave/reload/favourites-filter behavior, duplicate requests and failures.
+- Two accounts cannot list, write or remove each other's favourites.
+- Catalog refresh/retirement does not substitute a different medicine silently.
+- No checkout/payment/address/prescription upload code, provider keys, or automatic
+  profile/clinical suggestions enters the diff.
+- Keyboard/narrow-screen accessibility and existing app flows stay usable.
+
+No application code, database writes or live seller requests have been made as
+part of this scope revision. Agreement on pricing, coverage and the final plan is
+still pending.

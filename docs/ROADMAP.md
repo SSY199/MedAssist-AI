@@ -56,7 +56,7 @@ consistent. The owner selected marketplace after SOS; reminders remain queued.
 | ID | Feature | Current status | Scope record |
 | --- | --- | --- | --- |
 | SOS-01 | Automatic contact email and SOS assistance | Implemented and checked; integration tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) | [Detailed SOS plan](features/SOS.md) |
-| MKT-01 | Medicine/health marketplace | Research complete; plan and owner decisions pending | [Proposed marketplace plan](features/MARKETPLACE.md) |
+| MKT-01 | Medicine/health marketplace | Discovery + favourites + seller handoff selected; price/coverage confirmation pending | [Proposed marketplace plan](features/MARKETPLACE.md) |
 | REM-01 | Medication reminders | Queued; scope not discussed | Define after SOS |
 
 No claim is made that all three features can be completed by the review. Complete
@@ -188,3 +188,14 @@ commercial pharmacy APIs, ONDC and owning fulfillment. The
 [proposed plan](features/MARKETPLACE.md) recommends an explicit demo now and a
 contracted partner later, pending ten owner decisions. No application code,
 provider account, purchase, catalog ingestion or deployment has been changed.
+
+### Marketplace scope answers (2026-10-23)
+
+Owner selected a medicine/health-supply finder with price information, saved
+favourites and redirection to sellers. No selling/cart/checkout/payment/address
+collection, lab tests or automatic profile use. No partner/API access is available.
+The initial demo-order proposal is superseded. Updated
+[feature plan](features/MARKETPLACE.md) proposes authenticated Mongo favourites,
+manual search, medicine details and verified seller links. Reference pricing versus
+live comparison, curated versus comprehensive coverage and final plan approval
+are pending. Application implementation has not started.
