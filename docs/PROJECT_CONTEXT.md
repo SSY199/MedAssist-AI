@@ -187,3 +187,16 @@ These are observations and review targets, not changes made during workflow setu
 
 No next-phase architecture or feature implementation is authorized by this review
 alone. Record the owner's answers here when decisions are made.
+
+## Follow-up: conversation creation fix (2026-10-22)
+
+Local startup exposed a missing default Python CA file: MongoDB operations failed
+TLS certificate verification even though frontend sign-in worked. The backend now
+uses certifi roots for TLS MongoDB connections, preserving non-TLS connections and
+explicit URI CA files. certifi is an explicit backend dependency.
+
+The conversation sidebar now shows load/create failures and disables the New
+conversation button with a Creating label while its request is pending. Verified
+in the signed-in browser: a failed request displays an error; after the backend
+restart, creation returns HTTP 200 and opens the new conversation. This does not
+establish that Gemini generation or the medical response pipeline works end to end.
