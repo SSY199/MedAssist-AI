@@ -12,6 +12,7 @@ import {
   User,
   TriangleAlert,
 } from "lucide-react";
+import { useSosQuick } from "@/components/SosQuickProvider";
 import { SignOutButton } from "@/components/SignOutButton";
 
 const NAV_ITEMS = [
@@ -25,6 +26,7 @@ const NAV_ITEMS = [
 
 export function Navbar({ userEmail }: { userEmail: string }) {
   const pathname = usePathname();
+  const triggerSos = useSosQuick();
 
   return (
     <header className="sticky top-0 z-50 border-b border-panel-border bg-bg/90 backdrop-blur-md">
@@ -67,16 +69,10 @@ export function Navbar({ userEmail }: { userEmail: string }) {
             <User size={16} />
           </Link>
 
-          {/* Persistent SOS button — real geolocation/routing/alerting logic
-              (spec section 7) isn't built yet. This is the visual placeholder
-              so the affordance is always present, as the spec requires. */}
           <button
-            title="Emergency SOS — coming soon"
-            onClick={() =>
-              alert(
-                "Emergency SOS isn't wired up yet — this will send your location and EHR summary to emergency contacts and route you to the nearest ER."
-              )
-            }
+            type="button"
+            onClick={triggerSos}
+            title="SOS: start a cancellable 10-second email countdown"
             className="flex items-center gap-1.5 rounded-lg border border-alert/40 bg-alert-dim px-3 py-2 text-xs font-bold text-alert transition-colors hover:bg-alert/20"
           >
             <TriangleAlert size={14} />

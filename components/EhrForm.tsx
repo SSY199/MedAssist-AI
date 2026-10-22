@@ -133,6 +133,10 @@ export function EhrForm({
     initialData?.emergencyContactPhone ?? ""
   );
 
+  const [emergencyContactEmail, setEmergencyContactEmail] = useState(
+    initialData?.emergencyContactEmail ?? ""
+  );
+
   function toggleCondition(condition: string) {
     setChronicIllnesses((prev) =>
       prev.includes(condition)
@@ -170,6 +174,7 @@ export function EhrForm({
           allergies,
           emergencyContactName,
           emergencyContactPhone,
+          emergencyContactEmail,
         },
         redirectTo
       );
@@ -296,6 +301,20 @@ export function EhrForm({
               placeholder="+91 98765 43210"
             />
           </div>
+        </div>
+        <div className="mt-4">
+          <Label>Email for automatic SOS alerts (optional)</Label>
+          <TextInput
+            type="email"
+            maxLength={254}
+            value={emergencyContactEmail}
+            onChange={(e) => setEmergencyContactEmail(e.target.value)}
+            placeholder="relative@example.com"
+          />
+          <p className="mt-2 text-xs text-ink-muted">
+            Choose someone who agrees to be your emergency contact. SOS sends
+            email only after you confirm activation.
+          </p>
         </div>
       </section>
 

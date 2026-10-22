@@ -13,6 +13,10 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: str
     CHROMA_DB_PATH: str = "./chroma_data"
 
+    # Optional: SOS stays usable with call/WhatsApp if the sender is not configured.
+    SOS_GMAIL_ADDRESS: str = ""
+    SOS_GMAIL_APP_PASSWORD: str = ""
+
     class Config:
         env_file = ".env"
         extra = "ignore"
