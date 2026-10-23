@@ -391,3 +391,13 @@ Live checks found 18 year folders (2009–2026), 34 reports for 2026, 52 for 202
 TypeScript and production build passed; lint retains the existing Badge warning.
 Unsigned listing requests return 401. No Python, patient data, learning progress,
 email or worker changes. Still local to `codex/disease-awareness`, pending review.
+
+### Awareness integration review
+
+Owner requested comparison and a safe merge into main. Fresh origin/main was
+`1ebb4a7`, an ancestor of the awareness branch with no divergent commits. Reviewed
+the 29-file feature diff; 81 Python and 27 Node synthetic tests passed again.
+The final TypeScript/build checks passed; lint retains the existing Badge warning.
+[PR #6](https://github.com/SSY199/MedAssist-AI/pull/6) contains the feature and its
+source/operational limitations. Merge is gated on GitHub mergeability and deployment
+checks; local main will be fast-forwarded only after GitHub confirms the merge.
