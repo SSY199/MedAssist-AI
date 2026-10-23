@@ -1,7 +1,7 @@
 # AWR-01: disease awareness experience
 
-Status: Proposed — owner discussion and explicit implementation agreement pending.
-Date: 2026-10-23. Owner: Abhishek; content/clinical reviewer not assigned.
+Status: Revised proposal — owner choices recorded; final implementation agreement pending.
+Date: 2026-10-23. Owner: Abhishek; no qualified content/clinical reviewer available.
 Branch: `codex/disease-awareness`; base main `1ebb4a7`, reminders PR #5 merged.
 Implementation/PR: not started. [Research and sources](../research/DISEASE_AWARENESS.md).
 
@@ -12,11 +12,78 @@ owner's SIH25049 theme, prominent on home. Improve the sparse home experience.
 Research through agents, propose a detailed plan and ask questions before coding.
 Existing features and coding/visual conventions must be preserved.
 
-No choice below is implementation approval. Audience, placement, topics and
-languages are pending. India/general-public and signed-in dashboard are research
-defaults only. No new provider, budget, medical-data sharing or autonomous content
-publication is approved. Backend technology remains the current implementation
-unless a later deliberate decision changes it.
+Owner selected the signed-in dashboard, general public in India, English + Hindi,
+one evidence-grounded AI interaction, account-saved learning with reset and a small
+dated official-report section. Requested completion today (2026-10-23). The owner
+has no specific experience design in mind and is open to scenes, topic exploration
+and evidence reveals. Prioritize major global issues, then high-impact India topics.
+These are product choices, not final approval of every implementation detail below.
+No new provider, paid service, medical-data import or automatic publication is
+proposed. Keep the current stack and preserve existing features.
+
+## Revised first-release recommendation after owner answers
+
+Combine the preferred directions as one dashboard experience: prominent interactive
+learning, a topic explorer and inspectable evidence, supported by a modest report
+section. A curated report snapshot is feasible today; live surveillance ingestion
+is a different project. The scope below is a delivery target, not a guaranteed
+same-day completion regardless of source review or validation failures.
+
+1. Four initial topic modules: heart health/high blood pressure, type 2 diabetes
+   prevention awareness (with clear distinctions from other diabetes types), TB,
+   and dengue. This is a balanced editorial starting set, not a ranked list of all
+   global burdens. Cancer, chronic respiratory disease, diarrhoeal disease, malaria
+   and antimicrobial resistance remain expansion candidates.
+2. Each module has a short overview, two or three authored decisions, one curated
+   misconception, three takeaways and claim-linked evidence. One polished home/
+   neighbourhood illustration is the flagship scene (dengue fits that visual
+   interaction); other modules use accessible short situation cards. The explorer
+   starts with global high-burden topics, independent of the visual hero's rotation.
+3. English/Hindi switch across awareness controls, authored content and lesson
+   feedback; source titles/language remain identifiable. Prefer official Hindi
+   resources where available, including NCDC diabetes/hypertension FAQs. Any app
+   adaptation/translation is labelled a student-prototype adaptation without
+   professional translation or clinical validation. Do not imply official Hindi
+   sources exist for every statement. Hindi text receives a separate consistency
+   pass against the English claim map; do not generate published lessons live.
+4. One AI action: prepared topic questions such as explaining a prevention point
+   more simply, answered from that topic's evidence in the selected language.
+   No open symptom textbox or automatic own-words grading in this version. Proposed
+   bounds: one provider call per click, 20-second timeout, up to 180 words, five
+   requests/minute and 30/day per verified user, with authored fallback. Validate
+   source IDs and structured response; do not claim this proves medical correctness.
+5. Saved learning completion/answers by topic and content version, continue/reset
+   controls and no raw AI question/answer retention. Reset affects awareness data
+   only. A completion indicator measures learning activity, never disease safety.
+6. Two or three manually curated official report/resource cards, each with source,
+   reporting period when relevant, publication date if known and reviewed date.
+   Distinguish epidemiological bulletins from burden reports. Use neutral titles
+   and visible stale/coverage notes; no live label, GPS, personal risk or case map.
+   No automatic feed or new scheduled worker is needed for this version.
+7. Home redesign composes awareness first, compact profile/utilities after it, and
+   preserves existing SOS and reminder banner. Public landing stays outside this
+   scoped dashboard release. Sharing, audio, extra languages and expanded content
+   can follow on separate branches.
+
+## Topic prioritization evidence
+
+The [WHO NCD fact sheet](https://www.who.int/news-room/fact-sheets/detail/noncommunicable-diseases)
+identifies cardiovascular disease, cancer, chronic respiratory disease and diabetes
+as major NCD groups; a disease-awareness home should not focus only on outbreaks.
+[WHO hypertension](https://www.who.int/news-room/fact-sheets/detail/hypertension%E2%81%A0)
+and [diabetes](https://www.who.int/news-room/fact-sheets/detail/diabetes) support
+the first two proposed learning themes. The
+[WHO Global TB Report 2025 factsheet](https://cdn.who.int/media/docs/default-source/global-tuberculosis-report-2025/global-tb-report-2025_factsheet.pdf)
+supports TB's global importance, and the
+[MoHFW TB programme update](https://www.pib.gov.in/PressReleasePage.aspx?PRID=2203004&lang=2&reg=48)
+provides India-specific context. Dengue supplies a practical prevention theme
+using the researched WHO fact sheet. Mortality, incidence, prevalence and actionability
+are different prioritization signals; do not combine them into an invented ranking.
+
+The [NCDC education catalogue](https://ncdc.mohfw.gov.in/includes/Health_Information/generalpublic.php)
+lists English and Hindi diabetes/hypertension FAQs. Their individual files, dates
+and rights must be inspected before adaptation; a catalogue listing is not a
+completed medical or translation review.
 
 ## Recommended concept: Awareness Studio
 
@@ -52,9 +119,8 @@ worldwide novelty or proven health benefit is made.
 
 ## Proposed home composition
 
-Default recommendation pending answer: `/dashboard` first, matching Navbar Home.
-Public `/` can later include an educational teaser or the same public content;
-that choice affects auth/routes and needs agreement.
+Confirmed placement: `/dashboard`, matching Navbar Home. Public `/` can receive
+a separately agreed teaser later.
 
 - Top: welcome + strong awareness hero, illustrated scene and one primary action.
 - Supporting area: resume learning / one misconception / practical takeaway.
@@ -71,18 +137,17 @@ unless the owner chooses that scope.
 
 ## Proposed first release and later increments
 
-Recommended initial content: three or four well-sourced topics. Candidate set:
-dengue, TB, diabetes awareness and antibiotic awareness. Final set comes from
-owner priorities and source-review feasibility. Different types of topics need
-different templates; do not present all as contagious diseases.
+The revised first-release recommendation above supersedes the original candidate
+topic list. Different types of topics need different templates; do not present
+all as contagious diseases.
 
 | Increment | Included | Gate |
 | --- | --- | --- |
 | 1: Source and visual prototype | Agreed topics, evidence schema, one complete scene, draft home layout | Owner reviews experience and example claims before broad authoring |
-| 2: Core awareness experience | Home composition, small topic explorer, scene/story, misconception, takeaway and evidence drawer | Supported claims, accessibility and regression checks |
-| 3: Narrow AI interaction, if selected | Topic-bound recap or explanation, permitted evidence, quotas/timeout/fallback | Scope/input policy and failure/safety evaluation agreed |
-| 4: Saved learning, if selected | Explicit interests, versioned progress, reset and later revisit | Data fields/retention agreed; JWT ownership tests |
-| Later separate feature branches | Dated public-health bulletin explorer, reviewed translation/audio, generic share cards, public entry point | Separate decisions where not selected for AWR-01 |
+| 2: Core awareness experience | Bilingual home/topic explorer, scene/story, misconception, takeaway/evidence and curated report cards | Supported claims, accessibility and regression checks |
+| 3: Narrow AI interaction | Prepared topic explanation, permitted evidence, quotas/timeout/fallback | Final limits/input policy and failure evaluation agreed |
+| 4: Saved learning | Versioned progress, reset and continue learning | Data fields agreed; JWT ownership tests |
+| Later separate feature branches | Automated reports, professional translation review/audio, generic share cards, public entry point, additional topics | Separate scope agreement |
 
 The increments are checkpoints within a single agreed outcome, not authorization
 for an oversized branch. If optional capabilities become independent outcomes,
@@ -184,15 +249,12 @@ new messaging consent, automatic emails or provider signup is required.
 
 ## Discussion questions and approval gate
 
-Asked asynchronously: (1) dashboard/public/both, (2) audience/language, (3) deadline
-and owner's own example/idea, (4) preferred flagship, (5) first topics, (6) AI now
-or later. Await answers; no silent assumption turns proposals into requirements.
-
-Also asked: (7) account progress/reset or session-only, (8) availability of a
-qualified content reviewer, (9) bulletins now versus later. User-triggered generic
-sharing remains optional discussion scope. Avoid automatic profile targeting, GPS, email or
-additional languages without agreement. We will rewrite this plan around the
-chosen scope, confirm acceptance cases and obtain explicit coding approval.
+All nine initial questions were answered. Confirmed owner choices are recorded at
+the top. Remaining final agreement: four proposed themes, one illustrated flagship
+plus short authored situations, bilingual student-prototype wording, prepared AI
+question scope/limits, progress/reset and a curated dated report snapshot.
+Ask one consolidated scope-approval question before coding. No automatic profile
+targeting, GPS, emails or new services are part of that proposal.
 
 ## Research-stage validation
 

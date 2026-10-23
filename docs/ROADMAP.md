@@ -332,3 +332,17 @@ bounded AI recap. No verified live public district API was established.
 evidence schema, integration, AI/data boundaries, validation and open decisions.
 Nine scope questions were presented; answers and implementation agreement
 are pending. No application code, store, environment, provider or service changed.
+
+### Awareness owner answers and revised scope proposal
+
+Owner selected `/dashboard`, India general public, English + Hindi, a same-day
+target, one evidence-grounded AI interaction, account-saved progress/reset, and a
+small dated official-report section. No qualified content reviewer is available.
+The owner is open to scenes plus topic exploration/evidence and prioritizes major
+global issues followed by India-relevant high-impact topics.
+
+Revised [plan](features/DISEASE_AWARENESS.md) proposes four themes (heart/BP,
+diabetes awareness, TB, dengue), one illustrated flagship plus short situations,
+prepared AI questions with bounded calls, bilingual prototype content and curated
+report snapshots. No live surveillance or automated health-profile targeting.
+Final consolidated scope approval is pending before coding. Documentation only.

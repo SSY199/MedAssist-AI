@@ -167,3 +167,32 @@ Home placement; audience/language; deadline; flagship preference; first topic se
 AI scope and input policy; progress/reset; user-triggered sharing; content reviewer;
 whether dated official bulletins are needed now or deferred. See the
 [proposed feature plan](../features/DISEASE_AWARENESS.md).
+
+## Owner answers and topic-priority follow-up
+
+Owner chose dashboard, India general public, English + Hindi, today, bounded AI,
+saved/resettable learning and a dated official-report section; no medical reviewer.
+Experience preference spans interactive scenes, disease explorer and evidence.
+Major global issues should precede high-impact India-specific issues.
+
+Additional official sources checked for prioritization:
+
+- [WHO NCD fact sheet](https://www.who.int/news-room/fact-sheets/detail/noncommunicable-diseases)
+  identifies the major NCD groups. Mortality burden is not incidence or individual
+  risk. Do not treat the four-topic prototype as an exhaustive global ranking.
+- [WHO hypertension](https://www.who.int/news-room/fact-sheets/detail/hypertension%E2%81%A0)
+  and [diabetes](https://www.who.int/news-room/fact-sheets/detail/diabetes)
+  support common global awareness themes; prevention language must distinguish
+  type 2 diabetes from type 1 and avoid implying blame or guaranteed prevention.
+- [WHO TB report factsheet](https://cdn.who.int/media/docs/default-source/global-tuberculosis-report-2025/global-tb-report-2025_factsheet.pdf)
+  and [MoHFW programme update](https://www.pib.gov.in/PressReleasePage.aspx?PRID=2203004&lang=2&reg=48)
+  support TB as a global/India educational priority.
+- The NCDC general-public catalogue lists Hindi/English diabetes and hypertension
+  FAQs. Resource-level review remains outstanding; no translated corpus has been
+  authored or approved during research.
+
+Parent recommends heart/BP, type 2 diabetes prevention awareness, TB and dengue
+as an actionable first set, with cancer/chronic respiratory and other major themes
+on the expansion list. This is editorial scoping, not a quantitative burden rank.
+One rich scene plus reusable short scenarios makes the same-day target more
+plausible than four custom simulations, unrestricted AI and live feed ingestion.
