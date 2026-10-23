@@ -41,7 +41,7 @@ export function OutbreakPdfReader({
   const pagesText = useRef<string[] | null>(null);
   const searchSequence = useRef({ sequence: 0 });
   const hi = language === "hi";
-  const source = `/api/awareness/reports/${report.id}`;
+  const source = `/api/awareness/reports/${report.id}?v=${encodeURIComponent(report.url.split("/").pop() ?? "")}`;
   useEffect(() => {
     const searches = searchSequence.current;
     let cancelled = false;
@@ -186,14 +186,17 @@ export function OutbreakPdfReader({
               className="rounded-lg border border-panel-border bg-bg-deep p-2 text-ink"
               aria-label={hi ? "पृष्ठ चुनें" : "Select page"}
             >
-              {Array.from({ length: pdf?.numPages ?? report.pages }, (_, i) => (
-                <option value={i + 1} key={i}>
-                  {i + 1}
-                </option>
-              ))}
+              {Array.from(
+                { length: pdf?.numPages ?? report.pages ?? 1 },
+                (_, i) => (
+                  <option value={i + 1} key={i}>
+                    {i + 1}
+                  </option>
+                ),
+              )}
             </select>
             <span>
-              {hi ? "में से" : "of"} {pdf?.numPages ?? report.pages}
+              {hi ? "में से" : "of"} {pdf?.numPages ?? report.pages ?? "…"}
             </span>
           </label>
           <Button
@@ -241,7 +244,7 @@ export function OutbreakPdfReader({
           </Button>
           <a
             className="flex items-center gap-2 rounded-lg border border-panel-border px-3 py-2 text-sm"
-            href={`${source}?download=1`}
+            href={`${source}&download=1`}
             download={`${report.id}.pdf`}
           >
             <Download size={14} />

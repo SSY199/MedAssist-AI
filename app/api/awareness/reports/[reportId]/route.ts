@@ -1,8 +1,9 @@
 import { headers } from "next/headers";
 import type { NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
-import catalog from "@/backend/app/data/awareness.json";
-import { fetchReportPdf, reviewedReport } from "@/lib/outbreak-reports";
+import { fetchReportPdf } from "@/lib/outbreak-reports";
+import { getOutbreakArchive } from "@/lib/outbreak-archive-server";
+import { reportIdentity } from "@/lib/outbreak-archive";
 
 export const runtime = "nodejs";
 
@@ -14,12 +15,16 @@ export async function GET(
   if (!session)
     return new Response("Sign in to read this report.", { status: 401 });
   const { reportId } = await params;
-  const report = reviewedReport(catalog.weeklyReports, reportId);
-  if (!report)
-    return new Response("Report not in the reviewed collection.", {
-      status: 404,
-    });
+  const identity = reportIdentity(reportId);
+  if (!identity) return new Response("Invalid report ID.", { status: 404 });
   try {
+    const report = (await getOutbreakArchive(identity.year)).reports.find(
+      (report) => report.id === reportId,
+    );
+    if (!report)
+      return new Response("Report is not in the official listing.", {
+        status: 404,
+      });
     const bytes = await fetchReportPdf(report);
     return new Response(bytes.buffer as ArrayBuffer, {
       headers: {

@@ -271,6 +271,10 @@ review. No live surveillance integration or public landing rewrite. See
 Awareness refinement: the dashboard now has a separate weekly-outbreak reader
 above the care tools, with three curated original NCDC PDFs. Pinned PDF.js renders
 pages in the app; a session-verified Next endpoint fetches only reviewed official
-URLs with type/size/redirect restrictions. It does not interpret outbreaks as
-personal/current local risk, translate original PDFs or automatically ingest the
-archive. See the same feature record for verified periods and reader limitations.
+URLs with type/size/redirect restrictions. The owner subsequently approved broader
+archive browsing: year/week selectors now discover official NCDC directory links,
+with a bounded one-hour per-process listing cache and labelled outage fallback.
+The three seed records retain individually checked periods; discovered reports
+have no inferred reporting period or editorial review. Only a selected PDF is
+loaded. It does not interpret outbreaks as personal/current local risk or translate
+original PDFs. See the same feature record for verified periods and reader limits.

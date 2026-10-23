@@ -66,13 +66,20 @@ export type WeeklyOutbreakReport = {
   publisher: string;
   url: string;
   publishedOn: string | null;
-  periodStart: string;
-  periodEnd: string;
-  fileModifiedOn: string;
-  reviewedOn: string;
-  pages: number;
+  periodStart: string | null;
+  periodEnd: string | null;
+  fileModifiedOn: string | null;
+  reviewedOn: string | null;
+  pages: number | null;
   week: number;
   year: number;
+};
+export type OutbreakArchive = {
+  years: number[];
+  year: number;
+  reports: WeeklyOutbreakReport[];
+  mode: "official" | "stale" | "fallback";
+  listedAt: string | null;
 };
 export type LearningProgress = {
   topic_id: string;

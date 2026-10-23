@@ -392,3 +392,42 @@ switching (25 to 20 pages), and Hindi controls without leaving `/dashboard`.
 No account/learning writes or email were performed for this refinement. Mobile
 viewport and downloaded-file interaction were not exercised. The source host must
 be reachable for an uncached PDF; a cached report is historical, not current risk.
+
+## Official archive expansion (2026-10-23)
+
+The owner approved year/week browsing after asking why only three weeks appeared.
+The three records above now provide reviewed metadata and cold-outage fallback,
+rather than limiting coverage. The dashboard requests authenticated
+`GET /api/awareness/reports?year=YYYY`; the server reads NCDC's fixed root and
+selected-year directory. It accepts only same-origin year folders and matching
+`weekN.pdf` or `weekN_TIMESTAMP.pdf` filenames, weeks 1–53. Foreign links, query
+URLs, redirects, arbitrary paths and future years are rejected. Duplicate weeks
+choose the newest source file-modification entry; missing weeks remain missing.
+The PDF endpoint resolves IDs against this listing, so current listed replacements
+take precedence over seed metadata. Only the selected PDF is loaded.
+
+Directory fetches have a 12-second deadline and 1 MiB streamed limit. A bounded
+32-entry per-process cache retains listings for one hour and coalesces concurrent
+requests. Process restarts/serverless cold instances may refetch. Reload list
+requests the server cache; it does not bypass its TTL. Upstream failure uses a
+labelled stale listing when cached, then reviewed seed fallback for that year
+where available; otherwise it reports unavailability. No scheduler, database
+ingestion, full-archive download or new provider is introduced.
+
+Newly discovered records show their source year/week and file-modified date where
+available. Reporting periods, page counts and editorial review remain unknown
+until checked; actual PDF page counts appear after loading. File modification is
+not a publication/reporting date. English originals and existing bilingual controls
+remain; this archive is historical reporting, not live local-risk surveillance.
+
+Verification: 27 Node tests passed (eight new archive cases covering parsing,
+duplicates, fixed paths, cache/coalescing, stale/cold fallback and malformed/oversize
+responses). TypeScript, lint and production build passed apart from the existing
+landing Badge lint warning. The unsigned listing endpoint returned 401. Live
+official discovery found 18 year folders, 34 reports for 2026, 52 for 2025 and 27
+for 2009; browser year switching and both historical originals rendered correctly
+without leaving the dashboard. The 2009 listing retains its missing Week 38.
+Python is unchanged; its prior 81-test result was not rerun for this refinement.
+No patient/profile/learning writes or email were performed. Mobile viewport and
+download interaction remain untested. Coverage depends on the official archive's
+listing format and availability; metadata discovery does not review each document.

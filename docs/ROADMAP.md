@@ -376,3 +376,18 @@ inference. The report period and file-modified dates remain separate, including 
 note for the original Week 34 cover's inconsistent badge. Validation: 81 Python,
 19 Node tests, TypeScript/build and browser report interactions; lint retains the
 existing Badge warning. See [feature record](features/DISEASE_AWARENESS.md).
+
+### Official weekly archive expansion
+
+Owner approved replacing the three-report browsing limit with official year/week
+discovery. The dashboard now lists NCDC's available years and matching PDFs, keeps
+source gaps, and reads selected originals in the existing viewer. A session-verified
+listing endpoint uses fixed source paths, strict filenames, bounded fetches and a
+one-hour per-process cache; outages show labelled stale data or reviewed fallback.
+No period/review claims are inferred for newly discovered reports.
+
+Live checks found 18 year folders (2009–2026), 34 reports for 2026, 52 for 2025 and
+27 for 2009; both historical PDFs rendered in-app. All 27 Node helper tests,
+TypeScript and production build passed; lint retains the existing Badge warning.
+Unsigned listing requests return 401. No Python, patient data, learning progress,
+email or worker changes. Still local to `codex/disease-awareness`, pending review.

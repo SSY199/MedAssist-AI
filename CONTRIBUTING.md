@@ -130,8 +130,14 @@ The current counter collection has no scheduled retention cleanup.
 
 Weekly outbreak documents are read through an authenticated Next route and a
 pinned PDF.js reader. Node 22.13+ (or 24+) is required by the PDF package; local
-validation used 22.17.1. Original reports remain English. Extend `weeklyReports`
-only after checking original dates/page counts and official URLs. Do not turn
+validation used 22.17.1. Original reports remain English. The archive loader reads
+only NCDC's fixed root/year directories and accepts matching year/week PDF names.
+Listings use a bounded per-process one-hour cache; cold starts may fetch again.
+Source outages use a labelled stale listing or reviewed seed fallback where available.
+Only the selected PDF is downloaded. `weeklyReports` now supplies reviewed metadata
+and outage fallback; extend it only after checking original dates/page counts and
+official URLs. Newly discovered reports have no inferred reporting dates or review.
+Do not turn
 the byte endpoint into an arbitrary URL proxy, forward user cookies upstream,
 or remove its PDF/size/redirect checks. No extra Python dependency is required.
 
