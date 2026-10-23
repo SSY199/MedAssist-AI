@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { SosQuickProvider } from "@/components/SosQuickProvider";
+import { ReminderDueNotice } from "@/components/ReminderDueNotice";
 import { Navbar } from "@/components/Navbar";
 
 export default async function DashboardLayout({
@@ -19,6 +20,7 @@ export default async function DashboardLayout({
     <SosQuickProvider>
       <div className="min-h-screen bg-bg text-ink">
         <Navbar userEmail={session.user.email} />
+        <ReminderDueNotice />
         <main>{children}</main>
       </div>
     </SosQuickProvider>

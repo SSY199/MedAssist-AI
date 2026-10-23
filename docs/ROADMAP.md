@@ -1,6 +1,6 @@
 # MedAssist AI: delivery tracker and next-phase discussion
 
-Updated: 2026-10-22. Current baseline: main `0accec1`, after SOS PR #3.
+Updated: 2026-10-23. Current baseline: main `a5e2b07`, after marketplace PR #4.
 This is the current delivery tracker. [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)
 preserves the initial source assessment and architecture details.
 
@@ -57,7 +57,7 @@ consistent. The owner selected marketplace after SOS; reminders remain queued.
 | --- | --- | --- | --- |
 | SOS-01 | Automatic contact email and SOS assistance | Implemented and checked; integration tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) | [Detailed SOS plan](features/SOS.md) |
 | MKT-01 | Medicine/health marketplace | Implemented and validated; integration tracked in PR #4 | [Marketplace delivery record](features/MARKETPLACE.md) |
-| REM-01 | Medication reminders | Queued; scope not discussed | Define after SOS |
+| REM-01 | Medication reminders | Implemented and validated locally; review pending | [Reminder planning draft](features/REMINDERS.md) |
 
 No claim is made that all three features can be completed by the review. Complete
 and verify one compact outcome before starting the next branch. Focused tests
@@ -235,3 +235,81 @@ Owner authorized merging. [PR #4](https://github.com/SSY199/MedAssist-AI/pull/4)
 no conflicts with updated main. Vercel preview and required checks gate merge;
 the PR records final merge and deployment state. CodeRabbit skipped its review.
 Earlier “not pushed/merged” notes are historical pre-integration snapshots.
+
+### Reminders research and planning (2026-10-23)
+
+Marketplace PR #4 merged at `a5e2b07`; Vercel preview and production passed. Local
+main was clean and synchronized. Started `codex/medication-reminders` from freshly
+fetched origin/main for the next feature's research/planning.
+
+Owner requested deep research, integration options, proposed reminder contents and
+a question set, with plan agreement before coding. [Research](research/REMINDERS.md)
+compares in-app, browser notifications, email, Web Push, SMS/WhatsApp and calendar
+export, including worker/hosting limits. [Draft plan](features/REMINDERS.md) proposes
+account-owned medication schedules, per-occurrence actions/history and a durable
+worker, conditional on the owner's choices. Ten questions were presented. No app
+code, DB records, environment, service subscriptions or messages changed.
+
+### Reminder scope answers (2026-10-23)
+
+Owner chose medication-only reminders with in-app + email delivery, localhost first,
+one-time/daily/weekday schedules, Taken/Skipped/Snooze/history, recent catch-up,
+optional explicit profile/marketplace name prefill, generic external content and no
+new paid services. Deadline/demo question was clarified. The revised
+[plan](features/REMINDERS.md) proposes concrete lateness/snooze/timezone defaults and
+existing Gmail sender reuse; final agreement is pending before implementation.
+No application, DB, environment or provider changes.
+
+Owner subsequently confirmed the proposed close-tab/email/reopen/mark-Taken demo.
+No specific deadline was stated. Final timing/sender/implementation agreement remains
+pending; no need to repeat the initial question set.
+
+### Reminder implementation approval (2026-10-23)
+
+Owner approved the final medication reminder plan, timing rules and Gmail reuse.
+Implementation is on `codex/medication-reminders`; UI/API/worker and synthetic tests
+are in place. No new dependency/provider signup or public deployment. Worker runs
+separately from FastAPI. Current validation and operational limits are recorded in
+the [feature record](features/REMINDERS.md); owner authorized a single synthetic own-account test email; SMTP accepted once
+while the agent-created test tab was closed. Receipt has not been verified.
+
+### Reminder local delivery verification (2026-10-23)
+
+Implemented the agreed version and validated 56 Python tests, 11 Node tests, strict
+TypeScript, production build, AST and documentation/diff checks. Lint retains one
+existing Badge warning. Owner authorized a labelled synthetic live schedule; worker
+submitted one generic email (SMTP accepted once) while the agent test tab was
+closed. Taken/history persisted after reload; Stop preserved history. The stopped
+synthetic record remains for inspection. Inbox delivery is not established.
+
+Local API/worker are running. Only new reminder collections/indexes and ignored
+local sender switch were introduced; no dependency upgrades or public deployment.
+Not pushed/merged; branch `codex/medication-reminders`. See
+[feature record](features/REMINDERS.md) for operations and remaining limits.
+
+### Reminder timing visibility (2026-10-23)
+
+Owner confirmed the 08:00 email arrived within about a minute. Read-only metadata
+showed worker pickup about 14 seconds after due time; no refresh-dependent email
+bug was established. Added refresh-on-tab-return, last refresh display, actual
+worker/submission/result timing fields and private-data-safe timestamped worker
+errors. Polling and delivery policy are unchanged. The inspected schedule remains
+paused. All 59 Python and 12 Node tests, TypeScript and build passed; lint retains
+the pre-existing warning. See the [feature record](features/REMINDERS.md) for
+evidence and limits. Remains on `codex/medication-reminders`, not pushed/merged.
+
+Reminder banner follow-up: clarified that viewing does not acknowledge a dose;
+Taken/Skipped/Snooze remain explicit. Added immediate count refresh after mutations
+and on navigation, preserving pending history and delivery behavior.
+
+### Reminder integration (2026-10-23)
+
+Owner approved pushing and safely merging the completed feature. [PR #5](https://github.com/SSY199/MedAssist-AI/pull/5)
+contains medication schedules, generic own-account email worker, explicit actions,
+history and timing/banner follow-ups. Remote main matched the original feature
+base at preparation. Merge is gated on current PR mergeability and deployment
+checks. Earlier not-pushed/merged notes are historical snapshots.
+
+Hosted automatic email is deferred until server deployment. This PR keeps the
+local worker setup; a frontend deployment alone does not provision a scheduler.
+The feature record documents validation evidence and remaining runtime limits.

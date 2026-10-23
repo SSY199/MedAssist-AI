@@ -23,7 +23,7 @@ Inherits the root AGENTS.md. Read this before modifying backend code.
 
 ## Interfaces
 
-- Routers registered in app/main.py: ehr.py, map.py, chat.py, sos.py, marketplace.py. mapbox_map.py is
+- Routers registered in app/main.py: ehr.py, map.py, chat.py, sos.py, marketplace.py, reminders.py. mapbox_map.py is
   not registered. Preserve the active import path when fixing maps.
 - Protected routes use `Depends(get_current_user)`. User identity comes from the
   verified JWT `sub`; conversation access uses `_get_owned_conversation`.
@@ -72,3 +72,20 @@ Report any changed health prompts, knowledge sources, or escalation behavior.
   gives unique user/product pairs without altering existing collections.
 - Tests use synthetic users and mocked Mongo. Never scrape/reseed catalog data or
   write real account favourites as a verification shortcut.
+
+## Reminder boundary
+
+- `reminder_schedule.py` owns pure wall-clock recurrence; preserve timezone, DST,
+  start/end and one-time validation. The app records prescribed user input only.
+- `reminders.py` service persists deterministic per-version occurrences, consent
+  fingerprints and independent action/delivery state. Keep JWT ownership checks
+  in the router and server-verified account recipient lookup in `reminder_email.py`.
+- The standalone `app.workers.reminders` process owns email dispatch. Never schedule
+  by sleeping an HTTP request or add a second sender in the browser/API. Preserve
+  atomic claims, pre-send rechecks, sender quotas, 30-minute catch-up and non-retryable
+  ambiguous submission outcomes. SMTP accepted never means Taken or delivered.
+- Only generic own-account email is approved. Do not reuse SOS recipient/consent or
+  notify caregivers. New reminder indexes are isolated; no existing-data migrations.
+- Tests in `test_reminders.py` use frozen clocks, synthetic users and mocked DB/SMTP.
+  Live test messages need an agreed test recipient and synthetic schedule. Do not
+  log record bodies, medication names, email addresses or provider exception text.

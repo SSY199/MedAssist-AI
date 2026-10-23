@@ -236,3 +236,16 @@ prices/status remain explicit. No live feed, clinical advice, checkout, prescrip
 verification or profile-based recommendations. See [feature record](features/MARKETPLACE.md)
 for contracts, checks and limits. Existing auth/profile/chat/map/SOS contracts remain
 unchanged.
+
+## Reminder implementation follow-up (2026-10-23)
+
+The owner approved medication-only reminders with in-app + generic own-account
+email, localhost first and no new paid services. `codex/medication-reminders` adds
+protected `/reminders`, manual/explicit name prefill, calendar previews, Today/history,
+Taken/Skipped/Snooze and schedule controls. FastAPI `reminders.py` and a standalone
+Python worker use separate `medicationReminders`, `reminderOccurrences` and
+`reminderWorkerState` collections; profiles/auth collections remain unchanged.
+The existing Gmail sender is reused with a separate master switch and explicit
+schedule consent to the server-verified account address. No Web Push, SMS, caregiver
+alert, treatment inference or clinical alarm guarantee. See the
+[feature record](features/REMINDERS.md) for current checks and local worker operation.

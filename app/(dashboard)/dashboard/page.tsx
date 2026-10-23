@@ -8,7 +8,7 @@ const QUICK_LINKS = [
   { href: "/chat", label: "Chat", icon: MessageSquare, ready: true },
   { href: "/map", label: "Map", icon: Map, ready: true },
   { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, ready: true },
-  { href: "/reminders", label: "Reminders", icon: Clock, ready: false },
+  { href: "/reminders", label: "Reminders", icon: Clock, ready: true },
   { href: "/wearables", label: "Wearables", icon: Watch, ready: false },
 ];
 

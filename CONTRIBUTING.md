@@ -56,7 +56,7 @@ There is no `npm test`, pytest configuration, or CI workflow. SOS has focused
 standard-library tests: from `backend/`, run
 `PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s tests -v`;
 from the root on Node 22, run
-`node --experimental-strip-types --test tests/sos.test.mjs`. These mock external
+`node --experimental-strip-types --test tests/*.test.mjs`. These mock external
 services and do not cover the whole app. Add focused tests for substantive logic
 changes without bundling a testing-infrastructure project.
 
@@ -86,3 +86,27 @@ Describe the problem and resulting behavior, changed interfaces, checks actually
 run, and any pre-existing failures. Call out changes to health-related prompts,
 knowledge sources, and urgency behavior explicitly. Update project context when
 status changes; keep future ideas separate from implemented behavior.
+
+## Local medication reminder worker
+
+See [the reminder feature record](docs/features/REMINDERS.md) for timing, privacy,
+limits and validation. Start the existing Next.js and FastAPI services as usual,
+then use a separate terminal from `backend/`:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m app.workers.reminders
+```
+
+The worker creates indexes only in the new reminder collections and persists a
+heartbeat. Keep the laptop awake and the process/network running. Closing the
+website tab does not stop the worker; closing/suspending the laptop does. The
+Reminders page reports recent worker activity. Stop this terminal with Ctrl+C.
+Do not start workers against another person's database for a demonstration.
+
+Generic email uses the existing server-only Gmail app-password sender. Configure
+`REMINDERS_EMAIL_ENABLED=true` in ignored `backend/.env`, and restart both backend
+and worker after changes. The template defaults to false. A schedule must separately
+opt in to generic mail to the signed-in user's verified account. No medication
+names/instructions appear in the email. SMTP accepted is not delivered/read.
+Use a clearly labelled synthetic schedule for demonstrations, only with an agreed
+test recipient; no profile or actual medication edits are needed.
