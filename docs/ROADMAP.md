@@ -1,6 +1,6 @@
 # MedAssist AI: delivery tracker and next-phase discussion
 
-Updated: 2026-10-23. Current baseline: main `a5e2b07`, after marketplace PR #4.
+Updated: 2026-10-23. Current baseline: main `1ebb4a7`, after reminders PR #5.
 This is the current delivery tracker. [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)
 preserves the initial source assessment and architecture details.
 
@@ -57,7 +57,8 @@ consistent. The owner selected marketplace after SOS; reminders remain queued.
 | --- | --- | --- | --- |
 | SOS-01 | Automatic contact email and SOS assistance | Implemented and checked; integration tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) | [Detailed SOS plan](features/SOS.md) |
 | MKT-01 | Medicine/health marketplace | Implemented and validated; integration tracked in PR #4 | [Marketplace delivery record](features/MARKETPLACE.md) |
-| REM-01 | Medication reminders | Implemented and validated locally; review pending | [Reminder planning draft](features/REMINDERS.md) |
+| REM-01 | Medication reminders | Merged in [PR #5](https://github.com/SSY199/MedAssist-AI/pull/5); frontend deployment passed; hosted worker deferred | [Reminder delivery record](features/REMINDERS.md) |
+| AWR-01 | Disease awareness home experience | Research and proposal; owner choices and coding approval pending | [Proposed awareness plan](features/DISEASE_AWARENESS.md) |
 
 No claim is made that all three features can be completed by the review. Complete
 and verify one compact outcome before starting the next branch. Focused tests
@@ -313,3 +314,21 @@ checks. Earlier not-pushed/merged notes are historical snapshots.
 Hosted automatic email is deferred until server deployment. This PR keeps the
 local worker setup; a frontend deployment alone does not provision a scheduler.
 The feature record documents validation evidence and remaining runtime limits.
+
+### Disease awareness research (2026-10-23)
+
+Reminder PR #5 merged as `1ebb4a7`; Vercel preview/production passed and local main
+was synchronized/clean. Hosted reminder email remains deferred until backend
+deployment. Started `codex/disease-awareness` from freshly fetched main.
+
+Owner requested a standout disease-awareness feature prominent on home, explicit
+research agents, deep data/integration research and joint planning before coding.
+Three read-only workstreams covered engagement, official sources/rights and repo
+integration. [Research](research/DISEASE_AWARENESS.md) recommends interactive
+authored scenes/stories, evidence reveals and practical takeaways, with optional
+bounded AI recap. No verified live public district API was established.
+
+[Proposed plan](features/DISEASE_AWARENESS.md) records visual placement, phases,
+evidence schema, integration, AI/data boundaries, validation and open decisions.
+Nine scope questions were presented; answers and implementation agreement
+are pending. No application code, store, environment, provider or service changed.
