@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import ehr, map as map_router, chat, sos, marketplace, reminders
+from app.routers import ehr, map as map_router, chat, sos, marketplace, reminders, awareness
 
 app = FastAPI(title="MedAssistAI API")
 
@@ -27,6 +27,7 @@ app.include_router(chat.router)
 app.include_router(sos.router)
 app.include_router(marketplace.router)
 app.include_router(reminders.router)
+app.include_router(awareness.router)
 
 
 @app.get("/health")

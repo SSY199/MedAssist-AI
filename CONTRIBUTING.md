@@ -110,3 +110,37 @@ opt in to generic mail to the signed-in user's verified account. No medication
 names/instructions appear in the email. SMTP accepted is not delivered/read.
 Use a clearly labelled synthetic schedule for demonstrations, only with an agreed
 test recipient; no profile or actual medication edits are needed.
+
+## Disease awareness content and local checks
+
+The signed-in dashboard renders its public educational bundle from
+`backend/app/data/awareness.json`; FastAPI validates the same file. See
+[the awareness delivery record](docs/features/DISEASE_AWARENESS.md) for provenance,
+source/translation limits, content expiry and validation. No additional worker,
+package or environment variable is needed for awareness. Run existing Next/FastAPI
+services; Mongo is required for saved progress, and the configured Gemini account
+is used only for explicit prepared explanations.
+
+Keep source IDs, claim mappings and both languages aligned. Recheck source dates,
+applicability and reuse before editing; changing a fetch date does not renew review.
+Never use the placeholder Chroma texts as verified awareness sources. A content
+version change deliberately starts new learning progress. Account reset affects
+only `awarenessProgress`, while hashed `awarenessUsage` quotas stay in effect.
+The current counter collection has no scheduled retention cleanup.
+
+Weekly outbreak documents are read through an authenticated Next route and a
+pinned PDF.js reader. Node 22.13+ (or 24+) is required by the PDF package; local
+validation used 22.17.1. Original reports remain English. The archive loader reads
+only NCDC's fixed root/year directories and accepts matching year/week PDF names.
+Listings use a bounded per-process one-hour cache; cold starts may fetch again.
+Source outages use a labelled stale listing or reviewed seed fallback where available.
+Only the selected PDF is downloaded. `weeklyReports` now supplies reviewed metadata
+and outage fallback; extend it only after checking original dates/page counts and
+official URLs. Newly discovered reports have no inferred reporting dates or review.
+Do not turn
+the byte endpoint into an arbitrary URL proxy, forward user cookies upstream,
+or remove its PDF/size/redirect checks. No extra Python dependency is required.
+
+Run the existing Python unittest and Node helper commands above; awareness tests
+mock provider/DB effects and use synthetic accounts. Live prepared AI requests
+must contain public authored evidence only, with no profile/history/free text.

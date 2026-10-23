@@ -249,3 +249,32 @@ The existing Gmail sender is reused with a separate master switch and explicit
 schedule consent to the server-verified account address. No Web Push, SMS, caregiver
 alert, treatment inference or clinical alarm guarantee. See the
 [feature record](features/REMINDERS.md) for current checks and local worker operation.
+
+## Disease awareness implementation follow-up (2026-10-23)
+
+Owner approved a signed-in dashboard awareness experience on
+`codex/disease-awareness`: English/Hindi authored learning, an original interactive
+courtyard scene, heart/BP/diabetes/TB/dengue topic exploration, evidence reveals,
+bounded prepared Gemini questions, account progress/reset and curated official
+report links. Four topic records cover heart/BP, diabetes, TB and dengue; this is
+not an exhaustive global disease database or medical risk model.
+
+`backend/app/data/awareness.json` is the single source bundle shared by Next and
+FastAPI validation. New JWT-owned `awarenessProgress` and hashed `awarenessUsage`
+counter records are separate from patient profiles/chat/reminders. The awareness
+AI receives only a prepared question/language/topic evidence. Existing placeholder
+Chroma retrieval and general-chat urgency/SSE are unchanged. WHO source attribution
+and dates are visible; Hindi adaptations lack professional translation/clinical
+review. No live surveillance integration or public landing rewrite. See
+[delivery details](features/DISEASE_AWARENESS.md) for tests and limitations.
+
+Awareness refinement: the dashboard now has a separate weekly-outbreak reader
+above the care tools, with three curated original NCDC PDFs. Pinned PDF.js renders
+pages in the app; a session-verified Next endpoint fetches only reviewed official
+URLs with type/size/redirect restrictions. The owner subsequently approved broader
+archive browsing: year/week selectors now discover official NCDC directory links,
+with a bounded one-hour per-process listing cache and labelled outage fallback.
+The three seed records retain individually checked periods; discovered reports
+have no inferred reporting period or editorial review. Only a selected PDF is
+loaded. It does not interpret outbreaks as personal/current local risk or translate
+original PDFs. See the same feature record for verified periods and reader limits.

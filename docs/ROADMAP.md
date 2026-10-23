@@ -1,6 +1,6 @@
 # MedAssist AI: delivery tracker and next-phase discussion
 
-Updated: 2026-10-23. Current baseline: main `a5e2b07`, after marketplace PR #4.
+Updated: 2026-10-23. Current baseline: main `1ebb4a7`, after reminders PR #5.
 This is the current delivery tracker. [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)
 preserves the initial source assessment and architecture details.
 
@@ -57,7 +57,8 @@ consistent. The owner selected marketplace after SOS; reminders remain queued.
 | --- | --- | --- | --- |
 | SOS-01 | Automatic contact email and SOS assistance | Implemented and checked; integration tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) | [Detailed SOS plan](features/SOS.md) |
 | MKT-01 | Medicine/health marketplace | Implemented and validated; integration tracked in PR #4 | [Marketplace delivery record](features/MARKETPLACE.md) |
-| REM-01 | Medication reminders | Implemented and validated locally; review pending | [Reminder planning draft](features/REMINDERS.md) |
+| REM-01 | Medication reminders | Merged in [PR #5](https://github.com/SSY199/MedAssist-AI/pull/5); frontend deployment passed; hosted worker deferred | [Reminder delivery record](features/REMINDERS.md) |
+| AWR-01 | Disease awareness home experience | Owner-approved version implemented locally; validation recorded; not pushed/merged | [Awareness delivery record](features/DISEASE_AWARENESS.md) |
 
 No claim is made that all three features can be completed by the review. Complete
 and verify one compact outcome before starting the next branch. Focused tests
@@ -313,3 +314,90 @@ checks. Earlier not-pushed/merged notes are historical snapshots.
 Hosted automatic email is deferred until server deployment. This PR keeps the
 local worker setup; a frontend deployment alone does not provision a scheduler.
 The feature record documents validation evidence and remaining runtime limits.
+
+### Disease awareness research (2026-10-23)
+
+Reminder PR #5 merged as `1ebb4a7`; Vercel preview/production passed and local main
+was synchronized/clean. Hosted reminder email remains deferred until backend
+deployment. Started `codex/disease-awareness` from freshly fetched main.
+
+Owner requested a standout disease-awareness feature prominent on home, explicit
+research agents, deep data/integration research and joint planning before coding.
+Three read-only workstreams covered engagement, official sources/rights and repo
+integration. [Research](research/DISEASE_AWARENESS.md) recommends interactive
+authored scenes/stories, evidence reveals and practical takeaways, with optional
+bounded AI recap. No verified live public district API was established.
+
+[Proposed plan](features/DISEASE_AWARENESS.md) records visual placement, phases,
+evidence schema, integration, AI/data boundaries, validation and open decisions.
+Nine scope questions were presented; answers and implementation agreement
+are pending. No application code, store, environment, provider or service changed.
+
+### Awareness owner answers and revised scope proposal
+
+Owner selected `/dashboard`, India general public, English + Hindi, a same-day
+target, one evidence-grounded AI interaction, account-saved progress/reset, and a
+small dated official-report section. No qualified content reviewer is available.
+The owner is open to scenes plus topic exploration/evidence and prioritizes major
+global issues followed by India-relevant high-impact topics.
+
+Revised [plan](features/DISEASE_AWARENESS.md) proposes four themes (heart/BP,
+diabetes awareness, TB, dengue), one illustrated flagship plus short situations,
+prepared AI questions with bounded calls, bilingual prototype content and curated
+report snapshots. No live surveillance or automated health-profile targeting.
+Final consolidated scope approval is pending before coding. Documentation only.
+
+### Awareness implementation approval and local delivery
+
+Owner approved proceeding after the consolidated scope check. Implemented on
+`codex/disease-awareness`: redesigned signed-in home with an original courtyard
+scene, four English/Hindi topics, 12 evidence-linked learning decisions, prepared
+Gemini explanations, JWT-owned saved progress/reset and two official reports plus
+one explicitly dated/limited archive resource card. No public landing redesign,
+profile targeting, live surveillance feed or new paid service.
+
+80 Python and 15 Node tests, TypeScript and production build passed; lint retains
+the existing Badge warning. Browser verified the desktop lesson/correction and
+Hindi AI; a fictional lesson's completion remains in the signed-in learning
+progress. Quota, reset and account isolation use synthetic tests. No professional
+clinical/translation review or mobile viewport test. Full architecture, provenance,
+operational constraints and verification are in the [feature record](features/DISEASE_AWARENESS.md).
+Not pushed or merged; await owner review/integration request.
+
+### Embedded weekly outbreak reports
+
+Owner requested a separate weekly section immediately above the dashboard care
+tools. Added three source-checked official report selections and an in-app PDF.js
+reader with navigation, zoom, text search/view and optional download. General
+report cards remain separate. Native browser embed was tested and replaced after
+it stayed blank. Same-origin PDF delivery verifies the session and allows only
+reviewed NCDC files with size/type/redirect limits. No live feed or current-risk
+inference. The report period and file-modified dates remain separate, including a
+note for the original Week 34 cover's inconsistent badge. Validation: 81 Python,
+19 Node tests, TypeScript/build and browser report interactions; lint retains the
+existing Badge warning. See [feature record](features/DISEASE_AWARENESS.md).
+
+### Official weekly archive expansion
+
+Owner approved replacing the three-report browsing limit with official year/week
+discovery. The dashboard now lists NCDC's available years and matching PDFs, keeps
+source gaps, and reads selected originals in the existing viewer. A session-verified
+listing endpoint uses fixed source paths, strict filenames, bounded fetches and a
+one-hour per-process cache; outages show labelled stale data or reviewed fallback.
+No period/review claims are inferred for newly discovered reports.
+
+Live checks found 18 year folders (2009–2026), 34 reports for 2026, 52 for 2025 and
+27 for 2009; both historical PDFs rendered in-app. All 27 Node helper tests,
+TypeScript and production build passed; lint retains the existing Badge warning.
+Unsigned listing requests return 401. No Python, patient data, learning progress,
+email or worker changes. Still local to `codex/disease-awareness`, pending review.
+
+### Awareness integration review
+
+Owner requested comparison and a safe merge into main. Fresh origin/main was
+`1ebb4a7`, an ancestor of the awareness branch with no divergent commits. Reviewed
+the 29-file feature diff; 81 Python and 27 Node synthetic tests passed again.
+The final TypeScript/build checks passed; lint retains the existing Badge warning.
+[PR #6](https://github.com/SSY199/MedAssist-AI/pull/6) contains the feature and its
+source/operational limitations. Merge is gated on GitHub mergeability and deployment
+checks; local main will be fast-forwarded only after GitHub confirms the merge.
