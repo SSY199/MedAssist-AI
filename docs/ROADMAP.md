@@ -301,3 +301,15 @@ evidence and limits. Remains on `codex/medication-reminders`, not pushed/merged.
 Reminder banner follow-up: clarified that viewing does not acknowledge a dose;
 Taken/Skipped/Snooze remain explicit. Added immediate count refresh after mutations
 and on navigation, preserving pending history and delivery behavior.
+
+### Reminder integration (2026-10-23)
+
+Owner approved pushing and safely merging the completed feature. [PR #5](https://github.com/SSY199/MedAssist-AI/pull/5)
+contains medication schedules, generic own-account email worker, explicit actions,
+history and timing/banner follow-ups. Remote main matched the original feature
+base at preparation. Merge is gated on current PR mergeability and deployment
+checks. Earlier not-pushed/merged notes are historical snapshots.
+
+Hosted automatic email is deferred until server deployment. This PR keeps the
+local worker setup; a frontend deployment alone does not provision a scheduler.
+The feature record documents validation evidence and remaining runtime limits.
