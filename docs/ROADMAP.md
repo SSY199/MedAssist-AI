@@ -297,3 +297,7 @@ errors. Polling and delivery policy are unchanged. The inspected schedule remain
 paused. All 59 Python and 12 Node tests, TypeScript and build passed; lint retains
 the pre-existing warning. See the [feature record](features/REMINDERS.md) for
 evidence and limits. Remains on `codex/medication-reminders`, not pushed/merged.
+
+Reminder banner follow-up: clarified that viewing does not acknowledge a dose;
+Taken/Skipped/Snooze remain explicit. Added immediate count refresh after mutations
+and on navigation, preserving pending history and delivery behavior.

@@ -358,3 +358,18 @@ legacy missing times and snooze reset. TypeScript and production build passed;
 lint retains the existing unused Badge warning. Focus refresh was source-reviewed;
 the signed-in page containing real medication information was not inspected in
 this follow-up. Local API/worker restart loads the updated code.
+
+### Pending-banner clarification
+
+Viewing the reminders page does not acknowledge a dose. The banner counts pending
+due occurrences until Taken/Skipped or a future Snooze; pausing a schedule affects
+future alerts and does not resolve past occurrences. Its copy now explains these
+actions. The count refreshes on route navigation and immediately after reminder
+mutations (including a recheck after uncertain responses), in addition to existing
+poll/focus refresh. Response sequencing prevents an older count replacing a newer
+one. No medication action or schedule state is changed merely by opening a page.
+
+Validation: TypeScript, lint (existing Badge warning), whitespace/link checks and
+production build passed. The first sandboxed build could not fetch Google Fonts;
+the network-enabled retry passed. No live medication actions were taken or browser
+verification performed against the account's real reminder for this UI follow-up.

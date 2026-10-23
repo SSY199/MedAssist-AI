@@ -130,6 +130,7 @@ export default function MedicationReminders({
         "Could not confirm the change. It may have been saved, or the record changed on another screen. Refresh before retrying. Snooze is once only and cannot overlap the next occurrence or an email submission.",
       );
     } finally {
+      window.dispatchEvent(new Event("medassist:reminders-changed"));
       await load();
       lock.current = false;
       setPending(false);
