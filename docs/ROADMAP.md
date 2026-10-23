@@ -57,7 +57,7 @@ consistent. The owner selected marketplace after SOS; reminders remain queued.
 | --- | --- | --- | --- |
 | SOS-01 | Automatic contact email and SOS assistance | Implemented and checked; integration tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) | [Detailed SOS plan](features/SOS.md) |
 | MKT-01 | Medicine/health marketplace | Implemented and validated; integration tracked in PR #4 | [Marketplace delivery record](features/MARKETPLACE.md) |
-| REM-01 | Medication reminders | Nine scope choices recorded; final approval pending | [Reminder planning draft](features/REMINDERS.md) |
+| REM-01 | Medication reminders | Implemented and validated locally; review pending | [Reminder planning draft](features/REMINDERS.md) |
 
 No claim is made that all three features can be completed by the review. Complete
 and verify one compact outcome before starting the next branch. Focused tests
@@ -263,3 +263,26 @@ No application, DB, environment or provider changes.
 Owner subsequently confirmed the proposed close-tab/email/reopen/mark-Taken demo.
 No specific deadline was stated. Final timing/sender/implementation agreement remains
 pending; no need to repeat the initial question set.
+
+### Reminder implementation approval (2026-10-23)
+
+Owner approved the final medication reminder plan, timing rules and Gmail reuse.
+Implementation is on `codex/medication-reminders`; UI/API/worker and synthetic tests
+are in place. No new dependency/provider signup or public deployment. Worker runs
+separately from FastAPI. Current validation and operational limits are recorded in
+the [feature record](features/REMINDERS.md); owner authorized a single synthetic own-account test email; SMTP accepted once
+while the agent-created test tab was closed. Receipt has not been verified.
+
+### Reminder local delivery verification (2026-10-23)
+
+Implemented the agreed version and validated 56 Python tests, 11 Node tests, strict
+TypeScript, production build, AST and documentation/diff checks. Lint retains one
+existing Badge warning. Owner authorized a labelled synthetic live schedule; worker
+submitted one generic email (SMTP accepted once) while the agent test tab was
+closed. Taken/history persisted after reload; Stop preserved history. The stopped
+synthetic record remains for inspection. Inbox delivery is not established.
+
+Local API/worker are running. Only new reminder collections/indexes and ignored
+local sender switch were introduced; no dependency upgrades or public deployment.
+Not pushed/merged; branch `codex/medication-reminders`. See
+[feature record](features/REMINDERS.md) for operations and remaining limits.

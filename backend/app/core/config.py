@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     CHROMA_DB_PATH: str = "./chroma_data"
 
     # Optional: SOS stays usable with call/WhatsApp if the sender is not configured.
+    # Separate master switch for the approved generic reminder channel.
+    REMINDERS_EMAIL_ENABLED: bool = False
     SOS_GMAIL_ADDRESS: str = ""
     SOS_GMAIL_APP_PASSWORD: str = ""
 

@@ -1,11 +1,11 @@
 # REM-01: medication reminders — planning draft
 
-Updated: 2026-10-23. Status: Nine owner choices recorded; final scope approval pending.
+Updated: 2026-10-23. Status: Implemented and validated locally; not pushed or merged.
 Branch: `codex/medication-reminders`. Base: main `a5e2b07`, marketplace PR #4 merged.
 [Research, alternatives and primary sources](../research/REMINDERS.md).
-No application implementation is approved or started.
+Owner explicitly approved implementation on 2026-10-23. Earlier proposals below are retained as planning history; the selected scope and implementation record are authoritative.
 
-## Proposed outcome
+## Agreed outcome
 
 A user records their existing medication schedule, sees what is due today,
 receives reminders through an agreed channel and records Taken/Skipped/Snoozed
@@ -168,7 +168,7 @@ send is authorized by this planning draft.
 - Existing sign-in/profile/chat/map/marketplace/SOS remain functional. No real health
   data, provider secrets or generated stores enter commits.
 
-## Pending owner decisions
+## Original decision set (answered below)
 
 Ten questions cover feature types, channels, platforms, schedule patterns, dose
 logging, late reminders, input/prefill, message privacy, hosting budget and target
@@ -195,7 +195,7 @@ These selections supersede alternatives above. Web Push/browser OS notifications
 SMS/WhatsApp, appointments/habits, caregiver escalation, public hosting, complex
 intervals and AI-generated treatment/doses are excluded from this first version.
 
-Concrete defaults proposed for final owner approval:
+Defaults approved in the final scope confirmation:
 
 - Show a confirmed timezone on each schedule (suggest the device's IANA timezone
   initially); preserve that timezone when travelling unless explicitly edited.
@@ -232,6 +232,101 @@ Test messages require the owner's selected test account/recipient; the planning
 choices alone do not authorize sending health information to anyone.
 
 The owner confirmed the proposed demonstration after question ten was clarified.
-No completion date was specified; it does not block scope agreement. A final
-confirmation covers the revised timing defaults, Gmail reuse and implementation
-before application code is written.
+No completion date was specified. The owner subsequently approved the final scope
+including timing defaults, Gmail reuse and implementation before coding began.
+
+## Approved implementation (2026-10-23)
+
+Owner explicitly selected “Yes, implement this version” for the final scope check,
+including the configured Gmail sender, generic own-account email, 30-minute
+catch-up window and one 10-minute snooze. Application implementation is authorized;
+no public hosting, paid services, push/SMS/WhatsApp or caregiver messages.
+
+Implementation now includes protected reminder screens and dashboard link, typed
+forms/previews, explicit optional profile/catalog-name prefill, per-occurrence
+actions/history and pause/resume/stop. The dashboard due notice is generic.
+
+FastAPI routes use JWT identity; server-trusted Better-Auth Mongo user data supplies
+the verified recipient. Email consent is stored with recipient fingerprint, version
+and timestamp; a changed/unverified recipient suppresses sends until re-confirmed.
+
+The standalone worker uses Mongo records, deterministic occurrence IDs, atomic
+claims, two-attempt limits for definite failures, and no automatic retry of
+ambiguous SMTP submissions. It rechecks the schedule and action before submission.
+Accepted mail remains separate from Taken/Skipped. A message already submitting
+can still arrive after an action, pause or edit.
+
+Local command (run in a separate terminal from `backend/`, while API is running):
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m app.workers.reminders
+```
+
+The worker creates indexes only for the new `medicationReminders`,
+`reminderOccurrences` collections and stores heartbeat/quota metadata in
+`reminderWorkerState`. It checks every 15 seconds; UI refreshes every 30 seconds
+and dashboard due count every 60 seconds. A heartbeat older than 90 seconds is
+shown as offline. This is a prototype target, not a timing/delivery guarantee.
+
+`REMINDERS_EMAIL_ENABLED` is a separate server-only master switch (template default
+false). Local ignored `.env` enables it for the approved version, using existing
+`SOS_GMAIL_ADDRESS` / `SOS_GMAIL_APP_PASSWORD`; SOS transport/activation is unchanged.
+Set the switch false and restart API/worker to disable all reminder email.
+Each schedule still requires its own email opt-in/consent; no email is sent merely
+by opening the page, previewing, or starting the worker.
+
+Prototype bounds: 50 schedules/account, eight times/schedule, 500 rows per day;
+latest 20 action corrections per occurrence. History browsing covers 30 days; no
+silent history deletion/TTL job. Dates supported through 2100. Old history beyond
+the backfill window is not reconstructed after an outage longer than 30 days.
+Email quotas (UTC buckets): six/hour and 30/day per account, 20/hour and 100/day
+globally. These conservative caps reserve sender capacity for SOS; budget-suppressed
+reminders stay in-app with an explicit reason. Failed/partial quota reservations
+can conservatively consume capacity; they never increase allowance.
+
+Validation so far: 56 synthetic Python tests and 11 Node helper tests passed,
+including the mocked create → worker → accepted email → Taken → persisted read
+flow. TypeScript and production build passed. Lint has only the existing unused
+Badge warning. AST parsing and diff whitespace checks passed.
+Owner separately authorized one generic test email using a labelled synthetic
+schedule in the currently signed-in account. The schedule was saved for 01:23
+Asia/Calcutta on 2026-10-23, then the agent-created test tab was closed. The worker
+continues independently; final submission/action verification is recorded below.
+
+Live verification: the authorized synthetic one-time occurrence was submitted once
+while the agent-created test tab was closed. Read-only delivery metadata confirmed
+`attempts=1`, `delivery=accepted`, `status=pending`; this proves SMTP acceptance, not
+inbox delivery. No recipient address, token or medication profile was printed or
+committed. The user's other browser tabs were preserved.
+
+Browser review also caught a native date/time input synchronization issue: the
+preview could retain the previous controlled value. Explicit input-event handling
+now invalidates/rebuilds the preview; the displayed and saved 01:23 time matched.
+A response sequence guard prevents older day/poll responses replacing newer data.
+
+## Completed local verification
+
+- 56 Python tests passed (24 reminders, 10 marketplace, 22 SOS); 11 Node tests passed.
+  Frozen-clock/mocked-provider tests include auth/ownership, one-time/daily/weekday
+  recurrence, DST gaps/overlaps, preview validation, replay-safe creation/actions,
+  Taken/Skipped corrections, snooze/next-time overlap, pause/version conflicts,
+  worker restart/concurrency, failed/ambiguous submission, catch-up and quotas.
+- Final production build, TypeScript, AST parsing and whitespace/link checks passed.
+  Lint has only the pre-existing unused Badge warning. No dependencies were added.
+- Browser verified empty state, worker/sender status, synthetic weekday preview,
+  native date/time preview agreement, synthetic one-time save, accepted email state,
+  Taken, reload-persisted Taken/history, and Stop preserving that history.
+- Owner-authorized synthetic live test: one SMTP-accepted submission/one attempt
+  while the agent test tab was closed. It was then recorded Taken, reloaded and
+  stopped. The labelled test schedule/history remain visible, with no future send.
+  Inbox receipt was not independently verified, and other user tabs were preserved.
+- The original profile/medications were not edited. No real medication, caregiver
+  message, push permission or public deployment was involved. APIs/new collections
+  were exercised with synthetic records; existing patient/auth collections were not
+  changed by the implementation. Narrow mobile viewport and multiple live accounts
+  were not exercised; those ownership paths are covered by isolated tests.
+
+The local API and separate worker are running. Later restart requires both services;
+Gmail credentials and `REMINDERS_EMAIL_ENABLED=true` remain only in ignored local
+environment files. Production reminder delivery is not configured by a frontend build.
+Push/PR/merge and hosted delivery remain owner-authorized follow-up actions.

@@ -131,8 +131,11 @@ No final scheduler library/framework or new dependency is approved yet.
 - User input only records an existing prescribed plan; no AI-generated dose,
   treatment changes, interaction checking or urgent escalation in this milestone.
 
-## Research status
+## Research snapshot status
 
 A ten-question decision set was presented to the owner. The feature plan is a
 proposal until answers are recorded and the revised scope is explicitly approved.
 No application code, database records or environment settings changed.
+
+This research snapshot predates approval/implementation. See the
+[current feature record](../features/REMINDERS.md) for the approved scope and results.
