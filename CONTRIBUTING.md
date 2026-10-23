@@ -128,6 +128,13 @@ version change deliberately starts new learning progress. Account reset affects
 only `awarenessProgress`, while hashed `awarenessUsage` quotas stay in effect.
 The current counter collection has no scheduled retention cleanup.
 
+Weekly outbreak documents are read through an authenticated Next route and a
+pinned PDF.js reader. Node 22.13+ (or 24+) is required by the PDF package; local
+validation used 22.17.1. Original reports remain English. Extend `weeklyReports`
+only after checking original dates/page counts and official URLs. Do not turn
+the byte endpoint into an arbitrary URL proxy, forward user cookies upstream,
+or remove its PDF/size/redirect checks. No extra Python dependency is required.
+
 Run the existing Python unittest and Node helper commands above; awareness tests
 mock provider/DB effects and use synthetic accounts. Live prepared AI requests
 must contain public authored evidence only, with no profile/history/free text.

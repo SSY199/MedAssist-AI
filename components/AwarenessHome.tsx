@@ -25,6 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { AwarenessScene } from "@/components/AwarenessScene";
 import { AwarenessLesson } from "@/components/AwarenessLesson";
+import { WeeklyOutbreakReports } from "@/components/WeeklyOutbreakReports";
 import { apiFetch } from "@/lib/api-client";
 import {
   completedSteps,
@@ -550,7 +551,7 @@ export default function AwarenessHome({
               : "Curated collection · not live surveillance"}
           </span>
         </div>
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid gap-4 lg:grid-cols-2">
           {catalog.reports.map((report) => (
             <article
               key={report.id}
@@ -602,6 +603,10 @@ export default function AwarenessHome({
           ))}
         </div>
       </section>
+      <WeeklyOutbreakReports
+        reports={catalog.weeklyReports}
+        language={language}
+      />
       <section
         aria-label={hi ? "आपके अन्य उपकरण" : "Your everyday tools"}
         className="rounded-2xl border border-panel-border bg-panel p-5 sm:p-6"

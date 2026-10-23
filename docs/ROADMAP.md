@@ -363,3 +363,16 @@ progress. Quota, reset and account isolation use synthetic tests. No professiona
 clinical/translation review or mobile viewport test. Full architecture, provenance,
 operational constraints and verification are in the [feature record](features/DISEASE_AWARENESS.md).
 Not pushed or merged; await owner review/integration request.
+
+### Embedded weekly outbreak reports
+
+Owner requested a separate weekly section immediately above the dashboard care
+tools. Added three source-checked official report selections and an in-app PDF.js
+reader with navigation, zoom, text search/view and optional download. General
+report cards remain separate. Native browser embed was tested and replaced after
+it stayed blank. Same-origin PDF delivery verifies the session and allows only
+reviewed NCDC files with size/type/redirect limits. No live feed or current-risk
+inference. The report period and file-modified dates remain separate, including a
+note for the original Week 34 cover's inconsistent badge. Validation: 81 Python,
+19 Node tests, TypeScript/build and browser report interactions; lint retains the
+existing Badge warning. See [feature record](features/DISEASE_AWARENESS.md).

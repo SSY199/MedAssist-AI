@@ -57,6 +57,22 @@ export type AwarenessCatalog = {
   topics: AwarenessTopic[];
   sources: AwarenessSource[];
   reports: AwarenessReport[];
+  weeklyReports: WeeklyOutbreakReport[];
+};
+export type WeeklyOutbreakReport = {
+  sourceNote: Bilingual | null;
+  id: string;
+  title: Bilingual;
+  publisher: string;
+  url: string;
+  publishedOn: string | null;
+  periodStart: string;
+  periodEnd: string;
+  fileModifiedOn: string;
+  reviewedOn: string;
+  pages: number;
+  week: number;
+  year: number;
 };
 export type LearningProgress = {
   topic_id: string;

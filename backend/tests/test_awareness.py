@@ -84,9 +84,18 @@ class CatalogTests(unittest.TestCase):
             with self.subTest(url=url), self.assertRaises(ValidationError): Source.model_validate({**source, "url": url})
 
     def test_report_dates_and_missing_date_are_not_fabricated(self):
-        self.assertIsNone(CATALOG.reports[-1].publishedOn)
-        self.assertIn("not a live feed", CATALOG.reports[-1].limitation.en)
+        self.assertTrue(all(r.publishedOn is None for r in CATALOG.weeklyReports))
+        self.assertEqual([r.week for r in CATALOG.weeklyReports],[34,33,32])
+        self.assertEqual(CATALOG.weeklyReports[0].periodStart.isoformat(),"2026-08-17")
+        self.assertEqual(CATALOG.weeklyReports[0].pages,25)
+        self.assertIn("33rd-week badge",CATALOG.weeklyReports[0].sourceNote.en)
         self.assertEqual(CATALOG.reports[0].publishedOn.isoformat(), "2025-11-12")
+
+    def test_weekly_pdf_must_match_reviewed_week_year_host_and_period(self):
+        for changes in [{"url":"https://www.who.int/report.pdf"}, {"week":1}, {"year":2025}, {"url":CATALOG.weeklyReports[0].url+"?redirect=evil"}, {"periodEnd":"2026-01-01"}]:
+            data=CATALOG.model_dump(mode="json")
+            data["weeklyReports"][0].update(changes)
+            with self.subTest(changes=changes), self.assertRaises(ValidationError): Catalog.model_validate(data)
 
     def test_authored_fallback_is_topic_bound_in_both_languages(self):
         for topic in TOPICS.values():

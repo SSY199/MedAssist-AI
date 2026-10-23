@@ -267,3 +267,10 @@ Chroma retrieval and general-chat urgency/SSE are unchanged. WHO source attribut
 and dates are visible; Hindi adaptations lack professional translation/clinical
 review. No live surveillance integration or public landing rewrite. See
 [delivery details](features/DISEASE_AWARENESS.md) for tests and limitations.
+
+Awareness refinement: the dashboard now has a separate weekly-outbreak reader
+above the care tools, with three curated original NCDC PDFs. Pinned PDF.js renders
+pages in the app; a session-verified Next endpoint fetches only reviewed official
+URLs with type/size/redirect restrictions. It does not interpret outbreaks as
+personal/current local risk, translate original PDFs or automatically ingest the
+archive. See the same feature record for verified periods and reader limitations.

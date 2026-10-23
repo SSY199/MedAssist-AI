@@ -702,33 +702,65 @@
         "en": "Dated programme information; not district-level surveillance.",
         "hi": "पुरानी कार्यक्रम जानकारी; ज़िला-स्तरीय निगरानी नहीं।"
       }
+    }
+  ],
+  "weeklyReports": [
+    {
+      "id": "idsp-2026-week-34",
+      "publisher": "NCDC / IDSP",
+      "title": {
+        "en": "Week 34 · 2026",
+        "hi": "सप्ताह 34 · 2026"
+      },
+      "url": "https://ncdc.mohfw.gov.in/uploads/weekly_outbreaks/2026/week34_1791864925.pdf",
+      "publishedOn": null,
+      "periodStart": "2026-08-17",
+      "periodEnd": "2026-08-23",
+      "fileModifiedOn": "2026-10-13",
+      "reviewedOn": "2026-10-23",
+      "pages": 25,
+      "week": 34,
+      "year": 2026,
+      "sourceNote": {
+        "en": "The original cover has a 33rd-week badge, while its filename, main heading and reporting period identify Week 34. The source is shown unchanged.",
+        "hi": "मूल कवर पर 33वें सप्ताह का बैज है, जबकि फ़ाइल नाम, मुख्य शीर्षक और रिपोर्टिंग अवधि सप्ताह 34 बताते हैं। स्रोत बिना बदलाव दिखाया गया है।"
+      }
     },
     {
-      "id": "idsp-archive",
-      "title": {
-        "en": "India: weekly outbreak reports",
-        "hi": "भारत: साप्ताहिक प्रकोप रिपोर्ट"
-      },
+      "id": "idsp-2026-week-33",
       "publisher": "NCDC / IDSP",
-      "url": "https://ncdc.mohfw.gov.in/uploads/weekly_outbreaks/2026/",
+      "title": {
+        "en": "Week 33 · 2026",
+        "hi": "सप्ताह 33 · 2026"
+      },
+      "url": "https://ncdc.mohfw.gov.in/uploads/weekly_outbreaks/2026/week33_1791440820.pdf",
       "publishedOn": null,
-      "period": {
-        "en": "2026 report archive",
-        "hi": "2026 रिपोर्ट संग्रह"
-      },
-      "summary": {
-        "en": "Open the official archive to inspect individual reports and their reporting periods.",
-        "hi": "अलग-अलग रिपोर्ट और उनकी रिपोर्टिंग अवधि देखने के लिए आधिकारिक संग्रह खोलें।"
-      },
-      "kind": {
-        "en": "Official archive",
-        "hi": "आधिकारिक संग्रह"
-      },
+      "periodStart": "2026-08-10",
+      "periodEnd": "2026-08-16",
+      "fileModifiedOn": "2026-10-08",
       "reviewedOn": "2026-10-23",
-      "limitation": {
-        "en": "Archive, not a live feed. Upload dates differ from reporting periods; missing reports do not mean zero cases.",
-        "hi": "यह संग्रह है, लाइव फ़ीड नहीं। अपलोड की तारीख रिपोर्टिंग अवधि से अलग है; रिपोर्ट न होने का अर्थ शून्य मामले नहीं।"
-      }
+      "pages": 20,
+      "week": 33,
+      "year": 2026,
+      "sourceNote": null
+    },
+    {
+      "id": "idsp-2026-week-32",
+      "publisher": "NCDC / IDSP",
+      "title": {
+        "en": "Week 32 · 2026",
+        "hi": "सप्ताह 32 · 2026"
+      },
+      "url": "https://ncdc.mohfw.gov.in/uploads/weekly_outbreaks/2026/week32_1790680151.pdf",
+      "publishedOn": null,
+      "periodStart": "2026-08-03",
+      "periodEnd": "2026-08-09",
+      "fileModifiedOn": "2026-09-29",
+      "reviewedOn": "2026-10-23",
+      "pages": 24,
+      "week": 32,
+      "year": 2026,
+      "sourceNote": null
     }
   ]
 }

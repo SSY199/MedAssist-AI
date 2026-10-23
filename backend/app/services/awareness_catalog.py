@@ -1,6 +1,7 @@
 """One versioned bilingual bundle shared with the frontend. No network or DB imports."""
 from datetime import date, datetime, timezone
 from pathlib import Path
+import re
 from typing import Literal
 from urllib.parse import urlsplit
 
@@ -87,11 +88,33 @@ class Report(Link):
     limitation: Text
 
 
+class WeeklyReport(Link):
+    title: Text
+    sourceNote: Text | None
+    periodStart: date
+    periodEnd: date
+    fileModifiedOn: date
+    reviewedOn: date
+    pages: int = Field(ge=1, le=500)
+    week: int = Field(ge=1, le=53)
+    year: int = Field(ge=2020, le=2100)
+
+    @model_validator(mode="after")
+    def report_details(self):
+        parsed = urlsplit(self.url)
+        if (parsed.hostname != "ncdc.mohfw.gov.in" or parsed.query or parsed.fragment
+                or not re.fullmatch(rf"/uploads/weekly_outbreaks/{self.year}/week{self.week}_[0-9]+\.pdf", parsed.path)
+                or self.periodEnd < self.periodStart):
+            raise ValueError("Weekly report needs a reviewed official PDF and valid reporting period")
+        return self
+
+
 class Catalog(Record):
     version: int
     sources: list[Source]
     topics: list[Topic]
     reports: list[Report]
+    weeklyReports: list[WeeklyReport]
 
     @model_validator(mode="after")
     def references(self):
@@ -103,6 +126,7 @@ class Catalog(Record):
         sources = unique(self.sources)
         unique(self.topics)
         unique(self.reports)
+        unique(self.weeklyReports)
         for topic in self.topics:
             claims = unique(topic.claims)
             unique(topic.steps)

@@ -341,3 +341,54 @@ whitespace and local-document link checks passed before committing.
   public landing redesign or general-chat prompt/urgency/SSE change. No push/merge
   is implied by implementation approval. Source breadth and independent content
   review remain expansion tasks.
+
+## Weekly outbreak reader refinement (2026-10-23)
+
+Owner requested a distinct weekly-outbreak section embedded in the main dashboard
+directly above “Your care, within reach,” with reading inside the app. The existing
+general report cards remain; the archive card moved into this dedicated section.
+
+Three reviewed official PDFs are available: 2026 Week 34 (August 17–23, 25 pages),
+Week 33 (August 10–16, 20 pages), Week 32 (August 3–9, 24 pages). Source URLs and
+file-modified dates came from the NCDC archive; reporting periods/page counts were
+checked in the downloaded originals. Publication dates remain unknown, separate
+from file modification and local review. Week 34's original cover has an inconsistent
+33rd-week badge; the UI explains this and does not alter the source document.
+These are the three reviewed reports, not all archive history or a live feed.
+
+Native iframe embedding produced a blank viewer in the actual in-app browser.
+It was replaced with an app-owned PDF.js reader: page selection/previous/next,
+zoom, literal search returning matching page buttons, selectable extracted text,
+and optional Save PDF. The source stays English; reader controls support both
+languages. Search uses existing PDF text, not OCR of scanned map labels. Text mode
+does not reconstruct table layout; the rendered original remains available.
+
+`pdfjs-dist` is pinned to 6.4.299 in the npm lockfile (Node >=22.13 or >=24;
+verified locally on Node 22.17.1). The module is dynamically imported, worker
+served from the app's bundled assets, and only the selected PDF is loaded. Reader
+cleanup cancels loading/rendering/search when the report changes. No PDF scripting
+or XFA viewer is enabled; only original-page canvas/text are used. No PDFs are
+committed into the repository and no external CDN worker is required.
+
+`GET /api/awareness/reports/[reportId]` verifies the Better-Auth session itself.
+Only IDs from the reviewed collection resolve to exact allowlisted NCDC PDF URLs;
+arbitrary URLs/redirects cannot be supplied. Upstream requests omit user credentials,
+reject redirects, time out, and enforce PDF MIME/magic and an 8 MiB streamed limit.
+Official bytes can be cached for a day; client responses are private. Provider
+errors use a static retry message. No patient information, profile or Gemini call
+is involved. The optional download uses the same authenticated endpoint.
+
+The general awareness topic versions, progress and reminder worker are unchanged.
+Schema validation now checks weekly PDF host/path/year/week, reporting period and
+unique IDs. Source records live in the same shared awareness bundle. Further
+archive coverage or automated refresh requires its own reviewed update strategy.
+
+Validation: 81 Python tests and 19 Node helper tests passed, including malformed
+weekly metadata, URL/redirect bounds, PDF type/magic/size limits and literal page
+search. TypeScript/build passed; lint retains only the pre-existing Badge warning.
+The unauthenticated report endpoint returns 401. Browser verified the PDF rendering,
+page 2/text view, Dengue search with matching-page navigation, zoom to 120%, report
+switching (25 to 20 pages), and Hindi controls without leaving `/dashboard`.
+No account/learning writes or email were performed for this refinement. Mobile
+viewport and downloaded-file interaction were not exercised. The source host must
+be reachable for an uncached PDF; a cached report is historical, not current risk.
