@@ -1,0 +1,734 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "who-bp",
+      "publisher": "World Health Organization",
+      "title": "Hypertension",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/hypertension%E2%81%A0",
+      "publishedOn": "2025-09-25",
+      "accessedOn": "2026-10-23",
+      "language": "en",
+      "region": "Global",
+      "section": "Overview / prevention",
+      "reuse": "Short original educational adaptation with attribution; no WHO endorsement. See WHO copyright policy; no official imagery reproduced."
+    },
+    {
+      "id": "who-diabetes",
+      "publisher": "World Health Organization",
+      "title": "Diabetes",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/diabetes",
+      "publishedOn": "2024-11-14",
+      "accessedOn": "2026-10-23",
+      "language": "en",
+      "region": "Global",
+      "section": "Overview / prevention",
+      "reuse": "Short original educational adaptation with attribution; no WHO endorsement. See WHO copyright policy; no official imagery reproduced."
+    },
+    {
+      "id": "who-tb",
+      "publisher": "World Health Organization",
+      "title": "Tuberculosis",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/tuberculosis",
+      "publishedOn": "2026-03-24",
+      "accessedOn": "2026-10-23",
+      "language": "en",
+      "region": "Global",
+      "section": "Overview / prevention",
+      "reuse": "Short original educational adaptation with attribution; no WHO endorsement. See WHO copyright policy; no official imagery reproduced."
+    },
+    {
+      "id": "who-dengue",
+      "publisher": "World Health Organization",
+      "title": "Dengue",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/dengue-and-severe-dengue",
+      "publishedOn": "2025-08-21",
+      "accessedOn": "2026-10-23",
+      "language": "en",
+      "region": "Global",
+      "section": "Overview / prevention",
+      "reuse": "Short original educational adaptation with attribution; no WHO endorsement. See WHO copyright policy; no official imagery reproduced."
+    }
+  ],
+  "topics": [
+    {
+      "id": "heart-bp",
+      "version": 1,
+      "title": {
+        "en": "Heart health & blood pressure",
+        "hi": "हृदय स्वास्थ्य और रक्तचाप"
+      },
+      "description": {
+        "en": "Small everyday choices. A condition you may not feel.",
+        "hi": "रोज़मर्रा के छोटे कदम। एक समस्या जिसके लक्षण महसूस न हों।"
+      },
+      "category": {
+        "en": "Global priority",
+        "hi": "वैश्विक प्राथमिकता"
+      },
+      "reviewedOn": "2026-10-23",
+      "reviewDue": "2027-01-21",
+      "reviewerRole": "Source-checked student prototype; no clinical or professional translation review",
+      "claims": [
+        {
+          "id": "bp-check",
+          "text": {
+            "en": "High blood pressure often has no symptoms. Measurement and professional assessment matter.",
+            "hi": "उच्च रक्तचाप में अक्सर लक्षण नहीं होते। रक्तचाप की जाँच और स्वास्थ्यकर्मी का आकलन ज़रूरी है।"
+          },
+          "sourceIds": [
+            "who-bp"
+          ],
+          "section": "Symptoms"
+        },
+        {
+          "id": "bp-habits",
+          "text": {
+            "en": "Less salt, regular movement and avoiding tobacco can support blood-pressure control; some people also need prescribed medicine.",
+            "hi": "कम नमक, नियमित शारीरिक गतिविधि और तंबाकू से दूरी रक्तचाप नियंत्रण में मदद कर सकते हैं; कुछ लोगों को निर्धारित दवा भी चाहिए।"
+          },
+          "sourceIds": [
+            "who-bp"
+          ],
+          "section": "Prevention / treatment"
+        },
+        {
+          "id": "bp-care",
+          "text": {
+            "en": "Untreated high blood pressure can damage the heart, brain and kidneys. A clinician can guide assessment and care.",
+            "hi": "अनियंत्रित उच्च रक्तचाप हृदय, मस्तिष्क और गुर्दों को नुकसान पहुँचा सकता है। जाँच और देखभाल के लिए स्वास्थ्यकर्मी की सलाह लें।"
+          },
+          "sourceIds": [
+            "who-bp"
+          ],
+          "section": "Complications"
+        }
+      ],
+      "steps": [
+        {
+          "id": "check",
+          "kind": "situation",
+          "prompt": {
+            "en": "A relative feels well and sees no reason for a blood-pressure check. What is worth remembering?",
+            "hi": "एक परिजन ठीक महसूस करते हैं और रक्तचाप की जाँच ज़रूरी नहीं मानते। क्या याद रखना चाहिए?"
+          },
+          "choices": [
+            {
+              "id": "choice-1",
+              "label": {
+                "en": "Feeling well always rules out high blood pressure",
+                "hi": "ठीक महसूस होने पर उच्च रक्तचाप नहीं हो सकता"
+              }
+            },
+            {
+              "id": "choice-2",
+              "label": {
+                "en": "A check can matter even without symptoms",
+                "hi": "बिना लक्षण भी जाँच महत्वपूर्ण हो सकती है"
+              }
+            }
+          ],
+          "answerId": "choice-2",
+          "claimIds": [
+            "bp-check"
+          ]
+        },
+        {
+          "id": "habits",
+          "kind": "situation",
+          "prompt": {
+            "en": "Which everyday plan supports heart and blood-pressure health?",
+            "hi": "कौन-सी रोज़मर्रा की योजना हृदय और रक्तचाप के लिए मददगार है?"
+          },
+          "choices": [
+            {
+              "id": "choice-1",
+              "label": {
+                "en": "Move regularly, use less salt and avoid tobacco",
+                "hi": "नियमित गतिविधि, कम नमक और तंबाकू से दूरी"
+              }
+            },
+            {
+              "id": "choice-2",
+              "label": {
+                "en": "Wait for symptoms before changing anything",
+                "hi": "कुछ बदलने से पहले लक्षणों का इंतज़ार"
+              }
+            }
+          ],
+          "answerId": "choice-1",
+          "claimIds": [
+            "bp-habits"
+          ]
+        },
+        {
+          "id": "myth",
+          "kind": "evidence",
+          "prompt": {
+            "en": "“Lifestyle changes mean everyone can stop blood-pressure medicine.” Is this supported?",
+            "hi": "“जीवनशैली बदलने पर हर कोई रक्तचाप की दवा बंद कर सकता है।” क्या यह सही है?"
+          },
+          "choices": [
+            {
+              "id": "choice-1",
+              "label": {
+                "en": "No—some people still need prescribed medicine",
+                "hi": "नहीं—कुछ लोगों को निर्धारित दवा फिर भी चाहिए"
+              }
+            },
+            {
+              "id": "choice-2",
+              "label": {
+                "en": "Yes—medicine is never needed after lifestyle changes",
+                "hi": "हाँ—जीवनशैली बदलने के बाद दवा कभी नहीं चाहिए"
+              }
+            }
+          ],
+          "answerId": "choice-1",
+          "claimIds": [
+            "bp-habits"
+          ]
+        }
+      ],
+      "takeawayIds": [
+        "bp-check",
+        "bp-habits",
+        "bp-care"
+      ],
+      "questionIds": [
+        "basics",
+        "prevention"
+      ]
+    },
+    {
+      "id": "diabetes",
+      "version": 1,
+      "title": {
+        "en": "Understanding diabetes",
+        "hi": "मधुमेह को समझें"
+      },
+      "description": {
+        "en": "Know the differences. Learn what prevention can—and cannot—mean.",
+        "hi": "अंतर समझें। जानें रोकथाम का क्या मतलब है और उसकी सीमाएँ क्या हैं।"
+      },
+      "category": {
+        "en": "Global priority",
+        "hi": "वैश्विक प्राथमिकता"
+      },
+      "reviewedOn": "2026-10-23",
+      "reviewDue": "2027-01-21",
+      "reviewerRole": "Source-checked student prototype; no clinical or professional translation review",
+      "claims": [
+        {
+          "id": "diabetes-types",
+          "text": {
+            "en": "Diabetes has different types. Type 1 requires insulin; lifestyle prevention messages mainly concern type 2.",
+            "hi": "मधुमेह के कई प्रकार हैं। टाइप 1 में इंसुलिन आवश्यक है; जीवनशैली से रोकथाम की जानकारी मुख्यतः टाइप 2 के लिए है।"
+          },
+          "sourceIds": [
+            "who-diabetes"
+          ],
+          "section": "Type 1 / type 2 / prevention"
+        },
+        {
+          "id": "diabetes-habits",
+          "text": {
+            "en": "Physical activity, a healthy diet and avoiding tobacco can help prevent or delay type 2 diabetes, without guaranteeing prevention.",
+            "hi": "शारीरिक गतिविधि, संतुलित भोजन और तंबाकू से दूरी टाइप 2 मधुमेह को रोकने या देर से होने में मदद कर सकते हैं; यह गारंटी नहीं है।"
+          },
+          "sourceIds": [
+            "who-diabetes"
+          ],
+          "section": "Prevention"
+        },
+        {
+          "id": "diabetes-testing",
+          "text": {
+            "en": "Type 2 symptoms can be mild for a long time. Blood-glucose testing and professional advice help with early detection.",
+            "hi": "टाइप 2 के लक्षण लंबे समय तक हल्के हो सकते हैं। रक्त शर्करा की जाँच और स्वास्थ्यकर्मी की सलाह जल्दी पहचान में मदद करते हैं।"
+          },
+          "sourceIds": [
+            "who-diabetes"
+          ],
+          "section": "Symptoms / diagnosis"
+        }
+      ],
+      "steps": [
+        {
+          "id": "types",
+          "kind": "situation",
+          "prompt": {
+            "en": "A poster says all diabetes can be prevented by lifestyle. What is missing?",
+            "hi": "एक पोस्टर कहता है कि सभी प्रकार के मधुमेह को जीवनशैली से रोका जा सकता है। इसमें क्या कमी है?"
+          },
+          "choices": [
+            {
+              "id": "choice-1",
+              "label": {
+                "en": "Different types need different explanations",
+                "hi": "अलग-अलग प्रकारों की जानकारी अलग होनी चाहिए"
+              }
+            },
+            {
+              "id": "choice-2",
+              "label": {
+                "en": "Nothing—all types are the same",
+                "hi": "कुछ नहीं—सभी प्रकार एक जैसे हैं"
+              }
+            }
+          ],
+          "answerId": "choice-1",
+          "claimIds": [
+            "diabetes-types"
+          ]
+        },
+        {
+          "id": "habits",
+          "kind": "situation",
+          "prompt": {
+            "en": "Which is a useful prevention message for type 2 diabetes?",
+            "hi": "टाइप 2 मधुमेह की रोकथाम के लिए कौन-सा संदेश उपयोगी है?"
+          },
+          "choices": [
+            {
+              "id": "choice-1",
+              "label": {
+                "en": "A single food guarantees protection",
+                "hi": "एक खास भोजन पूरी सुरक्षा देता है"
+              }
+            },
+            {
+              "id": "choice-2",
+              "label": {
+                "en": "Healthy habits can help, but cannot promise protection",
+                "hi": "स्वस्थ आदतें मदद कर सकती हैं, पर सुरक्षा की गारंटी नहीं"
+              }
+            }
+          ],
+          "answerId": "choice-2",
+          "claimIds": [
+            "diabetes-habits"
+          ]
+        },
+        {
+          "id": "myth",
+          "kind": "evidence",
+          "prompt": {
+            "en": "“No obvious symptoms means testing cannot be useful.” Is this supported?",
+            "hi": "“स्पष्ट लक्षण नहीं हैं तो जाँच उपयोगी नहीं हो सकती।” क्या यह सही है?"
+          },
+          "choices": [
+            {
+              "id": "choice-1",
+              "label": {
+                "en": "Yes",
+                "hi": "हाँ"
+              }
+            },
+            {
+              "id": "choice-2",
+              "label": {
+                "en": "No—symptoms may be mild for a long time",
+                "hi": "नहीं—लक्षण लंबे समय तक हल्के हो सकते हैं"
+              }
+            }
+          ],
+          "answerId": "choice-2",
+          "claimIds": [
+            "diabetes-testing"
+          ]
+        }
+      ],
+      "takeawayIds": [
+        "diabetes-types",
+        "diabetes-habits",
+        "diabetes-testing"
+      ],
+      "questionIds": [
+        "basics",
+        "prevention"
+      ]
+    },
+    {
+      "id": "tb",
+      "version": 1,
+      "title": {
+        "en": "Tuberculosis, without stigma",
+        "hi": "टीबी को समझें, भेदभाव नहीं"
+      },
+      "description": {
+        "en": "Understand transmission. Support early care.",
+        "hi": "फैलने का तरीका समझें। समय पर देखभाल में सहयोग दें।"
+      },
+      "category": {
+        "en": "Global + India",
+        "hi": "वैश्विक + भारत"
+      },
+      "reviewedOn": "2026-10-23",
+      "reviewDue": "2027-01-21",
+      "reviewerRole": "Source-checked student prototype; no clinical or professional translation review",
+      "claims": [
+        {
+          "id": "tb-air",
+          "text": {
+            "en": "TB mainly affects the lungs and spreads through the air from people with TB disease.",
+            "hi": "टीबी मुख्यतः फेफड़ों को प्रभावित करती है और टीबी रोग वाले लोगों से हवा के ज़रिए फैलती है।"
+          },
+          "sourceIds": [
+            "who-tb"
+          ],
+          "section": "Overview"
+        },
+        {
+          "id": "tb-care",
+          "text": {
+            "en": "A prolonged cough, fever or unexplained weight loss deserves medical attention; these symptoms do not diagnose TB.",
+            "hi": "लंबी खाँसी, बुखार या बिना कारण वजन घटने पर चिकित्सकीय सलाह लें; इन लक्षणों से टीबी का निदान नहीं होता।"
+          },
+          "sourceIds": [
+            "who-tb"
+          ],
+          "section": "Symptoms / prevention"
+        },
+        {
+          "id": "tb-treatment",
+          "text": {
+            "en": "TB is preventable and curable. Testing and completing clinician-prescribed treatment are important.",
+            "hi": "टीबी की रोकथाम और उपचार संभव है। जाँच और स्वास्थ्यकर्मी द्वारा निर्धारित उपचार पूरा करना महत्वपूर्ण है।"
+          },
+          "sourceIds": [
+            "who-tb"
+          ],
+          "section": "Prevention / treatment"
+        }
+      ],
+      "steps": [
+        {
+          "id": "air",
+          "kind": "situation",
+          "prompt": {
+            "en": "Which route matters when learning how TB spreads?",
+            "hi": "टीबी के फैलने को समझते समय कौन-सा रास्ता महत्वपूर्ण है?"
+          },
+          "choices": [
+            {
+              "id": "choice-1",
+              "label": {
+                "en": "Mosquito bites",
+                "hi": "मच्छर का काटना"
+              }
+            },
+            {
+              "id": "choice-2",
+              "label": {
+                "en": "Airborne spread",
+                "hi": "हवा के ज़रिए फैलना"
+              }
+            }
+          ],
+          "answerId": "choice-2",
+          "claimIds": [
+            "tb-air"
+          ]
+        },
+        {
+          "id": "care",
+          "kind": "situation",
+          "prompt": {
+            "en": "A friend has a prolonged cough. What is a supportive next step?",
+            "hi": "एक मित्र को लंबे समय से खाँसी है। मददगार अगला कदम क्या है?"
+          },
+          "choices": [
+            {
+              "id": "choice-1",
+              "label": {
+                "en": "Encourage medical assessment without labelling them",
+                "hi": "बिना ठप्पा लगाए चिकित्सकीय जाँच के लिए प्रोत्साहित करें"
+              }
+            },
+            {
+              "id": "choice-2",
+              "label": {
+                "en": "Diagnose TB from the cough alone",
+                "hi": "केवल खाँसी से टीबी का निदान करें"
+              }
+            }
+          ],
+          "answerId": "choice-1",
+          "claimIds": [
+            "tb-care"
+          ]
+        },
+        {
+          "id": "myth",
+          "kind": "evidence",
+          "prompt": {
+            "en": "“TB cannot be cured.” What does the evidence say?",
+            "hi": "“टीबी का उपचार संभव नहीं है।” प्रमाण क्या कहते हैं?"
+          },
+          "choices": [
+            {
+              "id": "choice-1",
+              "label": {
+                "en": "TB is curable with appropriate treatment",
+                "hi": "उचित उपचार से टीबी ठीक हो सकती है"
+              }
+            },
+            {
+              "id": "choice-2",
+              "label": {
+                "en": "The claim is correct",
+                "hi": "यह दावा सही है"
+              }
+            }
+          ],
+          "answerId": "choice-1",
+          "claimIds": [
+            "tb-treatment"
+          ]
+        }
+      ],
+      "takeawayIds": [
+        "tb-air",
+        "tb-care",
+        "tb-treatment"
+      ],
+      "questionIds": [
+        "basics",
+        "prevention"
+      ]
+    },
+    {
+      "id": "dengue",
+      "version": 1,
+      "title": {
+        "en": "A home less welcoming to mosquitoes",
+        "hi": "मच्छरों के लिए कम अनुकूल घर"
+      },
+      "description": {
+        "en": "Explore the scene. Find three opportunities to act.",
+        "hi": "दृश्य देखें। बचाव के तीन अवसर खोजें।"
+      },
+      "category": {
+        "en": "Global + India",
+        "hi": "वैश्विक + भारत"
+      },
+      "reviewedOn": "2026-10-23",
+      "reviewDue": "2027-01-21",
+      "reviewerRole": "Source-checked student prototype; no clinical or professional translation review",
+      "claims": [
+        {
+          "id": "dengue-water",
+          "text": {
+            "en": "Cover, empty and clean household water containers weekly to reduce mosquito breeding opportunities.",
+            "hi": "मच्छरों के पनपने के अवसर कम करने के लिए घरेलू पानी के बर्तनों को ढकें और हर सप्ताह खाली करके साफ करें।"
+          },
+          "sourceIds": [
+            "who-dengue"
+          ],
+          "section": "Prevention and control"
+        },
+        {
+          "id": "dengue-day",
+          "text": {
+            "en": "Mosquitoes that transmit dengue are active during the day. Screens, covering clothing and repellents help avoid bites.",
+            "hi": "डेंगू फैलाने वाले मच्छर दिन में सक्रिय होते हैं। जाली, शरीर ढकने वाले कपड़े और मच्छर-रोधी उत्पाद काटने से बचाने में मदद करते हैं।"
+          },
+          "sourceIds": [
+            "who-dengue"
+          ],
+          "section": "Prevention and control"
+        },
+        {
+          "id": "dengue-warning",
+          "text": {
+            "en": "Severe abdominal pain, persistent vomiting or bleeding can signal severe dengue. Seek care immediately; this is not an exhaustive symptom list.",
+            "hi": "पेट में तेज दर्द, लगातार उल्टी या रक्तस्राव गंभीर डेंगू के संकेत हो सकते हैं। तुरंत देखभाल लें; यह लक्षणों की पूरी सूची नहीं है।"
+          },
+          "sourceIds": [
+            "who-dengue"
+          ],
+          "section": "Symptoms"
+        }
+      ],
+      "steps": [
+        {
+          "id": "water",
+          "kind": "situation",
+          "prompt": {
+            "en": "An uncovered water container sits beside the house. Which habit helps?",
+            "hi": "घर के पास पानी का खुला बर्तन है। कौन-सी आदत मदद करती है?"
+          },
+          "choices": [
+            {
+              "id": "choice-1",
+              "label": {
+                "en": "Cover it, and empty and clean it weekly",
+                "hi": "इसे ढकें और हर सप्ताह खाली करके साफ करें"
+              }
+            },
+            {
+              "id": "choice-2",
+              "label": {
+                "en": "Leave it untouched for the whole season",
+                "hi": "पूरे मौसम इसे ऐसे ही छोड़ दें"
+              }
+            }
+          ],
+          "answerId": "choice-1",
+          "claimIds": [
+            "dengue-water"
+          ]
+        },
+        {
+          "id": "window",
+          "kind": "situation",
+          "prompt": {
+            "en": "It is daytime and a window is open. What can help reduce mosquito bites?",
+            "hi": "दिन है और खिड़की खुली है। मच्छरों के काटने से बचने में क्या मदद कर सकता है?"
+          },
+          "choices": [
+            {
+              "id": "choice-1",
+              "label": {
+                "en": "Protection is only useful at night",
+                "hi": "बचाव केवल रात में उपयोगी है"
+              }
+            },
+            {
+              "id": "choice-2",
+              "label": {
+                "en": "Window screens and suitable covering clothing",
+                "hi": "खिड़की की जाली और शरीर ढकने वाले कपड़े"
+              }
+            }
+          ],
+          "answerId": "choice-2",
+          "claimIds": [
+            "dengue-day"
+          ]
+        },
+        {
+          "id": "myth",
+          "kind": "evidence",
+          "prompt": {
+            "en": "“Dengue mosquitoes only bite at night.” Is this supported?",
+            "hi": "“डेंगू के मच्छर केवल रात में काटते हैं।” क्या यह सही है?"
+          },
+          "choices": [
+            {
+              "id": "choice-1",
+              "label": {
+                "en": "Yes",
+                "hi": "हाँ"
+              }
+            },
+            {
+              "id": "choice-2",
+              "label": {
+                "en": "No—daytime protection matters too",
+                "hi": "नहीं—दिन में भी बचाव महत्वपूर्ण है"
+              }
+            }
+          ],
+          "answerId": "choice-2",
+          "claimIds": [
+            "dengue-day"
+          ]
+        }
+      ],
+      "takeawayIds": [
+        "dengue-water",
+        "dengue-day",
+        "dengue-warning"
+      ],
+      "questionIds": [
+        "basics",
+        "prevention"
+      ]
+    }
+  ],
+  "reports": [
+    {
+      "id": "tb-world",
+      "title": {
+        "en": "Global TB report 2025",
+        "hi": "वैश्विक टीबी रिपोर्ट 2025"
+      },
+      "publisher": "WHO",
+      "url": "https://www.who.int/teams/global-programme-on-tuberculosis-and-lung-health/tb-reports/global-tuberculosis-report-2025/",
+      "publishedOn": "2025-11-12",
+      "period": {
+        "en": "Primarily 2024 data",
+        "hi": "मुख्यतः 2024 के आँकड़े"
+      },
+      "summary": {
+        "en": "A global assessment of TB burden and the response. Explore the original report and its methods.",
+        "hi": "टीबी के वैश्विक बोझ और प्रयासों का आकलन। मूल रिपोर्ट और उसकी विधियाँ देखें।"
+      },
+      "kind": {
+        "en": "Global burden report",
+        "hi": "वैश्विक रोग-बोझ रिपोर्ट"
+      },
+      "reviewedOn": "2026-10-23",
+      "limitation": {
+        "en": "Historical estimates; not today’s local situation.",
+        "hi": "ऐतिहासिक अनुमान; आज की स्थानीय स्थिति नहीं।"
+      }
+    },
+    {
+      "id": "tb-india",
+      "title": {
+        "en": "India: TB programme update",
+        "hi": "भारत: टीबी कार्यक्रम अपडेट"
+      },
+      "publisher": "MoHFW / PIB",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2203004&lang=2&reg=48",
+      "publishedOn": "2025-12-12",
+      "period": {
+        "en": "2015–2024 comparison",
+        "hi": "2015–2024 की तुलना"
+      },
+      "summary": {
+        "en": "An official programme update discussing changes in estimated TB incidence and treatment coverage.",
+        "hi": "टीबी के अनुमानित नए मामलों और उपचार कवरेज में बदलाव पर आधिकारिक कार्यक्रम अपडेट।"
+      },
+      "kind": {
+        "en": "India programme report",
+        "hi": "भारत कार्यक्रम रिपोर्ट"
+      },
+      "reviewedOn": "2026-10-23",
+      "limitation": {
+        "en": "Dated programme information; not district-level surveillance.",
+        "hi": "पुरानी कार्यक्रम जानकारी; ज़िला-स्तरीय निगरानी नहीं।"
+      }
+    },
+    {
+      "id": "idsp-archive",
+      "title": {
+        "en": "India: weekly outbreak reports",
+        "hi": "भारत: साप्ताहिक प्रकोप रिपोर्ट"
+      },
+      "publisher": "NCDC / IDSP",
+      "url": "https://ncdc.mohfw.gov.in/uploads/weekly_outbreaks/2026/",
+      "publishedOn": null,
+      "period": {
+        "en": "2026 report archive",
+        "hi": "2026 रिपोर्ट संग्रह"
+      },
+      "summary": {
+        "en": "Open the official archive to inspect individual reports and their reporting periods.",
+        "hi": "अलग-अलग रिपोर्ट और उनकी रिपोर्टिंग अवधि देखने के लिए आधिकारिक संग्रह खोलें।"
+      },
+      "kind": {
+        "en": "Official archive",
+        "hi": "आधिकारिक संग्रह"
+      },
+      "reviewedOn": "2026-10-23",
+      "limitation": {
+        "en": "Archive, not a live feed. Upload dates differ from reporting periods; missing reports do not mean zero cases.",
+        "hi": "यह संग्रह है, लाइव फ़ीड नहीं। अपलोड की तारीख रिपोर्टिंग अवधि से अलग है; रिपोर्ट न होने का अर्थ शून्य मामले नहीं।"
+      }
+    }
+  ]
+}

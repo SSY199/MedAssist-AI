@@ -23,7 +23,7 @@ Inherits the root AGENTS.md. Read this before modifying backend code.
 
 ## Interfaces
 
-- Routers registered in app/main.py: ehr.py, map.py, chat.py, sos.py, marketplace.py, reminders.py. mapbox_map.py is
+- Routers registered in app/main.py: ehr.py, map.py, chat.py, sos.py, marketplace.py, reminders.py, awareness.py. mapbox_map.py is
   not registered. Preserve the active import path when fixing maps.
 - Protected routes use `Depends(get_current_user)`. User identity comes from the
   verified JWT `sub`; conversation access uses `_get_owned_conversation`.
@@ -89,3 +89,19 @@ Report any changed health prompts, knowledge sources, or escalation behavior.
 - Tests in `test_reminders.py` use frozen clocks, synthetic users and mocked DB/SMTP.
   Live test messages need an agreed test recipient and synthetic schedule. Do not
   log record bodies, medication names, email addresses or provider exception text.
+
+## Awareness boundary
+
+- `services/awareness_catalog.py` validates the single bilingual
+  `data/awareness.json` bundle also imported by the Next server. Keep claim/source
+  IDs, section/date/review metadata, trust checks and explicit expiry synchronized.
+- Do not replace it with the placeholder Chroma corpus or import health profiles
+  into educational requests. Existing general-chat/SSE/urgency policy is separate.
+- `awareness.py` owns JWT-scoped versioned learning progress/reset and atomic
+  minute/day counters. No raw questions/answers or medical history are stored.
+- AI accepts only prepared question IDs. Preserve one-call timeout, local schema,
+  citation/link/numeric bounds and authored fallback. Citation-ID checks do not
+  prove semantic support. Never log provider exception text or secret settings.
+- Official-report cards are dated curated resources, not live case surveillance.
+  Hindi content is a student adaptation without professional validation. Source
+  updates require review, not automatic publishing or a changed fetch timestamp.

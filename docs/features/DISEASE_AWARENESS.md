@@ -1,9 +1,10 @@
 # AWR-01: disease awareness experience
 
-Status: Revised proposal — owner choices recorded; final implementation agreement pending.
+Status: Implemented locally — validation and owner review; not pushed or merged.
 Date: 2026-10-23. Owner: Abhishek; no qualified content/clinical reviewer available.
 Branch: `codex/disease-awareness`; base main `1ebb4a7`, reminders PR #5 merged.
-Implementation/PR: not started. [Research and sources](../research/DISEASE_AWARENESS.md).
+Implementation approved by owner after the consolidated scope check; no PR yet.
+[Research and sources](../research/DISEASE_AWARENESS.md).
 
 ## Owner request and established boundaries
 
@@ -256,9 +257,87 @@ question scope/limits, progress/reset and a curated dated report snapshot.
 Ask one consolidated scope-approval question before coding. No automatic profile
 targeting, GPS, emails or new services are part of that proposal.
 
+Owner subsequently replied to the consolidated check: if the needed context is
+known, proceed. This authorizes the revised first version; no additional scope
+questions were needed. Earlier proposal language above preserves planning history;
+the actual implementation and its limits follow.
+
 ## Research-stage validation
 
 Three agents completed read-only work. Parent checked current dashboard/landing,
 navigation, context/tracker and key official sources. Only planning documents
 changed. Application tests are not applicable to this research-only update;
 whitespace and local-document link checks passed before committing.
+
+## Implemented delivery
+
+- `/dashboard` is the awareness home: original isometric SVG courtyard with three
+  labelled hotspots and matching text controls; topic explorer/search; inline
+  lessons/evidence; learning trail; report cards; compact profile/tool links.
+- Four bilingual topics, 12 claims and 12 authored decisions. English/Hindi switch
+  applies to awareness, persists browser preference and retains the active lesson
+  position. Shared site Navbar remains in its existing language. No external
+  illustration, animation library or other dependency was added.
+- One source bundle in `backend/app/data/awareness.json`, statically imported by
+  the Next server and validated by backend Pydantic. Frontend receives public
+  educational content only; it is not a second hand-maintained copy. Core reading
+  and choices work without Gemini. Saving requires the local API/Mongo connection.
+- Sources are four WHO topic pages; original English links, sections, publication,
+  access and local review dates are present. NCDC Hindi resources were discovered
+  but not copied or claimed as professional translation review. Both language
+  adaptations are student-prototype content without clinician/translator approval.
+- Reports: WHO Global TB Report 2025 (mainly 2024 data), MoHFW/PIB TB programme
+  update, and NCDC's official 2026 outbreak archive. The archive has no invented
+  publication date and is explicitly not a live feed. Two reports plus one archive
+  are resource cards, not an ingested real-time surveillance dataset.
+- Dedicated authenticated `/awareness/catalog`, `/progress` GET/DELETE,
+  `/progress/{topic_id}` PUT, `/{topic_id}/explain` POST. Existing dashboard/layout
+  authentication is retained; no new page route or proxy matcher is needed.
+- Progress uses deterministic account/topic/version IDs in `awarenessProgress`.
+  Step/choice IDs are validated and merged atomically; reset deletes only this
+  user's learning records. It stores choices and update time, not medical data or
+  proof that a real-world prevention action happened. No health/profile/history
+  collection is written. This is activity tracking rather than mastery scoring.
+- Gemini receives only server-selected topic claims, prepared question and language.
+  No free text, profile, existing conversations, geolocation or model-generated URL
+  is accepted. The existing flash-lite model handles one explicit request, with
+  a 20-second outer deadline, one HTTP attempt, 180-word output cap, five/minute
+  and 30/day account quotas. `awarenessUsage` stores hashed account/bucket counters
+  without raw question/answer content; counters currently have no automated cleanup.
+- Structured output is checked for valid known IDs, bounded plain text, selected
+  language and unsupported numeric details. These checks do not establish semantic
+  support or clinical correctness. Authored fallback is labelled honestly.
+- Live integration exposed provider rejection of the Pydantic extra-field schema.
+  A provider-supported wire schema now accompanies strict local validation. An
+  English live service request and Hindi browser request succeeded after the fix.
+- Review dates expire in UTC after 2027-01-21 for this bundle. Expired lessons/AI
+  are withdrawn with original-source links; neither a deployment nor a fetch resets
+  editorial review. Updating content requires a new reviewed version/commit.
+
+## Verification and handoff
+
+- 80 Python tests passed (21 awareness plus 59 existing); 15 Node helper tests
+  passed (three awareness plus 12 existing). Coverage includes JWT ownership,
+  cross-account reset isolation, merged/idempotent choices, content-version/expiry
+  rejection, bilingual mappings, trusted links, unsupported/free-text requests,
+  provider/schema failures, citation/URL guards and minute/day/concurrent quotas.
+- TypeScript and production build passed. Lint has the existing landing-page
+  unused Badge warning. Changed-source AST, relative links and whitespace checked.
+- Local API health 200; unauthenticated awareness progress 401. Existing reminder
+  worker was left running. No alert email, SOS, catalog write or profile edit was
+  performed as part of awareness verification.
+- Browser checked desktop dashboard, Hindi search, retained step on language switch,
+  unsupported-choice correction, evidence links,
+  English/Hindi switching, prepared AI fallback and then a successful Hindi AI
+  explanation. One fictional dengue lesson was completed in the signed-in account;
+  progress survived a reload and is left visible as 1/4 topics complete. This is
+  nonclinical learning activity, not a real patient/medication record.
+- Reset, expiry and two-account isolation were exercised with synthetic accounts
+  and mocked Mongo; live reset was not performed. Mobile viewport, screen-reader
+  software, delayed recall/user study and professional translation/clinical review
+  were not performed. Responsive classes, text equivalents and keyboard-accessible
+  controls are present; do not claim an accessibility or medical certification.
+- No new packages, hosted backend/worker, external subscription, live epidemic map,
+  public landing redesign or general-chat prompt/urgency/SSE change. No push/merge
+  is implied by implementation approval. Source breadth and independent content
+  review remain expansion tasks.

@@ -58,7 +58,7 @@ consistent. The owner selected marketplace after SOS; reminders remain queued.
 | SOS-01 | Automatic contact email and SOS assistance | Implemented and checked; integration tracked in [PR #3](https://github.com/SSY199/MedAssist-AI/pull/3) | [Detailed SOS plan](features/SOS.md) |
 | MKT-01 | Medicine/health marketplace | Implemented and validated; integration tracked in PR #4 | [Marketplace delivery record](features/MARKETPLACE.md) |
 | REM-01 | Medication reminders | Merged in [PR #5](https://github.com/SSY199/MedAssist-AI/pull/5); frontend deployment passed; hosted worker deferred | [Reminder delivery record](features/REMINDERS.md) |
-| AWR-01 | Disease awareness home experience | Research and proposal; owner choices and coding approval pending | [Proposed awareness plan](features/DISEASE_AWARENESS.md) |
+| AWR-01 | Disease awareness home experience | Owner-approved version implemented locally; validation recorded; not pushed/merged | [Awareness delivery record](features/DISEASE_AWARENESS.md) |
 
 No claim is made that all three features can be completed by the review. Complete
 and verify one compact outcome before starting the next branch. Focused tests
@@ -346,3 +346,20 @@ diabetes awareness, TB, dengue), one illustrated flagship plus short situations,
 prepared AI questions with bounded calls, bilingual prototype content and curated
 report snapshots. No live surveillance or automated health-profile targeting.
 Final consolidated scope approval is pending before coding. Documentation only.
+
+### Awareness implementation approval and local delivery
+
+Owner approved proceeding after the consolidated scope check. Implemented on
+`codex/disease-awareness`: redesigned signed-in home with an original courtyard
+scene, four English/Hindi topics, 12 evidence-linked learning decisions, prepared
+Gemini explanations, JWT-owned saved progress/reset and two official reports plus
+one explicitly dated/limited archive resource card. No public landing redesign,
+profile targeting, live surveillance feed or new paid service.
+
+80 Python and 15 Node tests, TypeScript and production build passed; lint retains
+the existing Badge warning. Browser verified the desktop lesson/correction and
+Hindi AI; a fictional lesson's completion remains in the signed-in learning
+progress. Quota, reset and account isolation use synthetic tests. No professional
+clinical/translation review or mobile viewport test. Full architecture, provenance,
+operational constraints and verification are in the [feature record](features/DISEASE_AWARENESS.md).
+Not pushed or merged; await owner review/integration request.

@@ -110,3 +110,24 @@ opt in to generic mail to the signed-in user's verified account. No medication
 names/instructions appear in the email. SMTP accepted is not delivered/read.
 Use a clearly labelled synthetic schedule for demonstrations, only with an agreed
 test recipient; no profile or actual medication edits are needed.
+
+## Disease awareness content and local checks
+
+The signed-in dashboard renders its public educational bundle from
+`backend/app/data/awareness.json`; FastAPI validates the same file. See
+[the awareness delivery record](docs/features/DISEASE_AWARENESS.md) for provenance,
+source/translation limits, content expiry and validation. No additional worker,
+package or environment variable is needed for awareness. Run existing Next/FastAPI
+services; Mongo is required for saved progress, and the configured Gemini account
+is used only for explicit prepared explanations.
+
+Keep source IDs, claim mappings and both languages aligned. Recheck source dates,
+applicability and reuse before editing; changing a fetch date does not renew review.
+Never use the placeholder Chroma texts as verified awareness sources. A content
+version change deliberately starts new learning progress. Account reset affects
+only `awarenessProgress`, while hashed `awarenessUsage` quotas stay in effect.
+The current counter collection has no scheduled retention cleanup.
+
+Run the existing Python unittest and Node helper commands above; awareness tests
+mock provider/DB effects and use synthetic accounts. Live prepared AI requests
+must contain public authored evidence only, with no profile/history/free text.
