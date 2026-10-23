@@ -15,12 +15,19 @@ export function ReminderDueNotice() {
         })
         .catch(() => {});
     };
+    const refreshOnReturn = () => {
+      if (document.visibilityState === "visible") read();
+    };
+    window.addEventListener("focus", refreshOnReturn);
+    document.addEventListener("visibilitychange", refreshOnReturn);
     read();
     const timer = setInterval(read, 60000);
     return () => {
       ignore = true;
       controller.abort();
       clearInterval(timer);
+      window.removeEventListener("focus", refreshOnReturn);
+      document.removeEventListener("visibilitychange", refreshOnReturn);
     };
   }, []);
   return count ? (

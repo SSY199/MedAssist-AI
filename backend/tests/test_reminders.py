@@ -121,6 +121,15 @@ class CalendarTests(unittest.TestCase):
         instant,gap = local_instant(date(2026,11,1),"01:30","America/New_York")
         self.assertFalse(gap); self.assertEqual(instant.hour,5)
         with self.assertRaises(ValidationError): ReminderInput.model_validate(draft(recurrence="once", timezone="America/New_York", start_date="2026-03-08", times=["02:30"]))
+    def test_legacy_records_do_not_invent_submission_timestamps(self):
+        event={"_id":"synthetic-old", "reminderId":"synthetic-reminder", "dueAt":NOW,
+               "effectiveAt":NOW,"status":"pending", "delivery":"accepted", "history":[],
+               "claimedAt":NOW.replace(tzinfo=None)}
+        public=service.public_occurrence(event,NOW)
+        self.assertEqual(public["workerPickedAt"],NOW.isoformat())
+        self.assertIsNone(public["emailSubmittedAt"])
+        self.assertIsNone(public["emailFinishedAt"])
+
     def test_future_preview_converts_timezone_and_skips_past(self):
         values = next_preview(draft(timezone="Asia/Kolkata", times=["15:31"]),NOW,1)
         self.assertEqual(values[0]["due_at"],"2026-01-15T10:01:00+00:00")
@@ -184,9 +193,12 @@ class ReminderRoutes(unittest.TestCase):
         self.seed_due(times=["09:59"])
         event=next(e for e in self.db["reminderOccurrences"].docs.values() if e["dueAt"]<NOW)
         url='/reminders/occurrences/'+event["_id"]+'/action'
+        event.update(delivery="accepted",claimedAt=NOW,submittingAt=NOW,finishedAt=NOW)
         payload={"version":1,"action":"snooze","request_id":str(uuid4())}
         result=self.client.post(url,json=payload); self.assertEqual(result.status_code,200)
         self.assertEqual(result.json()["effectiveAt"],(NOW+timedelta(minutes=10)).isoformat())
+        self.assertIsNone(result.json()["workerPickedAt"])
+        self.assertIsNone(result.json()["emailFinishedAt"])
         self.assertEqual(self.client.post(url,json=payload).status_code,200)
         self.assertEqual(self.client.post(url,json={**payload,"version":2,"request_id":str(uuid4())}).status_code,422)
         taken=self.client.post(url,json={"version":2,"action":"taken","request_id":str(uuid4())})
@@ -243,6 +255,25 @@ class WorkerTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(self.sent),1)
         accepted=[e for e in self.db["reminderOccurrences"].docs.values() if e["delivery"]=="accepted"]
         self.assertEqual(accepted[0]["status"],"pending")
+    async def test_worker_generates_and_dispatches_without_page_read(self):
+        row=schedule(times=["09:59"])
+        self.db["medicationReminders"].docs[row["_id"]]=row
+        self.assertFalse(self.db["reminderOccurrences"].docs)
+        await service.worker_tick(NOW,self.sender)
+        self.assertEqual(len(self.sent),1)
+        self.assertTrue(self.db["medicationReminders"].docs[row["_id"]]["generatedUntil"])
+
+    async def test_submission_and_result_times_are_separate_from_due_time(self):
+        await self.seed(times=["09:59"])
+        with patch.object(service,"utcnow",side_effect=[NOW+timedelta(seconds=2),NOW+timedelta(seconds=5),NOW+timedelta(seconds=6)]):
+            await service.worker_tick(NOW,self.sender)
+        event=next(e for e in self.db["reminderOccurrences"].docs.values() if e["delivery"]=="accepted")
+        public=service.public_occurrence(event,NOW)
+        self.assertEqual(public["workerPickedAt"],NOW.isoformat())
+        self.assertEqual(public["emailSubmittedAt"],(NOW+timedelta(seconds=2)).isoformat())
+        self.assertEqual(public["emailFinishedAt"],(NOW+timedelta(seconds=5)).isoformat())
+        self.assertNotEqual(public["dueAt"],public["emailFinishedAt"])
+
     async def test_only_latest_catchup_within_thirty_minutes(self):
         await self.seed(times=["09:00","09:40","09:50"])
         await service.worker_tick(NOW,self.sender)

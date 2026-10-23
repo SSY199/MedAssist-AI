@@ -286,3 +286,14 @@ Local API/worker are running. Only new reminder collections/indexes and ignored
 local sender switch were introduced; no dependency upgrades or public deployment.
 Not pushed/merged; branch `codex/medication-reminders`. See
 [feature record](features/REMINDERS.md) for operations and remaining limits.
+
+### Reminder timing visibility (2026-10-23)
+
+Owner confirmed the 08:00 email arrived within about a minute. Read-only metadata
+showed worker pickup about 14 seconds after due time; no refresh-dependent email
+bug was established. Added refresh-on-tab-return, last refresh display, actual
+worker/submission/result timing fields and private-data-safe timestamped worker
+errors. Polling and delivery policy are unchanged. The inspected schedule remains
+paused. All 59 Python and 12 Node tests, TypeScript and build passed; lint retains
+the pre-existing warning. See the [feature record](features/REMINDERS.md) for
+evidence and limits. Remains on `codex/medication-reminders`, not pushed/merged.

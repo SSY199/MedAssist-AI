@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   calendarDate,
+  reminderTime,
   scheduleLabel,
   deliveryLabel,
   newReminderDraft,
@@ -29,4 +30,11 @@ test("new drafts require explicit consent and SMTP acceptance is not delivery", 
   assert.equal(draft.email_consent, false);
   assert.equal(deliveryLabel("accepted"), "Email accepted by provider");
   assert.match(deliveryLabel("unknown"), /automatic retry stopped/);
+});
+
+test("worker timestamps show seconds in the schedule timezone", () => {
+  assert.match(
+    reminderTime("2026-10-23T02:30:13.935Z", "Asia/Calcutta"),
+    /08:00:13/,
+  );
 });

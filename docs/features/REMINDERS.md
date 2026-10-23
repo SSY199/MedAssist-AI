@@ -330,3 +330,31 @@ The local API and separate worker are running. Later restart requires both servi
 Gmail credentials and `REMINDERS_EMAIL_ENABLED=true` remain only in ignored local
 environment files. Production reminder delivery is not configured by a frontend build.
 Push/PR/merge and hosted delivery remain owner-authorized follow-up actions.
+
+## Timing investigation and visibility follow-up (2026-10-23)
+
+Owner reported an 08:00 reminder appearing after a page refresh, then confirmed
+email receipt within about one minute of its due time. A read-only timing check
+showed worker pickup at 08:00:13.935 in the schedule timezone and one accepted
+SMTP attempt. The old record has no submission-completion timestamp; pickup is
+not proof of inbox arrival time. No evidence established refresh-dependent email.
+The schedule was already paused when inspected; it was not resumed or edited.
+
+The worker still checks every 15 seconds independently of page reads. In-app list
+and dashboard count now also refresh on returning to a visible/focused tab, with
+existing periodic refresh unchanged. The list shows its last successful refresh.
+Occurrence details expose actual stored worker pickup, submission start and result
+timestamps; missing legacy timestamps remain absent. Snooze clears prior-round
+timings. SMTP result time is explicitly separate from inbox arrival.
+
+Worker errors now include UTC time and exception class only, without provider
+messages, account details or medication data. Earlier untimestamped tick errors
+cannot be attributed to this occurrence; their cause remains unestablished.
+No new live email was sent for this follow-up and no schedules were enabled.
+
+Validation: 59 synthetic Python tests and 12 Node helper tests passed, including
+worker generation/send without any page read, distinct submission/result times,
+legacy missing times and snooze reset. TypeScript and production build passed;
+lint retains the existing unused Badge warning. Focus refresh was source-reviewed;
+the signed-in page containing real medication information was not inspected in
+this follow-up. Local API/worker restart loads the updated code.

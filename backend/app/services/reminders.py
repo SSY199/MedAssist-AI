@@ -91,6 +91,8 @@ def public_occurrence(doc, now):
     result["dueAt"] = aware(doc["dueAt"]).isoformat()
     result["effectiveAt"] = aware(doc["effectiveAt"]).isoformat()
     result["overdue"] = doc["status"] == "pending" and aware(doc["effectiveAt"]) <= now
+    for public_key, stored_key in (("workerPickedAt", "claimedAt"), ("emailSubmittedAt", "submittingAt"), ("emailFinishedAt", "finishedAt")):
+        result[public_key] = aware(doc[stored_key]).isoformat() if doc.get(stored_key) else None
     result["history"] = [{"action": h["action"], "at": aware(h["at"]).isoformat()} for h in doc.get("history", [])]
     return result
 
@@ -171,12 +173,12 @@ async def worker_tick(now=None, sender=None):
             continue
         # Fresh occurrence action check immediately before crossing SMTP boundary.
         ready = await events.find_one_and_update({**claim, "status": "pending"},
-                    {"$set": {"delivery": "submitting"}}, return_document=ReturnDocument.AFTER)
+                    {"$set": {"delivery": "submitting", "submittingAt": utcnow()}}, return_document=ReturnDocument.AFTER)
         if not ready:
             continue
         outcome = await asyncio.to_thread(sender, recipient, f'{due["_id"]}-{due["round"]}')
         await events.update_one({"_id": due["_id"], "claim": token, "round": due["round"], "delivery": "submitting"},
-            {"$set": {"delivery": outcome, "retryAt": now + timedelta(minutes=1),
+            {"$set": {"delivery": outcome, "finishedAt": utcnow(), "retryAt": now + timedelta(minutes=1),
                       "reason": "" if outcome == "accepted" else "provider_" + outcome}})
     await db["reminderWorkerState"].update_one({"_id": "heartbeat"},
         {"$set": {"at": utcnow(), "email_ready": email_ready()}}, upsert=True)

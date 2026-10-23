@@ -5,6 +5,7 @@ import { apiFetch } from "@/lib/api-client";
 import {
   calendarDate,
   deliveryLabel,
+  reminderTime,
   newReminderDraft,
   scheduleLabel,
   type Occurrence,
@@ -84,11 +85,18 @@ export default function MedicationReminders({
   useEffect(() => {
     const controller = new AbortController();
     const initial = setTimeout(() => void load(controller.signal), 0);
+    const refreshOnReturn = () => {
+      if (document.visibilityState === "visible") void load(controller.signal);
+    };
+    window.addEventListener("focus", refreshOnReturn);
+    document.addEventListener("visibilitychange", refreshOnReturn);
     const timer = setInterval(() => void load(controller.signal), 30000);
     return () => {
       controller.abort();
       clearTimeout(initial);
       clearInterval(timer);
+      window.removeEventListener("focus", refreshOnReturn);
+      document.removeEventListener("visibilitychange", refreshOnReturn);
     };
   }, [load]);
   useEffect(() => {
@@ -251,6 +259,22 @@ export default function MedicationReminders({
           }}
         />
       )}
+      <p className="text-xs text-ink-dim">
+        The list updates every 30 seconds and when you return to this tab. Email
+        is sent independently by the worker.
+        {status && (
+          <>
+            {" "}
+            Last refreshed:{" "}
+            {new Intl.DateTimeFormat("en-IN", {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            }).format(new Date(clock))}
+            .
+          </>
+        )}
+      </p>
       <section className="space-y-4" aria-label="Due reminders and history">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="flex items-center gap-2 font-display text-xl font-bold text-ink">
@@ -339,6 +363,25 @@ export default function MedicationReminders({
                         ? ` · ${row.reason.replaceAll("_", " ")}`
                         : ""}
                     </p>
+                    {row.workerPickedAt && (
+                      <p className="mt-1 text-xs text-ink-dim">
+                        Worker picked up:{" "}
+                        {reminderTime(row.workerPickedAt, row.timezone)}
+                      </p>
+                    )}
+                    {row.emailSubmittedAt && (
+                      <p className="mt-1 text-xs text-ink-dim">
+                        Email submission started:{" "}
+                        {reminderTime(row.emailSubmittedAt, row.timezone)}
+                      </p>
+                    )}
+                    {row.emailFinishedAt && (
+                      <p className="mt-1 text-xs text-ink-dim">
+                        Email result recorded:{" "}
+                        {reminderTime(row.emailFinishedAt, row.timezone)} ·
+                        inbox arrival can be later
+                      </p>
+                    )}
                     {row.snoozed && (
                       <p className="mt-1 text-xs text-ink-dim">
                         Snoozed until{" "}

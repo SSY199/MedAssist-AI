@@ -171,7 +171,7 @@ async def act(occurrence_id: str, payload: OccurrenceAction, user: dict = Depend
         if following and aware(datetime.fromisoformat(following[0]["due_at"])) <= until:
             raise HTTPException(422, "Snooze would overlap the next scheduled occurrence")
         values = {"snoozed": True, "effectiveAt": until, "delivery": "pending", "round": old["round"] + 1,
-                  "attempts": 0, "reason": "", "retryAt": until}
+                  "attempts": 0, "reason": "", "retryAt": until, "claimedAt": None, "submittingAt": None, "finishedAt": None}
     elif old["delivery"] in ("pending", "failed", "claimed"):
         values.update({"delivery": "suppressed", "reason": "user_recorded_action"})
     query = {"_id": occurrence_id, "userId": user_id, "actionVersion": payload.version}
